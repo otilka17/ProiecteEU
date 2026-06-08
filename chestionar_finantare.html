@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chestionar Finanțare — Motor de Potrivire</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0b0e; --surface: #111318; --surface2: #181c24;
+    --border: rgba(255,255,255,0.07); --text: #e8ecf4; --muted: #5a6478;
+    --accent: #4f9cf9; --accent-dim: rgba(79,156,249,0.12);
+    --green: #34d399; --green-dim: rgba(52,211,153,0.12);
+    --red: #f87171; --red-dim: rgba(248,113,113,0.1);
+    --amber: #fbbf24; --amber-dim: rgba(251,191,36,0.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.6;
+    min-height: 100vh;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 48px 48px; pointer-events: none; z-index: 0;
+  }
+  .app { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid var(--border);
+  }
+  .logo { display: flex; align-items: baseline; gap: 10px; }
+  .logo-name { font-family: 'DM Serif Display', serif; font-size: 22px; letter-spacing: -0.3px; }
+  .logo-tag { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+  .step-indicator { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+
+  /* Progress */
+  .progress-track { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; margin-bottom: 32px; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.4s cubic-bezier(0.4,0,0.2,1); width: 0%; }
+
+  /* Question card */
+  .question-card { animation: fadeIn 0.35s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .q-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .q-title { font-family: 'DM Serif Display', serif; font-size: 26px; line-height: 1.25; margin-bottom: 8px; }
+  .q-help { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 20px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; cursor: pointer; transition: all 0.15s; user-select: none;
+  }
+  .option:hover { border-color: rgba(255,255,255,0.16); background: var(--surface2); transform: translateY(-1px); }
+  .option.selected { border-color: var(--accent); background: var(--accent-dim); }
+  .option-radio {
+    width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border);
+    flex-shrink: 0; transition: all 0.15s; position: relative;
+  }
+  .option.selected .option-radio { border-color: var(--accent); }
+  .option.selected .option-radio::after {
+    content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--accent);
+  }
+  .option-check { /* for multi */ border-radius: 6px; }
+  .option.selected .option-check::after { border-radius: 2px; inset: 4px; }
+  .option-text { flex: 1; font-size: 15px; }
+  .option-note { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* Number input */
+  .num-input {
+    width: 100%; padding: 18px 20px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 18px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .num-input:focus { border-color: var(--accent); }
+
+  /* Nav */
+  .nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 32px; }
+  .btn {
+    padding: 13px 28px; border-radius: 11px; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px; transition: all 0.18s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+  .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.16); }
+
+  /* Results */
+  .results { animation: fadeIn 0.4s ease; }
+  .results-head { text-align: center; margin-bottom: 36px; }
+  .results-title { font-family: 'DM Serif Display', serif; font-size: 30px; margin-bottom: 8px; }
+  .results-sub { color: var(--muted); font-size: 14px; }
+
+  .match-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px; margin-bottom: 16px; transition: all 0.2s; position: relative; overflow: hidden;
+  }
+  .match-card.best { border-color: var(--green); }
+  .match-card.best::before {
+    content: 'RECOMANDAT'; position: absolute; top: 16px; right: 0;
+    background: var(--green); color: var(--bg); font-family: 'DM Mono', monospace;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.1em; padding: 4px 14px 4px 10px;
+    border-radius: 6px 0 0 6px;
+  }
+  .match-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+  .match-name { font-family: 'DM Serif Display', serif; font-size: 20px; line-height: 1.2; }
+  .match-desc { font-size: 13px; color: var(--muted); margin-top: 4px; max-width: 90%; }
+  .match-score { text-align: right; flex-shrink: 0; }
+  .match-score-val { font-family: 'DM Serif Display', serif; font-size: 34px; line-height: 1; }
+  .match-score-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  .match-bar-track { height: 6px; background: var(--surface2); border-radius: 4px; overflow: hidden; margin: 14px 0; }
+  .match-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
+
+  .match-status {
+    display: inline-flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace;
+    font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 500;
+  }
+  .status-high { background: var(--green-dim); color: var(--green); }
+  .status-mid { background: var(--amber-dim); color: var(--amber); }
+  .status-low { background: var(--red-dim); color: var(--red); }
+
+  .match-detail { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); display: none; }
+  .match-card.expanded .match-detail { display: block; }
+  .detail-section-title { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .detail-list { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+  .detail-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; }
+  .detail-icon { flex-shrink: 0; margin-top: 2px; }
+  .ok-icon { color: var(--green); }
+  .no-icon { color: var(--red); }
+  .doc-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text); }
+  .doc-bullet { color: var(--accent); flex-shrink: 0; }
+
+  .expand-hint { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+  .expand-hint:hover { color: var(--text); }
+
+  .results-actions { display: flex; gap: 12px; margin-top: 28px; justify-content: center; flex-wrap: wrap; }
+  .btn-export {
+    display: inline-flex; align-items: center; gap: 7px; padding: 11px 20px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--surface); color: var(--muted);
+    font-family: 'DM Mono', monospace; font-size: 12px; cursor: pointer; transition: all 0.18s; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .btn-export:hover { color: var(--text); border-color: rgba(255,255,255,0.16); transform: translateY(-1px); }
+  .btn-export.pdf:hover { color: var(--accent); border-color: rgba(79,156,249,0.35); }
+  .btn-export svg { width: 14px; height: 14px; }
+
+  .disclaimer { margin-top: 32px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .toast { position: fixed; bottom: 32px; left: 50%; transform: translate(-50%, 10px); background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 20px; font-size: 13px; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 999; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="logo">
+      <span class="logo-name">Finanțare</span>
+      <span class="logo-tag">Motor de Potrivire</span>
+    </div>
+    <div class="step-indicator" id="step-indicator">Întrebarea 1 / 9</div>
+  </header>
+
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <div id="quiz-container"></div>
+  <div id="results-container"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════════════
+//  ÎNTREBĂRI
+// ════════════════════════════════════════════════════════════════════════════
+const QUESTIONS = [
+  {
+    id: 'firma_status',
+    title: 'Firma cu care aplicați este nou-înființată sau existentă?',
+    help: 'Multe linii de start-up cer firmă fără activitate sau înființată recent.',
+    type: 'single',
+    options: [
+      { value: 'noua', text: 'Firmă nouă (înființată în ultimele luni, fără activitate)', note: 'Sau firmă pe care urmează să o înființăm' },
+      { value: 'existenta_mica', text: 'Firmă existentă, microîntreprindere', note: 'Sub 10 angajați, cifră de afaceri mică' },
+      { value: 'existenta_imm', text: 'Firmă existentă, IMM (mică/mijlocie)', note: 'Peste 10 angajați sau cifră de afaceri mai mare' },
+    ]
+  },
+  {
+    id: 'vechime',
+    title: 'De cât timp este înregistrată firma aplicantă?',
+    help: 'Fondurile regionale cer de obicei minim 1 an de activitate.',
+    type: 'single',
+    options: [
+      { value: 'sub1', text: 'Sub 1 an / urmează să o înființăm' },
+      { value: '1_3', text: 'Între 1 și 3 ani' },
+      { value: 'peste3', text: 'Peste 3 ani' },
+    ]
+  },
+  {
+    id: 'gen_aplicant',
+    title: 'Cine va fi asociat majoritar / administrator al firmei aplicante?',
+    help: 'Există linii dedicate exclusiv femeilor antreprenor.',
+    type: 'single',
+    options: [
+      { value: 'femeie', text: 'O femeie (asociat majoritar)' },
+      { value: 'barbat', text: 'Un bărbat (asociat majoritar)' },
+      { value: 'mixt', text: 'Asociere mixtă 50/50' },
+    ]
+  },
+  {
+    id: 'varsta',
+    title: 'Vârsta aplicantului principal',
+    help: 'Unele scheme au bonus pentru tineri (18–35 ani).',
+    type: 'single',
+    options: [
+      { value: 'tanar', text: '18 – 35 ani' },
+      { value: 'matur', text: '36 – 54 ani' },
+      { value: 'senior', text: '55+ ani' },
+    ]
+  },
+  {
+    id: 'domeniu',
+    title: 'În ce categorie se încadrează activitatea (sala de evenimente)?',
+    help: 'Codul CAEN determină eligibilitatea. Sălile de evenimente intră de regulă la servicii / HoReCa.',
+    type: 'single',
+    options: [
+      { value: 'servicii', text: 'Servicii / organizare evenimente (CAEN 8230, 9329 etc.)' },
+      { value: 'productie', text: 'Producție / industrializare' },
+      { value: 'comert', text: 'Comerț' },
+    ]
+  },
+  {
+    id: 'investitie',
+    title: 'Ce valoare estimați pentru investiția totală?',
+    help: 'Introduceți suma aproximativă în LEI (echipamente, amenajări, etc.).',
+    type: 'number',
+    placeholder: 'ex: 250000',
+  },
+  {
+    id: 'cofinantare',
+    title: 'Puteți asigura cofinanțarea proprie?',
+    help: 'Majoritatea liniilor cer o contribuție proprie de 10–50% din proiect.',
+    type: 'single',
+    options: [
+      { value: 'da_mult', text: 'Da, peste 25% din valoarea proiectului' },
+      { value: 'da_putin', text: 'Da, până la 25%' },
+      { value: 'nu', text: 'Nu, avem nevoie de finanțare 100%' },
+    ]
+  },
+  {
+    id: 'angajari',
+    title: 'Câte locuri de muncă noi intenționați să creați?',
+    help: 'Crearea de locuri de muncă este punctată la aproape toate liniile.',
+    type: 'single',
+    options: [
+      { value: '0', text: 'Niciunul deocamdată' },
+      { value: '1_2', text: '1 – 2 locuri de muncă' },
+      { value: '3plus', text: '3 sau mai multe' },
+    ]
+  },
+  {
+    id: 'locatie',
+    title: 'Unde va funcționa sala de evenimente?',
+    help: 'Mediul rural și regiunile mai puțin dezvoltate primesc punctaj suplimentar.',
+    type: 'single',
+    options: [
+      { value: 'rural', text: 'Mediul rural / oraș mic' },
+      { value: 'urban_mic', text: 'Oraș mediu' },
+      { value: 'urban_mare', text: 'Municipiu mare / reședință de județ' },
+    ]
+  },
+];
+
+// ════════════════════════════════════════════════════════════════════════════
+//  LINII DE FINANȚARE + REGULI DE SCORING
+// ════════════════════════════════════════════════════════════════════════════
+const PROGRAMS = [
+  {
+    id: 'sun',
+    name: 'Start-Up Nation',
+    desc: 'Schemă pentru firme nou-înființate (microîntreprinderi), max. ~200.000 lei, fără cofinanțare obligatorie semnificativă.',
+    docs: [
+      'Plan de afaceri detaliat',
+      'Certificat înregistrare ONRC (firmă nouă)',
+      'Declarație de minimis',
+      'CV-urile asociaților',
+      'Proiecții financiare pe 3 ani',
+      'Dovada studiilor / experienței',
+    ],
+    score(a) {
+      let s = 0; const reasons = [];
+      if (a.firma_status === 'noua') { s += 35; reasons.push([true, 'Firmă nouă — criteriu principal îndeplinit']); }
+      else { reasons.push([false, 'Firma nu este nou-înființată (cerință de bază)']); }
+      if (a.vechime === 'sub1') { s += 15; reasons.push([true, 'Vechime sub 1 an — eligibil']); }
+      else { reasons.push([false, 'Firma e prea veche pentru această schemă']); }
+      if (a.angajari === '3plus') { s += 25; reasons.push([true, '3+ locuri de muncă — punctaj maxim']); }
+      else if (a.angajari === '1_2') { s += 15; reasons.push([true, '1–2 locuri de muncă — punctaj parțial']); }
+      else { reasons.push([false, 'Fără locuri de muncă noi — punctaj redus']); }
+      if (a.varsta === 'tanar') { s += 10; reasons.push([true, 'Aplicant tânăr — bonus']); }
+      if (a.domeniu === 'productie') { s += 15; reasons.push([true, 'Producție — domeniu prioritar']); }
+      else if (a.domeniu === 'servicii') { s += 8; reasons.push([true, 'Servicii — domeniu eligibil']); }
+      return { score: Math.min(s, 100), reasons };
+    }
+  },
+  {
+    id: 'femeia',
+    name: 'Femeia Antreprenor',
+    desc: 'Schemă de minimis dedicată afacerilor conduse de femei, grant nerambursabil pentru start-up sau dezvoltare.',
+    docs: [
+      'Plan de afaceri',
+      'Act identitate asociat majoritar (femeie)',
+      'Certificat înregistrare ONRC',
+      'Declarație de minimis',
+      'Proiecții financiare',
+      'Dovada cofinanțării',
+    ],
+    score(a) {
+      let s = 0; const reasons = [];
+      if (a.gen_aplicant === 'femeie') { s += 45; reasons.push([true, 'Asociat majoritar femeie — criteriu obligatoriu îndeplinit']); }
+      else { reasons.push([false, 'Asociatul majoritar nu este femeie — neeligibil']); return { score: 0, reasons }; }
+      if (a.firma_status === 'noua') { s += 20; reasons.push([true, 'Firmă nouă — compatibil']); }
+      else if (a.firma_status === 'existenta_mica') { s += 12; reasons.push([true, 'Microîntreprindere existentă — acceptat']); }
+      if (a.angajari === '3plus') { s += 20; reasons.push([true, '3+ locuri de muncă — punctaj maxim']); }
+      else if (a.angajari === '1_2') { s += 12; reasons.push([true, '1–2 locuri de muncă']); }
+      if (a.cofinantare !== 'nu') { s += 15; reasons.push([true, 'Cofinanțare asigurată']); }
+      else { reasons.push([false, 'Lipsa cofinanțării reduce punctajul']); }
+      return { score: Math.min(s, 100), reasons };
+    }
+  },
+  {
+    id: 'regional',
+    name: 'Fonduri Regionale (PR / POR) – IMM',
+    desc: 'Programe Regionale pentru microîntreprinderi și IMM existente, investiții în echipamente și dezvoltare. Necesită cofinanțare.',
+    docs: [
+      'Plan de afaceri / studiu de fezabilitate',
+      'Certificat constatator ONRC',
+      'Bilanț contabil ultimii 1–2 ani',
+      'Dovada cofinanțării (extras cont / credit)',
+      'Certificat fiscal (fără datorii)',
+      'Proiecții financiare',
+      'Autorizații / avize pentru spațiu',
+    ],
+    score(a) {
+      let s = 0; const reasons = [];
+      if (a.firma_status === 'existenta_mica' || a.firma_status === 'existenta_imm') { s += 30; reasons.push([true, 'Firmă existentă — criteriu principal îndeplinit']); }
+      else { reasons.push([false, 'Firma e nou-înființată — necesită istoric financiar']); }
+      if (a.vechime === 'peste3') { s += 20; reasons.push([true, 'Peste 3 ani vechime — istoric solid']); }
+      else if (a.vechime === '1_3') { s += 12; reasons.push([true, '1–3 ani vechime — acceptabil']); }
+      else { reasons.push([false, 'Vechime insuficientă pentru fonduri regionale']); }
+      if (a.cofinantare === 'da_mult') { s += 25; reasons.push([true, 'Cofinanțare solidă (>25%) — punctaj maxim']); }
+      else if (a.cofinantare === 'da_putin') { s += 15; reasons.push([true, 'Cofinanțare parțială']); }
+      else { reasons.push([false, 'Fără cofinanțare — dificil de accesat']); }
+      if (a.locatie === 'rural' || a.locatie === 'urban_mic') { s += 15; reasons.push([true, 'Locație în zonă punctată suplimentar']); }
+      if (a.angajari !== '0') { s += 10; reasons.push([true, 'Crearea de locuri de muncă — bonus']); }
+      return { score: Math.min(s, 100), reasons };
+    }
+  },
+  {
+    id: 'microind',
+    name: 'Microindustrializare / Producție',
+    desc: 'Schemă pentru activități de producție și industrializare. Mai puțin potrivită pentru servicii pure.',
+    docs: [
+      'Plan de afaceri (focus producție)',
+      'Certificat înregistrare ONRC',
+      'Cod CAEN de producție autorizat',
+      'Declarație de minimis',
+      'Proiecții financiare',
+      'Oferte echipamente de producție',
+    ],
+    score(a) {
+      let s = 0; const reasons = [];
+      if (a.domeniu === 'productie') { s += 50; reasons.push([true, 'Activitate de producție — criteriu principal']); }
+      else { reasons.push([false, 'Sala de evenimente e serviciu, nu producție — slab potrivită']); return { score: Math.min(s + (a.angajari === '3plus' ? 10 : 0), 30), reasons }; }
+      if (a.angajari === '3plus') { s += 25; reasons.push([true, '3+ locuri de muncă']); }
+      else if (a.angajari === '1_2') { s += 15; reasons.push([true, '1–2 locuri de muncă']); }
+      if (a.firma_status === 'noua') { s += 15; reasons.push([true, 'Firmă nouă — compatibil']); }
+      return { score: Math.min(s, 100), reasons };
+    }
+  },
+];
+
+// ════════════════════════════════════════════════════════════════════════════
+//  STATE & FLOW
+// ════════════════════════════════════════════════════════════════════════════
+let current = 0;
+const answers = {};
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  document.getElementById('results-container').innerHTML = '';
+  document.getElementById('step-indicator').textContent = `Întrebarea ${current + 1} / ${QUESTIONS.length}`;
+  document.getElementById('progress-fill').style.width = ((current) / QUESTIONS.length * 100) + '%';
+
+  let optionsHTML = '';
+  if (q.type === 'number') {
+    optionsHTML = `<input type="number" class="num-input" id="num-input" placeholder="${q.placeholder || ''}" value="${answers[q.id] || ''}" oninput="answers['${q.id}']=this.value; updateNav()" />`;
+  } else {
+    optionsHTML = '<div class="options">' + q.options.map(o => `
+      <div class="option ${answers[q.id] === o.value ? 'selected' : ''}" onclick="selectOption('${q.id}','${o.value}')">
+        <div class="option-radio"></div>
+        <div class="option-text">${o.text}${o.note ? `<div class="option-note">${o.note}</div>` : ''}</div>
+      </div>`).join('') + '</div>';
+  }
+
+  document.getElementById('quiz-container').innerHTML = `
+    <div class="question-card">
+      <div class="q-num">Întrebarea ${current + 1}</div>
+      <div class="q-title">${q.title}</div>
+      <div class="q-help">${q.help}</div>
+      ${optionsHTML}
+      <div class="nav">
+        <button class="btn btn-ghost" onclick="prev()" ${current === 0 ? 'style="visibility:hidden"' : ''}>← Înapoi</button>
+        <button class="btn btn-primary" id="next-btn" onclick="next()">${current === QUESTIONS.length - 1 ? 'Vezi rezultatele →' : 'Continuă →'}</button>
+      </div>
+    </div>`;
+  updateNav();
+}
+
+function selectOption(qid, val) { answers[qid] = val; renderQuestion(); }
+function updateNav() {
+  const q = QUESTIONS[current];
+  const btn = document.getElementById('next-btn');
+  if (!btn) return;
+  const valid = q.type === 'number' ? (answers[q.id] && parseFloat(answers[q.id]) > 0) : !!answers[q.id];
+  btn.disabled = !valid;
+}
+function next() { if (current < QUESTIONS.length - 1) { current++; renderQuestion(); } else { showResults(); } }
+function prev() { if (current > 0) { current--; renderQuestion(); } }
+
+// ── Compute & show results ────────────────────────────────────────────────────
+function computeResults() {
+  return PROGRAMS.map(p => ({ ...p, ...p.score(answers) })).sort((a, b) => b.score - a.score);
+}
+
+function statusClass(s) { return s >= 65 ? 'status-high' : s >= 40 ? 'status-mid' : 'status-low'; }
+function statusText(s) { return s >= 65 ? 'Potrivire ridicată' : s >= 40 ? 'Potrivire medie' : 'Potrivire scăzută'; }
+function barColor(s) { return s >= 65 ? 'var(--green)' : s >= 40 ? 'var(--amber)' : 'var(--red)'; }
+
+function showResults() {
+  document.getElementById('progress-fill').style.width = '100%';
+  document.getElementById('step-indicator').textContent = 'Rezultate';
+  document.getElementById('quiz-container').innerHTML = '';
+  const results = computeResults();
+
+  const cards = results.map((r, i) => `
+    <div class="match-card ${i === 0 && r.score >= 40 ? 'best' : ''} ${i === 0 ? 'expanded' : ''}" id="card-${r.id}">
+      <div class="match-header">
+        <div>
+          <div class="match-name">${r.name}</div>
+          <div class="match-desc">${r.desc}</div>
+        </div>
+        <div class="match-score">
+          <div class="match-score-val" style="color:${barColor(r.score)}">${r.score}</div>
+          <div class="match-score-label">/ 100</div>
+        </div>
+      </div>
+      <div class="match-bar-track"><div class="match-bar-fill" style="width:${r.score}%;background:${barColor(r.score)}"></div></div>
+      <span class="match-status ${statusClass(r.score)}">${statusText(r.score)}</span>
+      <div class="expand-hint" onclick="toggleCard('${r.id}')">▾ Detalii eligibilitate & documente</div>
+      <div class="match-detail">
+        <div class="detail-section-title">Analiză eligibilitate</div>
+        <div class="detail-list">
+          ${r.reasons.map(([ok, txt]) => `<div class="detail-item"><span class="detail-icon ${ok ? 'ok-icon' : 'no-icon'}">${ok ? '✓' : '✕'}</span><span>${txt}</span></div>`).join('')}
+        </div>
+        <div class="detail-section-title">Documente necesare</div>
+        <div class="detail-list">
+          ${r.docs.map(d => `<div class="doc-item"><span class="doc-bullet">▪</span><span>${d}</span></div>`).join('')}
+        </div>
+      </div>
+    </div>`).join('');
+
+  const best = results[0];
+  document.getElementById('results-container').innerHTML = `
+    <div class="results">
+      <div class="results-head">
+        <div class="results-title">Rezultatul analizei</div>
+        <div class="results-sub">${best.score >= 40 ? `Cea mai bună potrivire: <strong style="color:${barColor(best.score)}">${best.name}</strong>` : 'Nicio linie nu are potrivire ridicată — recomandăm consultanță individuală.'}</div>
+      </div>
+      ${cards}
+      <div class="results-actions">
+        <button class="btn-export" onclick="restart()">↺ Reîncepe</button>
+        <button class="btn-export pdf" onclick="exportPDF()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          Descarcă raport PDF
+        </button>
+      </div>
+      <div class="disclaimer">
+        <strong>Notă:</strong> Acest chestionar oferă o estimare orientativă pe baza criteriilor generale ale liniilor de finanțare. Punctajele nu reprezintă o garanție de aprobare. Condițiile reale, plafoanele și termenele se modifică anual — verificați ghidul solicitantului în vigoare și consultați un specialist înainte de depunere.
+      </div>
+    </div>`;
+}
+
+function toggleCard(id) { document.getElementById('card-' + id).classList.toggle('expanded'); }
+function restart() { current = 0; for (const k in answers) delete answers[k]; document.getElementById('results-container').innerHTML = ''; renderQuestion(); }
+
+// ── Toast ──────────────────────────────────────────────────────────────────────
+let toastTimeout;
+function showToast(msg) {
+  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimeout); toastTimeout = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── PDF Export ──────────────────────────────────────────────────────────────────
+function exportPDF() {
+  if (!window.jspdf) { showToast('⚠️ Librăria PDF se încarcă, reîncercați.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const date = new Date().toLocaleDateString('ro-RO');
+  const results = computeResults();
+  const W = 210; let y = 0;
+
+  // Header
+  doc.setFillColor(17, 19, 24); doc.rect(0, 0, W, 40, 'F');
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(18); doc.setTextColor(232, 236, 244);
+  doc.text('Raport Potrivire Finantare', 16, 18);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(90, 100, 120);
+  doc.text('Sala de evenimente — analiza orientativa', 16, 25);
+  doc.text('Generat: ' + date, 16, 31);
+
+  y = 50;
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(232, 236, 244);
+  doc.text('Clasament linii de finantare', 16, y); y += 6;
+
+  doc.autoTable({
+    startY: y,
+    head: [['#', 'Linie de finantare', 'Scor', 'Potrivire']],
+    body: results.map((r, i) => [i + 1, r.name, r.score + ' / 100', statusText(r.score)]),
+    theme: 'plain',
+    styles: { font: 'helvetica', fontSize: 9, cellPadding: 3.5, textColor: [40, 40, 40] },
+    headStyles: { fillColor: [17, 19, 24], textColor: [200, 208, 220], fontSize: 8, fontStyle: 'bold' },
+    alternateRowStyles: { fillColor: [245, 246, 250] },
+    columnStyles: { 0: { cellWidth: 10, halign: 'center' }, 2: { halign: 'right', fontStyle: 'bold' } },
+    margin: { left: 16, right: 16 },
+  });
+  y = doc.lastAutoTable.finalY + 12;
+
+  // Detail per program
+  results.forEach(r => {
+    if (y > 240) { doc.addPage(); y = 20; }
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(40, 40, 40);
+    doc.text(`${r.name}  —  ${r.score}/100`, 16, y); y += 5;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(110, 110, 110);
+    const descLines = doc.splitTextToSize(r.desc, W - 32);
+    doc.text(descLines, 16, y); y += descLines.length * 4 + 3;
+
+    doc.autoTable({
+      startY: y,
+      head: [['Analiza eligibilitate']],
+      body: r.reasons.map(([ok, t]) => [(ok ? '[DA] ' : '[NU] ') + t]),
+      theme: 'plain',
+      styles: { font: 'helvetica', fontSize: 8, cellPadding: 2.5, textColor: [50, 50, 50] },
+      headStyles: { fillColor: [240, 242, 246], textColor: [79, 156, 249], fontSize: 7, fontStyle: 'bold' },
+      margin: { left: 16, right: 16 },
+    });
+    y = doc.lastAutoTable.finalY + 2;
+
+    doc.autoTable({
+      startY: y,
+      head: [['Documente necesare']],
+      body: r.docs.map(d => ['- ' + d]),
+      theme: 'plain',
+      styles: { font: 'helvetica', fontSize: 8, cellPadding: 2.5, textColor: [50, 50, 50] },
+      headStyles: { fillColor: [240, 242, 246], textColor: [79, 156, 249], fontSize: 7, fontStyle: 'bold' },
+      margin: { left: 16, right: 16 },
+    });
+    y = doc.lastAutoTable.finalY + 10;
+  });
+
+  // Disclaimer + footer
+  if (y > 255) { doc.addPage(); y = 20; }
+  doc.setFont('helvetica', 'italic'); doc.setFontSize(7); doc.setTextColor(130, 130, 130);
+  const disc = doc.splitTextToSize('Nota: Estimare orientativa bazata pe criterii generale. Nu reprezinta o garantie de aprobare. Verificati ghidul solicitantului in vigoare si consultati un specialist inainte de depunere.', W - 32);
+  doc.text(disc, 16, y);
+
+  const pages = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pages; i++) {
+    doc.setPage(i);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(150, 150, 150);
+    doc.text('Raport Potrivire Finantare', 16, 290);
+    doc.text('Pagina ' + i + ' / ' + pages, W - 16, 290, { align: 'right' });
+  }
+
+  doc.save('Raport_Finantare_' + date.replace(/\./g, '-') + '.pdf');
+  showToast('✓ PDF exportat cu succes');
+}
+
+renderQuestion();
+</script>
+</body>
+</html>

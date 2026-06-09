@@ -15,6 +15,7 @@
     --green: #34d399; --green-dim: rgba(52,211,153,0.12);
     --red: #f87171; --red-dim: rgba(248,113,113,0.1);
     --amber: #fbbf24; --amber-dim: rgba(251,191,36,0.1);
+    --purple: #a78bfa; --purple-dim: rgba(167,139,250,0.12);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.6; min-height: 100vh; }
@@ -30,20 +31,21 @@
   .progress-track { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; margin-bottom: 32px; }
   .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.4s cubic-bezier(0.4,0,0.2,1); width: 0%; }
 
-  .intro { animation: fadeIn 0.4s ease; }
+  .intro, .question-card { animation: fadeIn 0.35s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
   .intro-title { font-family: 'DM Serif Display', serif; font-size: 32px; line-height: 1.2; margin-bottom: 14px; }
   .intro-text { color: var(--muted); font-size: 15px; margin-bottom: 10px; }
   .intro-list { color: var(--muted); font-size: 14px; margin: 18px 0 28px; padding-left: 4px; list-style: none; }
   .intro-list li { padding: 6px 0; display: flex; gap: 10px; }
   .intro-list li::before { content: '▪'; color: var(--accent); }
 
-  .question-card, .intro { animation: fadeIn 0.35s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
   .q-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
   .q-title { font-family: 'DM Serif Display', serif; font-size: 25px; line-height: 1.25; margin-bottom: 8px; }
-  .q-help { font-size: 13px; color: var(--muted); margin-bottom: 26px; }
+  .q-help { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+  .q-multi-hint { font-size: 12px; color: var(--purple); background: var(--purple-dim); border: 1px solid rgba(167,139,250,0.2); border-radius: 8px; padding: 6px 12px; margin-bottom: 18px; display: inline-flex; align-items: center; gap: 6px; }
 
+  /* ── SINGLE SELECT ── */
   .options { display: flex; flex-direction: column; gap: 10px; }
   .option { display: flex; align-items: center; gap: 14px; padding: 17px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; cursor: pointer; transition: all 0.15s; user-select: none; }
   .option:hover { border-color: rgba(255,255,255,0.16); background: var(--surface2); transform: translateY(-1px); }
@@ -51,6 +53,16 @@
   .option-radio { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; transition: all 0.15s; position: relative; }
   .option.selected .option-radio { border-color: var(--accent); }
   .option.selected .option-radio::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--accent); }
+
+  /* ── MULTI SELECT ── */
+  .options-multi { display: flex; flex-direction: column; gap: 10px; }
+  .option-multi { display: flex; align-items: center; gap: 14px; padding: 17px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; cursor: pointer; transition: all 0.15s; user-select: none; }
+  .option-multi:hover { border-color: rgba(255,255,255,0.16); background: var(--surface2); transform: translateY(-1px); }
+  .option-multi.selected { border-color: var(--purple); background: var(--purple-dim); }
+  .option-checkbox { width: 20px; height: 20px; border-radius: 5px; border: 2px solid var(--border); flex-shrink: 0; transition: all 0.15s; position: relative; display: flex; align-items: center; justify-content: center; }
+  .option-multi.selected .option-checkbox { border-color: var(--purple); background: var(--purple); }
+  .option-multi.selected .option-checkbox::after { content: '✓'; color: white; font-size: 12px; font-weight: 700; }
+
   .option-text { flex: 1; font-size: 15px; }
   .option-note { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
@@ -65,6 +77,7 @@
   .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
   .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.16); }
 
+  /* ── RESULTS ── */
   .results { animation: fadeIn 0.4s ease; }
   .results-head { text-align: center; margin-bottom: 32px; }
   .results-title { font-family: 'DM Serif Display', serif; font-size: 30px; margin-bottom: 8px; }
@@ -106,7 +119,6 @@
 
   .disclaimer { margin-top: 30px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; font-size: 12px; color: var(--muted); line-height: 1.6; }
 
-  /* CTA block */
   .cta-block { margin-top: 28px; padding: 28px 24px; background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%); border: 1px solid var(--border); border-radius: 18px; text-align: center; }
   .cta-title { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 6px; }
   .cta-sub { color: var(--muted); font-size: 13px; margin-bottom: 22px; }
@@ -140,239 +152,296 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ════════════════════════════════════════════════════════════════════════════
-//  ÎNTREBĂRI — generale, pentru orice tip de afacere
-// ════════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
+//  QUESTIONS
+//  type: 'single' | 'multi' | 'number'
+//  multi = poți selecta mai multe opțiuni simultan
+// ════════════════════════════════════════════════════════════════════
 const QUESTIONS = [
-  { id: 'firma_status', title: 'Cu ce tip de firmă veți aplica?', help: 'Liniile de start-up cer firmă nouă; cele regionale cer firmă cu istoric.', type: 'single',
+  {
+    id: 'firma_status', title: 'Cu ce tip de firmă veți aplica?', type: 'single',
+    help: 'Liniile de start-up cer firmă nouă; cele regionale cer firmă cu istoric.',
     options: [
-      { value: 'noua', text: 'Firmă nouă / urmează să o înființez', note: 'Microîntreprindere fără activitate' },
+      { value: 'noua',  text: 'Firmă nouă / urmează să o înființez', note: 'Microîntreprindere fără activitate' },
       { value: 'micro', text: 'Microîntreprindere existentă', note: 'Sub 10 angajați' },
-      { value: 'imm', text: 'IMM existent (mic sau mijlociu)', note: '10–249 angajați' },
-      { value: 'pfa', text: 'PFA / persoană fizică (încă fără firmă)', note: 'Doar idee de afacere' },
-    ] },
-  { id: 'vechime', title: 'De cât timp funcționează firma?', help: 'Fondurile regionale și cele pentru IMM cer de obicei istoric financiar.', type: 'single',
+      { value: 'imm',   text: 'IMM existent (mic sau mijlociu)', note: '10–249 angajați' },
+      { value: 'pfa',   text: 'PFA / persoană fizică (fără firmă)', note: 'Doar idee de afacere' },
+    ]
+  },
+  {
+    id: 'vechime', title: 'De cât timp funcționează firma?', type: 'single',
+    help: 'Fondurile regionale și cele pentru IMM cer de obicei istoric financiar.',
     options: [
-      { value: 'sub1', text: 'Sub 1 an / nu există încă' },
-      { value: '1_3', text: 'Între 1 și 3 ani' },
+      { value: 'sub1',   text: 'Sub 1 an / nu există încă' },
+      { value: '1_3',    text: 'Între 1 și 3 ani' },
       { value: 'peste3', text: 'Peste 3 ani' },
-    ] },
-  { id: 'gen', title: 'Cine este asociat majoritar / administrator?', help: 'Programul Femeia Antreprenor este dedicat firmelor conduse de femei.', type: 'single',
+    ]
+  },
+  {
+    id: 'gen', title: 'Care este structura de conducere / asociere?', type: 'single',
+    help: 'Programul Femeia Antreprenor cere ca femeia să fie asociat majoritar (nu doar administrator).',
     options: [
-      { value: 'femeie', text: 'O femeie (asociat majoritar)' },
-      { value: 'barbat', text: 'Un bărbat (asociat majoritar)' },
-      { value: 'mixt', text: 'Asociere mixtă' },
-    ] },
-  { id: 'varsta', title: 'Vârsta aplicantului principal', help: 'Start-Up Nation are un pilon dedicat tinerilor 18–30 ani.', type: 'single',
+      { value: 'femeie_asociat',    text: 'Femeie — asociat majoritar / unic', note: 'Eligibil Femeia Antreprenor' },
+      { value: 'femeie_admin',      text: 'Femeie administrator, asociat bărbat / altcineva', note: 'Nu e eligibil Femeia Antreprenor' },
+      { value: 'barbat',            text: 'Bărbat asociat majoritar / unic' },
+      { value: 'mixt',              text: 'Asociere mixtă (femei și bărbați)' },
+    ]
+  },
+  {
+    id: 'varsta', title: 'Vârsta aplicantului principal', type: 'single',
+    help: 'Start-Up Nation are un pilon dedicat tinerilor 18–30 ani.',
     options: [
       { value: 'foarte_tanar', text: '18 – 30 ani' },
-      { value: 'tanar', text: '31 – 40 ani' },
-      { value: 'matur', text: '41 – 54 ani' },
-      { value: 'senior', text: '55+ ani' },
-    ] },
-  { id: 'domeniu', title: 'În ce domeniu se încadrează afacerea?', help: 'Domeniul (codul CAEN) determină liniile compatibile.', type: 'single',
+      { value: 'tanar',        text: '31 – 40 ani' },
+      { value: 'matur',        text: '41 – 54 ani' },
+      { value: 'senior',       text: '55+ ani' },
+    ]
+  },
+  {
+    id: 'domeniu', title: 'În ce domenii se încadrează afacerea?', type: 'multi',
+    help: 'Selectează toate domeniile relevante. Codul CAEN determină liniile compatibile.',
     options: [
       { value: 'productie', text: 'Producție / industrie prelucrătoare' },
-      { value: 'servicii', text: 'Servicii (inclusiv HoReCa, evenimente)' },
-      { value: 'comert', text: 'Comerț' },
-      { value: 'it', text: 'IT / digital / software' },
-      { value: 'agro', text: 'Agricultură / procesare agro-alimentară' },
-    ] },
-  { id: 'investitie', title: 'Ce valoare estimați pentru investiție?', help: 'Suma totală aproximativă în LEI (echipamente, amenajări, etc.).', type: 'number', placeholder: 'ex: 250000' },
-  { id: 'cofinantare', title: 'Puteți asigura cofinanțare proprie?', help: 'Fondurile regionale și cele elvețiene cer contribuție proprie de 15–60%.', type: 'single',
+      { value: 'servicii',  text: 'Servicii (HoReCa, turism, evenimente, catering)' },
+      { value: 'comert',    text: 'Comerț' },
+      { value: 'it',        text: 'IT / digital / software / automatizare' },
+      { value: 'agro',      text: 'Agricultură / procesare agro-alimentară' },
+    ]
+  },
+  {
+    id: 'investitie', title: 'Ce valoare estimați pentru investiție?', type: 'number',
+    help: 'Suma totală aproximativă în LEI (echipamente, construcții, amenajări etc.).',
+    placeholder: 'ex: 900000'
+  },
+  {
+    id: 'cofinantare', title: 'Puteți asigura cofinanțare proprie?', type: 'single',
+    help: 'Fondurile regionale și cele elvețiene cer contribuție proprie de 15–60%.',
     options: [
-      { value: 'mult', text: 'Da, peste 40% (sau am acces la credit bancar)' },
-      { value: 'mediu', text: 'Da, între 15% și 40%' },
-      { value: 'putin', text: 'Da, sub 15%' },
-      { value: 'nu', text: 'Nu, am nevoie de finanțare ~100%' },
-    ] },
-  { id: 'angajari', title: 'Câte locuri de muncă noi veți crea?', help: 'Crearea de locuri de muncă este punctată la aproape toate liniile.', type: 'single',
+      { value: 'mult',   text: 'Da, peste 40% (sau am acces la credit bancar)' },
+      { value: 'mediu',  text: 'Da, între 15% și 40%' },
+      { value: 'putin',  text: 'Da, sub 15%' },
+      { value: 'nu',     text: 'Nu, am nevoie de finanțare ~100%' },
+    ]
+  },
+  {
+    id: 'angajari', title: 'Câte locuri de muncă noi veți crea?', type: 'single',
+    help: 'Crearea de locuri de muncă este punctată la aproape toate liniile.',
     options: [
-      { value: '0', text: 'Niciunul deocamdată' },
-      { value: '1_2', text: '1 – 2 locuri de muncă' },
-      { value: '3plus', text: '3 sau mai multe' },
-    ] },
-  { id: 'verde', title: 'Investiția include componentă verde / digitală?', help: 'Eficiență energetică, energie regenerabilă, economie circulară sau digitalizare.', type: 'single',
+      { value: '0',    text: 'Niciunul deocamdată' },
+      { value: '1_2',  text: '1 – 2 locuri de muncă' },
+      { value: '3plus',text: '3 sau mai multe' },
+    ]
+  },
+  {
+    id: 'verde', title: 'Investiția include componentă verde și/sau digitală?', type: 'multi',
+    help: 'Selectează tot ce se aplică. Eficiență energetică, regenerabile, digitalizare, automatizare.',
     options: [
-      { value: 'verde', text: 'Da, în principal tehnologii verzi / eficiență energetică' },
-      { value: 'digital', text: 'Da, în principal digitalizare / software' },
-      { value: 'ambele', text: 'Și verde, și digital' },
-      { value: 'nu', text: 'Nu, investiție clasică' },
-    ] },
-  { id: 'locatie', title: 'Unde va funcționa afacerea?', help: 'Regiunile mai puțin dezvoltate și zonele de tranziție justă au alocări speciale.', type: 'single',
+      { value: 'verde',   text: 'Tehnologii verzi / eficiență energetică / economie circulară' },
+      { value: 'digital', text: 'Digitalizare / software / automatizare (ex. Make, platforme)' },
+      { value: 'nu',      text: 'Nu, investiție clasică (construcții, echipamente standard)' },
+    ]
+  },
+  {
+    id: 'locatie', title: 'Unde va funcționa afacerea?', type: 'single',
+    help: 'Regiunile mai puțin dezvoltate și zonele de tranziție justă au alocări speciale.',
     options: [
-      { value: 'tranzitie', text: 'Județ de tranziție justă (Gorj, Hunedoara, Dolj, Galați, Mureș, Prahova)' },
-      { value: 'rural', text: 'Mediu rural / oraș mic' },
-      { value: 'regiune', text: 'Alt oraș (în afară de București-Ilfov)' },
+      { value: 'tranzitie', text: 'Județ de tranziție justă (Gorj, Hunedoara, Dolj, Galați, Mureș, Prahova)', note: 'Eligibil PTJ — fonduri dedicate' },
+      { value: 'rural',     text: 'Mediu rural / oraș mic' },
+      { value: 'regiune',   text: 'Alt oraș (în afară de București-Ilfov)' },
       { value: 'bucuresti', text: 'București / Ilfov' },
-    ] },
+    ]
+  },
 ];
 
-// ════════════════════════════════════════════════════════════════════════════
-//  10 LINII DE FINANȚARE — actualizate 2026
-// ════════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
+//  HELPERS — răspunsuri multi sunt Array, single sunt String
+// ════════════════════════════════════════════════════════════════════
+function hasVal(ans, val) {
+  if (!ans) return false;
+  if (Array.isArray(ans)) return ans.includes(val);
+  return ans === val;
+}
+function hasAny(ans, vals) { return vals.some(v => hasVal(ans, v)); }
+
+// ════════════════════════════════════════════════════════════════════
+//  10 PROGRAME
+// ════════════════════════════════════════════════════════════════════
 const PROGRAMS = [
   {
-    id: 'sun', name: 'Start-Up Nation (ed. IV)', meta: 'Grant până la 250.000 lei',
-    desc: 'Pentru SRL nou-înființate de absolvenți ai cursurilor de antreprenoriat. Echipamente, software, dotări. Sesiune 2 așteptată în 2026.',
-    docs: ['Certificat absolvire curs antreprenoriat', 'Plan de afaceri', 'Certificat înregistrare ONRC (firmă nouă)', 'Declarație de minimis', 'Proiecții financiare', 'Documente locuri de muncă'],
+    id: 'por_imm', name: 'Fonduri Regionale IMM (PR/POR)', meta: 'Grant până la ~5 mil. EUR',
+    desc: 'Programele Regionale 2021–2027 pentru investiții productive ale IMM existente: echipamente, construcții, dezvoltare. Necesită cofinanțare.',
+    docs: ['Studiu de fezabilitate / plan de afaceri','Certificat constatator ONRC','Bilanț ultimii 2 ani','Dovada cofinanțării','Certificat fiscal','Autorizații / avize spațiu','Proiecții financiare'],
     score(a) {
       let s = 0; const r = [];
-      if (a.firma_status === 'noua' || a.firma_status === 'pfa') { s += 35; r.push([true, 'Firmă nouă — criteriu de bază îndeplinit']); }
-      else { r.push([false, 'Necesită firmă nou-înființată']); }
-      if (a.vechime === 'sub1') { s += 10; r.push([true, 'Vechime sub 1 an — eligibil']); } else { r.push([false, 'Firma e prea veche']); }
-      if (a.angajari === '3plus') { s += 25; r.push([true, '3+ locuri de muncă — punctaj maxim']); }
-      else if (a.angajari === '1_2') { s += 15; r.push([true, '1–2 locuri de muncă']); } else { r.push([false, 'Fără angajări — punctaj redus']); }
-      if (a.varsta === 'foarte_tanar') { s += 15; r.push([true, 'Aplicant 18–30 ani — pilon dedicat tinerilor']); }
-      if (a.domeniu === 'productie') { s += 15; r.push([true, 'Producție — punctaj maxim pe domeniu']); }
-      else if (a.domeniu === 'it' || a.domeniu === 'servicii') { s += 8; r.push([true, 'Domeniu eligibil']); }
-      return { score: Math.min(s, 100), reasons: r };
-    }
-  },
-  {
-    id: 'femeia', name: 'Femeia Antreprenor', meta: 'Grant până la 200.000 lei',
-    desc: 'Schemă pentru firme conduse de femei. În 2026 se implementează ediția 2024; urmăriți anunțul unei sesiuni noi pe granturi.imm.gov.ro.',
-    docs: ['Act identitate asociat majoritar (femeie)', 'Plan de afaceri', 'Certificat înregistrare ONRC', 'Certificat fiscal (fără datorii ANAF)', 'Declarație de minimis', 'Proiecții financiare'],
-    score(a) {
-      let s = 0; const r = [];
-      if (a.gen === 'femeie') { s += 45; r.push([true, 'Asociat majoritar femeie — criteriu obligatoriu îndeplinit']); }
-      else { r.push([false, 'Necesită asociat majoritar femeie — neeligibil']); return { score: 0, reasons: r }; }
-      if (a.firma_status === 'noua' || a.firma_status === 'micro') { s += 25; r.push([true, 'Microîntreprindere — compatibil']); }
-      else if (a.firma_status === 'imm') { s += 15; r.push([true, 'IMM — acceptat parțial']); }
-      if (a.angajari !== '0') { s += 18; r.push([true, 'Creare locuri de muncă — punctat']); } else { r.push([false, 'Fără angajări scade punctajul']); }
-      if (a.cofinantare !== 'nu') { s += 12; r.push([true, 'Cofinanțare asigurată']); }
-      return { score: Math.min(s, 100), reasons: r };
-    }
-  },
-  {
-    id: 'ecotech', name: 'SME Eco-Tech (fonduri elvețiene)', meta: 'Grant 40% (max ~267.000 lei) + credit 60%',
-    desc: 'Pentru IMM din industria prelucrătoare, investiții verzi: eficiență energetică, regenerabile, economie circulară. Înscrieri 26 mai–24 iunie 2026.',
-    docs: ['Etapă preliminară pe sme-ecotech.gov.ro', 'Plan de investiții verzi', 'Bilanț contabil', 'Acord credit bancar (min 60%)', 'Certificat constatator', 'Audit energetic (dacă e cazul)'],
-    score(a) {
-      let s = 0; const r = [];
-      if (a.firma_status === 'micro' || a.firma_status === 'imm') { s += 25; r.push([true, 'IMM existent — eligibil']); }
-      else { r.push([false, 'Necesită IMM existent (10–249 ang. ideal)']); }
-      if (a.domeniu === 'productie') { s += 25; r.push([true, 'Industrie prelucrătoare — domeniu țintă']); }
-      else { r.push([false, 'Programul vizează industria prelucrătoare']); }
-      if (a.verde === 'verde' || a.verde === 'ambele') { s += 30; r.push([true, 'Componentă verde — criteriu principal']); }
-      else { r.push([false, 'Necesită investiție verde / eficiență energetică']); }
-      if (a.cofinantare === 'mult') { s += 20; r.push([true, 'Poate asigura creditul de 60%']); }
-      else { r.push([false, 'Necesită credit bancar de min. 60%']); }
+      if (hasAny(a.firma_status, ['micro','imm'])) { s += 30; r.push([true,'Firmă existentă — criteriu principal']); }
+      else { r.push([false,'Necesită firmă cu istoric financiar']); }
+      if (a.vechime === 'peste3') { s += 20; r.push([true,'Peste 3 ani — istoric solid']); }
+      else if (a.vechime === '1_3') { s += 12; r.push([true,'1–3 ani — acceptabil']); }
+      else { r.push([false,'Vechime insuficientă']); }
+      if (hasAny(a.cofinantare, ['mult','mediu'])) { s += 25; r.push([true,'Cofinanțare solidă']); }
+      else { r.push([false,'Cofinanțare insuficientă']); }
+      if (a.locatie !== 'bucuresti') { s += 15; r.push([true,'Regiune eligibilă']); }
+      else { r.push([false,'București-Ilfov are alocare limitată']); }
+      if (a.angajari !== '0') { s += 10; r.push([true,'Creare locuri de muncă — bonus']); }
       return { score: Math.min(s, 100), reasons: r };
     }
   },
   {
     id: 'digital_reg', name: 'Digitalizare IMM (Programe Regionale)', meta: 'Grant 15.000 – 200.000 EUR',
-    desc: 'Linii regionale (ex. Regiunea Centru) pentru digitalizarea firmelor: software, echipamente IT, automatizare. Lansări în 2026.',
-    docs: ['Plan de digitalizare', 'Certificat constatator ONRC', 'Bilanț contabil', 'Dovada cofinanțării', 'Oferte software / echipamente IT', 'Certificat fiscal'],
+    desc: 'Linii regionale pentru digitalizarea firmelor: software, echipamente IT, automatizare (Make, platforme de precomenzi). Lansări în 2026.',
+    docs: ['Plan de digitalizare','Certificat constatator ONRC','Bilanț contabil','Dovada cofinanțării','Oferte software / echipamente IT','Certificat fiscal'],
     score(a) {
       let s = 0; const r = [];
-      if (a.firma_status === 'micro' || a.firma_status === 'imm') { s += 25; r.push([true, 'IMM existent — eligibil']); }
-      else { r.push([false, 'Necesită firmă existentă']); }
-      if (a.verde === 'digital' || a.verde === 'ambele') { s += 30; r.push([true, 'Componentă de digitalizare — criteriu principal']); }
-      else if (a.domeniu === 'it') { s += 20; r.push([true, 'Domeniu IT — compatibil']); }
-      else { r.push([false, 'Necesită componentă de digitalizare']); }
-      if (a.locatie === 'regiune' || a.locatie === 'rural' || a.locatie === 'tranzitie') { s += 20; r.push([true, 'În afara București-Ilfov — eligibil regional']); }
-      else { r.push([false, 'București-Ilfov nu e acoperit de aceste apeluri']); }
-      if (a.cofinantare !== 'nu') { s += 15; r.push([true, 'Cofinanțare asigurată']); }
+      if (hasAny(a.firma_status, ['micro','imm'])) { s += 25; r.push([true,'IMM existent — eligibil']); }
+      else { r.push([false,'Necesită firmă existentă']); }
+      if (hasVal(a.verde, 'digital') || hasVal(a.domeniu, 'it')) { s += 35; r.push([true,'Componentă de digitalizare — criteriu principal']); }
+      else { r.push([false,'Necesită componentă de digitalizare / automatizare']); }
+      if (a.locatie !== 'bucuresti') { s += 20; r.push([true,'În afara București-Ilfov — eligibil regional']); }
+      else { r.push([false,'București-Ilfov nu e acoperit de aceste apeluri']); }
+      if (a.cofinantare !== 'nu') { s += 15; r.push([true,'Cofinanțare asigurată']); }
       return { score: Math.min(s, 100), reasons: r };
     }
   },
   {
-    id: 'por_imm', name: 'Fonduri Regionale IMM (PR/POR)', meta: 'Grant până la ~5 mil. EUR',
-    desc: 'Programele Regionale 2021–2027 pentru investiții productive ale IMM existente: echipamente, construcții, dezvoltare. Necesită cofinanțare.',
-    docs: ['Studiu de fezabilitate / plan de afaceri', 'Certificat constatator', 'Bilanț ultimii 2 ani', 'Dovada cofinanțării', 'Certificat fiscal', 'Autorizații / avize spațiu', 'Proiecții financiare'],
+    id: 'ecotech', name: 'SME Eco-Tech (fonduri elvețiene)', meta: 'Grant 40% (max ~267.000 lei) + credit 60%',
+    desc: 'Pentru IMM, investiții verzi: eficiență energetică, regenerabile, economie circulară. Ciclul 2026 — verificați sme-ecotech.gov.ro.',
+    docs: ['Etapă preliminară pe sme-ecotech.gov.ro','Plan de investiții verzi','Bilanț contabil','Acord credit bancar (min 60%)','Certificat constatator','Audit energetic (dacă e cazul)'],
     score(a) {
       let s = 0; const r = [];
-      if (a.firma_status === 'micro' || a.firma_status === 'imm') { s += 30; r.push([true, 'Firmă existentă — criteriu principal']); }
-      else { r.push([false, 'Necesită firmă cu istoric financiar']); }
-      if (a.vechime === 'peste3') { s += 20; r.push([true, 'Peste 3 ani — istoric solid']); }
-      else if (a.vechime === '1_3') { s += 12; r.push([true, '1–3 ani — acceptabil']); } else { r.push([false, 'Vechime insuficientă']); }
-      if (a.cofinantare === 'mult' || a.cofinantare === 'mediu') { s += 25; r.push([true, 'Cofinanțare solidă']); }
-      else { r.push([false, 'Cofinanțare insuficientă']); }
-      if (a.locatie !== 'bucuresti') { s += 15; r.push([true, 'Regiune eligibilă']); } else { r.push([false, 'București-Ilfov are alocare limitată']); }
-      if (a.angajari !== '0') { s += 8; r.push([true, 'Locuri de muncă — bonus']); }
-      return { score: Math.min(s, 100), reasons: r };
-    }
-  },
-  {
-    id: 'tranzitie', name: 'Tranziție Justă (PTJ)', meta: 'Grant 50.000 – 300.000 EUR + credit',
-    desc: 'Pentru firme și întreprinderi sociale din cele 6 județe de tranziție justă. Construcții, dotări, echipamente. Apeluri deschise în 2026.',
-    docs: ['Plan de afaceri / proiect', 'Sediu în județ eligibil PTJ', 'Certificat constatator', 'Bilanț contabil', 'Dovada cofinanțării', 'Certificat fiscal'],
-    score(a) {
-      let s = 0; const r = [];
-      if (a.locatie === 'tranzitie') { s += 50; r.push([true, 'Județ de tranziție justă — criteriu obligatoriu îndeplinit']); }
-      else { r.push([false, 'Necesită sediu în Gorj/Hunedoara/Dolj/Galați/Mureș/Prahova']); return { score: 5, reasons: r }; }
-      if (a.angajari !== '0') { s += 25; r.push([true, 'Creare locuri de muncă — punctat puternic']); } else { r.push([false, 'Fără angajări scade punctajul']); }
-      if (a.firma_status !== 'pfa') { s += 15; r.push([true, 'Formă juridică eligibilă']); }
-      if (a.cofinantare !== 'nu') { s += 10; r.push([true, 'Cofinanțare asigurată']); }
-      return { score: Math.min(s, 100), reasons: r };
-    }
-  },
-  {
-    id: 'afir_agro', name: 'AFIR — Procesare / Ferme', meta: 'Grant până la 200.000 EUR',
-    desc: 'Linii pentru ferme mici, tineri fermieri și firme de procesare agro-alimentară. Cofinanțare min. 15% la unele măsuri.',
-    docs: ['Plan de afaceri agricol', 'Cod CAEN agricol / procesare', 'Documente teren / spațiu', 'Bilanț (dacă există)', 'Dovada cofinanțării', 'Proiecții financiare'],
-    score(a) {
-      let s = 0; const r = [];
-      if (a.domeniu === 'agro') { s += 55; r.push([true, 'Domeniu agro / procesare — criteriu principal']); }
-      else { r.push([false, 'Dedicat exclusiv sectorului agro-alimentar']); return { score: 0, reasons: r }; }
-      if (a.varsta === 'foarte_tanar' || a.varsta === 'tanar') { s += 20; r.push([true, 'Tânăr fermier — bonus']); }
-      if (a.locatie === 'rural') { s += 15; r.push([true, 'Mediu rural — punctat']); }
-      if (a.cofinantare !== 'nu') { s += 10; r.push([true, 'Cofinanțare asigurată']); }
+      if (hasAny(a.firma_status, ['micro','imm'])) { s += 25; r.push([true,'IMM existent — eligibil']); }
+      else { r.push([false,'Necesită IMM existent']); }
+      if (hasAny(a.domeniu, ['productie','agro','servicii'])) { s += 20; r.push([true,'Domeniu compatibil cu eco-tech']); }
+      else { r.push([false,'Domeniu mai puțin relevant']); }
+      if (hasVal(a.verde, 'verde')) { s += 30; r.push([true,'Componentă verde — criteriu principal']); }
+      else { r.push([false,'Necesită investiție verde / eficiență energetică']); }
+      if (a.cofinantare === 'mult') { s += 25; r.push([true,'Poate asigura creditul de 60%']); }
+      else { r.push([false,'Necesită credit bancar de min. 60%']); }
       return { score: Math.min(s, 100), reasons: r };
     }
   },
   {
     id: 'microind', name: 'Microindustrializare', meta: 'Grant de stat (sesiune incertă 2026)',
-    desc: 'Schemă pentru activități de producție / industrializare. Bugetul 2026 e incert — verificați lansarea unei noi ediții.',
-    docs: ['Plan de afaceri (focus producție)', 'Cod CAEN de producție', 'Certificat înregistrare ONRC', 'Declarație de minimis', 'Oferte echipamente producție'],
+    desc: 'Schemă pentru activități de producție / industrializare / procesare. Bugetul 2026 e incert — urmăriți lansarea.',
+    docs: ['Plan de afaceri (focus producție)','Cod CAEN de producție','Certificat înregistrare ONRC','Declarație de minimis','Oferte echipamente producție'],
     score(a) {
       let s = 0; const r = [];
-      if (a.domeniu === 'productie') { s += 50; r.push([true, 'Producție — criteriu principal']); }
-      else { r.push([false, 'Dedicat activităților de producție']); return { score: 10, reasons: r }; }
-      if (a.angajari === '3plus') { s += 25; r.push([true, '3+ locuri de muncă']); }
-      else if (a.angajari === '1_2') { s += 15; r.push([true, '1–2 locuri de muncă']); }
-      if (a.firma_status !== 'pfa') { s += 15; r.push([true, 'Formă juridică eligibilă']); }
+      if (hasVal(a.domeniu, 'productie') || hasVal(a.domeniu, 'agro')) { s += 50; r.push([true,'Producție / procesare — criteriu principal']); }
+      else { r.push([false,'Dedicat activităților de producție / procesare']); return { score: 10, reasons: r }; }
+      if (a.angajari === '3plus') { s += 25; r.push([true,'3+ locuri de muncă']); }
+      else if (a.angajari === '1_2') { s += 15; r.push([true,'1–2 locuri de muncă']); }
+      if (a.firma_status !== 'pfa') { s += 15; r.push([true,'Formă juridică eligibilă']); }
+      return { score: Math.min(s, 100), reasons: r };
+    }
+  },
+  {
+    id: 'sun', name: 'Start-Up Nation (ed. IV)', meta: 'Grant până la 250.000 lei',
+    desc: 'Pentru SRL nou-înființate de absolvenți ai cursurilor de antreprenoriat. Sesiune 2 așteptată în 2026.',
+    docs: ['Certificat absolvire curs antreprenoriat','Plan de afaceri','Certificat înregistrare ONRC (firmă nouă)','Declarație de minimis','Proiecții financiare','Documente locuri de muncă'],
+    score(a) {
+      let s = 0; const r = [];
+      if (hasAny(a.firma_status, ['noua','pfa'])) { s += 35; r.push([true,'Firmă nouă — criteriu de bază îndeplinit']); }
+      else { r.push([false,'Necesită firmă nou-înființată']); }
+      if (a.vechime === 'sub1') { s += 10; r.push([true,'Vechime sub 1 an — eligibil']); }
+      else { r.push([false,'Firma e prea veche']); }
+      if (a.angajari === '3plus') { s += 25; r.push([true,'3+ locuri de muncă — punctaj maxim']); }
+      else if (a.angajari === '1_2') { s += 15; r.push([true,'1–2 locuri de muncă']); }
+      if (a.varsta === 'foarte_tanar') { s += 15; r.push([true,'Aplicant 18–30 ani — pilon dedicat tinerilor']); }
+      if (hasAny(a.domeniu, ['productie','agro'])) { s += 15; r.push([true,'Producție / agro — punctaj maxim pe domeniu']); }
+      else if (hasAny(a.domeniu, ['it','servicii'])) { s += 8; r.push([true,'Domeniu eligibil']); }
       return { score: Math.min(s, 100), reasons: r };
     }
   },
   {
     id: 'comert', name: 'Comerț și Servicii', meta: 'Grant de stat (sesiune incertă 2026)',
     desc: 'Schemă pentru firme din comerț și servicii. Buget 2026 neconfirmat — de urmărit anunțurile MEDAT.',
-    docs: ['Plan de afaceri', 'Cod CAEN comerț / servicii', 'Certificat înregistrare ONRC', 'Declarație de minimis', 'Proiecții financiare'],
+    docs: ['Plan de afaceri','Cod CAEN comerț / servicii','Certificat înregistrare ONRC','Declarație de minimis','Proiecții financiare'],
     score(a) {
       let s = 0; const r = [];
-      if (a.domeniu === 'comert' || a.domeniu === 'servicii') { s += 45; r.push([true, 'Comerț / servicii — domeniu țintă']); }
-      else { r.push([false, 'Dedicat comerțului și serviciilor']); return { score: 10, reasons: r }; }
-      if (a.angajari !== '0') { s += 25; r.push([true, 'Creare locuri de muncă']); }
-      if (a.firma_status !== 'pfa') { s += 15; r.push([true, 'Formă juridică eligibilă']); }
-      if (a.cofinantare !== 'nu') { s += 10; r.push([true, 'Cofinanțare asigurată']); }
+      if (hasAny(a.domeniu, ['comert','servicii'])) { s += 45; r.push([true,'Comerț / servicii — domeniu țintă']); }
+      else { r.push([false,'Dedicat comerțului și serviciilor']); return { score: 10, reasons: r }; }
+      if (a.angajari !== '0') { s += 25; r.push([true,'Creare locuri de muncă']); }
+      if (a.firma_status !== 'pfa') { s += 15; r.push([true,'Formă juridică eligibilă']); }
+      if (a.cofinantare !== 'nu') { s += 10; r.push([true,'Cofinanțare asigurată']); }
+      return { score: Math.min(s, 100), reasons: r };
+    }
+  },
+  {
+    id: 'tranzitie', name: 'Tranziție Justă (PTJ)', meta: 'Grant 50.000 – 300.000 EUR + credit',
+    desc: 'Pentru firme din cele 6 județe de tranziție justă, inclusiv Hunedoara. Construcții, dotări, echipamente. Apeluri deschise în 2026.',
+    docs: ['Plan de afaceri / proiect','Sediu în județ eligibil PTJ','Certificat constatator','Bilanț contabil','Dovada cofinanțării','Certificat fiscal'],
+    score(a) {
+      let s = 0; const r = [];
+      if (a.locatie === 'tranzitie') { s += 50; r.push([true,'Județ de tranziție justă (incl. Hunedoara) — criteriu obligatoriu']); }
+      else { r.push([false,'Necesită sediu în Gorj/Hunedoara/Dolj/Galați/Mureș/Prahova']); return { score: 5, reasons: r }; }
+      if (a.angajari !== '0') { s += 25; r.push([true,'Creare locuri de muncă — punctat puternic']); }
+      else { r.push([false,'Fără angajări scade punctajul']); }
+      if (a.firma_status !== 'pfa') { s += 15; r.push([true,'Formă juridică eligibilă']); }
+      if (a.cofinantare !== 'nu') { s += 10; r.push([true,'Cofinanțare asigurată']); }
+      return { score: Math.min(s, 100), reasons: r };
+    }
+  },
+  {
+    id: 'afir_agro', name: 'AFIR — Procesare / Ferme', meta: 'Grant până la 200.000 EUR',
+    desc: 'Linii pentru ferme mici, tineri fermieri și firme de procesare agro-alimentară. Cofinanțare min. 15% la unele măsuri.',
+    docs: ['Plan de afaceri agricol','Cod CAEN agricol / procesare','Documente teren / spațiu','Bilanț (dacă există)','Dovada cofinanțării','Proiecții financiare'],
+    score(a) {
+      let s = 0; const r = [];
+      if (hasVal(a.domeniu, 'agro')) { s += 55; r.push([true,'Domeniu agro / procesare — criteriu principal']); }
+      else { r.push([false,'Dedicat sectorului agro-alimentar']); return { score: 0, reasons: r }; }
+      if (hasAny(a.varsta, ['foarte_tanar','tanar'])) { s += 20; r.push([true,'Tânăr fermier — bonus']); }
+      if (a.locatie === 'rural') { s += 15; r.push([true,'Mediu rural — punctat']); }
+      if (a.cofinantare !== 'nu') { s += 10; r.push([true,'Cofinanțare asigurată']); }
+      return { score: Math.min(s, 100), reasons: r };
+    }
+  },
+  {
+    id: 'femeia', name: 'Femeia Antreprenor', meta: 'Grant până la 200.000 lei',
+    desc: 'Schemă pentru firme conduse de femei asociat majoritar. Atenție: administratorul fără calitate de asociat majoritar nu este eligibil.',
+    docs: ['Act identitate asociat majoritar (femeie)','Plan de afaceri','Certificat înregistrare ONRC','Certificat fiscal (fără datorii ANAF)','Declarație de minimis','Proiecții financiare'],
+    score(a) {
+      let s = 0; const r = [];
+      if (a.gen === 'femeie_asociat') {
+        s += 45; r.push([true,'Asociat majoritar femeie — criteriu obligatoriu îndeplinit']);
+      } else if (a.gen === 'femeie_admin') {
+        r.push([false,'Administrator femeie fără calitate de asociat majoritar — NEELIGIBIL. Asociatul trebuie să fie femeie.']);
+        return { score: 0, reasons: r };
+      } else {
+        r.push([false,'Necesită asociat majoritar femeie — neeligibil']);
+        return { score: 0, reasons: r };
+      }
+      if (hasAny(a.firma_status, ['noua','micro'])) { s += 25; r.push([true,'Microîntreprindere — compatibil']); }
+      else if (a.firma_status === 'imm') { s += 15; r.push([true,'IMM — acceptat parțial']); }
+      if (a.angajari !== '0') { s += 18; r.push([true,'Creare locuri de muncă — punctat']); }
+      else { r.push([false,'Fără angajări scade punctajul']); }
+      if (a.cofinantare !== 'nu') { s += 12; r.push([true,'Cofinanțare asigurată']); }
       return { score: Math.min(s, 100), reasons: r };
     }
   },
   {
     id: 'social', name: 'Întreprinderi Sociale (PTJ)', meta: 'Grant 50.000 – 300.000 EUR',
     desc: 'Pentru întreprinderi sociale existente din 5 județe de tranziție justă. Înscrieri MySMIS până în august 2026.',
-    docs: ['Atestat de întreprindere socială', 'Sediu în județ eligibil', 'Plan de afaceri social', 'Bilanț contabil', 'Documente locuri de muncă', 'Certificat fiscal'],
+    docs: ['Atestat de întreprindere socială','Sediu în județ eligibil','Plan de afaceri social','Bilanț contabil','Documente locuri de muncă','Certificat fiscal'],
     score(a) {
       let s = 0; const r = [];
-      if (a.locatie === 'tranzitie') { s += 40; r.push([true, 'Județ de tranziție justă — eligibil']); }
-      else { r.push([false, 'Necesită sediu în județ de tranziție justă']); return { score: 5, reasons: r }; }
-      if (a.firma_status === 'micro' || a.firma_status === 'imm') { s += 25; r.push([true, 'Întreprindere existentă']); }
-      else { r.push([false, 'Necesită întreprindere socială existentă']); }
-      if (a.angajari !== '0') { s += 25; r.push([true, 'Creare locuri de muncă — esențial pentru economie socială']); }
+      if (a.locatie === 'tranzitie') { s += 40; r.push([true,'Județ de tranziție justă — eligibil']); }
+      else { r.push([false,'Necesită sediu în județ de tranziție justă']); return { score: 5, reasons: r }; }
+      if (hasAny(a.firma_status, ['micro','imm'])) { s += 25; r.push([true,'Întreprindere existentă']); }
+      else { r.push([false,'Necesită întreprindere socială existentă']); }
+      if (a.angajari !== '0') { s += 25; r.push([true,'Creare locuri de muncă — esențial pentru economie socială']); }
       return { score: Math.min(s, 100), reasons: r };
     }
   },
 ];
 
-// ════════════════════════════════════════════════════════════════════════════
-//  FLOW
-// ════════════════════════════════════════════════════════════════════════════
-let current = -1; // -1 = intro
+// ════════════════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════════════════
+let current = -1;
 const answers = {};
 
+// ════════════════════════════════════════════════════════════════════
+//  RENDER
+// ════════════════════════════════════════════════════════════════════
 function renderIntro() {
   document.getElementById('results-container').innerHTML = '';
   document.getElementById('step-indicator').textContent = 'Start';
@@ -380,11 +449,12 @@ function renderIntro() {
   document.getElementById('quiz-container').innerHTML = `
     <div class="intro">
       <div class="intro-title">Găsește linia de finanțare potrivită pentru afacerea ta</div>
-      <div class="intro-text">Răspunde la ${QUESTIONS.length} întrebări scurte. Motorul analizează profilul tău și îl compară cu 10 linii de finanțare active sau așteptate în 2026.</div>
+      <div class="intro-text">Răspunde la ${QUESTIONS.length} întrebări. Unele permit selectarea mai multor variante simultan. Motorul analizează profilul tău și îl compară cu 10 linii de finanțare active în 2026.</div>
       <ul class="intro-list">
         <li>Clasament cu scor de potrivire pentru fiecare linie</li>
         <li>Analiză de eligibilitate pe criterii reale</li>
         <li>Lista documentelor necesare + export PDF</li>
+        <li>Selectare multiplă unde e relevant (domeniu, componente)</li>
       </ul>
       <button class="btn btn-primary" onclick="start()">Începe chestionarul →</button>
     </div>`;
@@ -398,15 +468,38 @@ function renderQuestion() {
   document.getElementById('step-indicator').textContent = `Întrebarea ${current + 1} / ${QUESTIONS.length}`;
   document.getElementById('progress-fill').style.width = (current / QUESTIONS.length * 100) + '%';
 
-  let optionsHTML;
+  let inputHTML = '';
+
   if (q.type === 'number') {
-    optionsHTML = `<input type="number" class="num-input" id="num-input" placeholder="${q.placeholder || ''}" value="${answers[q.id] || ''}" oninput="answers['${q.id}']=this.value; updateNav()" />`;
+    inputHTML = `<input type="number" class="num-input" id="num-input"
+      placeholder="${q.placeholder || ''}"
+      value="${answers[q.id] || ''}"
+      oninput="answers['${q.id}']=this.value; updateNav()" />`;
+
+  } else if (q.type === 'multi') {
+    const cur = answers[q.id] || [];
+    const hintHTML = `<div class="q-multi-hint">☑ Poți selecta mai multe variante</div>`;
+    const opts = q.options.map(o => `
+      <div class="option-multi ${cur.includes(o.value) ? 'selected' : ''}"
+           onclick="toggleMulti('${q.id}','${o.value}')">
+        <div class="option-checkbox"></div>
+        <div class="option-text">${o.text}
+          ${o.note ? `<div class="option-note">${o.note}</div>` : ''}
+        </div>
+      </div>`).join('');
+    inputHTML = hintHTML + `<div class="options-multi">${opts}</div>`;
+
   } else {
-    optionsHTML = '<div class="options">' + q.options.map(o => `
-      <div class="option ${answers[q.id] === o.value ? 'selected' : ''}" onclick="selectOption('${q.id}','${o.value}')">
+    // single
+    const opts = q.options.map(o => `
+      <div class="option ${answers[q.id] === o.value ? 'selected' : ''}"
+           onclick="selectOption('${q.id}','${o.value}')">
         <div class="option-radio"></div>
-        <div class="option-text">${o.text}${o.note ? `<div class="option-note">${o.note}</div>` : ''}</div>
-      </div>`).join('') + '</div>';
+        <div class="option-text">${o.text}
+          ${o.note ? `<div class="option-note">${o.note}</div>` : ''}
+        </div>
+      </div>`).join('');
+    inputHTML = `<div class="options">${opts}</div>`;
   }
 
   document.getElementById('quiz-container').innerHTML = `
@@ -414,29 +507,62 @@ function renderQuestion() {
       <div class="q-num">Întrebarea ${current + 1}</div>
       <div class="q-title">${q.title}</div>
       <div class="q-help">${q.help}</div>
-      ${optionsHTML}
+      ${inputHTML}
       <div class="nav">
         <button class="btn btn-ghost" onclick="prev()">← Înapoi</button>
-        <button class="btn btn-primary" id="next-btn" onclick="next()">${current === QUESTIONS.length - 1 ? 'Vezi rezultatele →' : 'Continuă →'}</button>
+        <button class="btn btn-primary" id="next-btn" onclick="next()">
+          ${current === QUESTIONS.length - 1 ? 'Vezi rezultatele →' : 'Continuă →'}
+        </button>
       </div>
     </div>`;
   updateNav();
 }
 
-function selectOption(qid, val) { answers[qid] = val; renderQuestion(); }
+// single
+function selectOption(qid, val) {
+  answers[qid] = val;
+  renderQuestion();
+}
+
+// multi — toggle
+function toggleMulti(qid, val) {
+  if (!answers[qid]) answers[qid] = [];
+  const idx = answers[qid].indexOf(val);
+  if (idx === -1) answers[qid].push(val);
+  else answers[qid].splice(idx, 1);
+  renderQuestion();
+}
+
 function updateNav() {
   const q = QUESTIONS[current];
-  const btn = document.getElementById('next-btn'); if (!btn) return;
-  const valid = q.type === 'number' ? (answers[q.id] && parseFloat(answers[q.id]) > 0) : !!answers[q.id];
+  const btn = document.getElementById('next-btn');
+  if (!btn) return;
+  let valid = false;
+  if (q.type === 'number') valid = !!(answers[q.id] && parseFloat(answers[q.id]) > 0);
+  else if (q.type === 'multi') valid = !!(answers[q.id] && answers[q.id].length > 0);
+  else valid = !!answers[q.id];
   btn.disabled = !valid;
 }
-function next() { if (current < QUESTIONS.length - 1) { current++; renderQuestion(); } else { showResults(); } }
-function prev() { if (current > 0) { current--; renderQuestion(); } else { current = -1; renderIntro(); } }
 
-function computeResults() { return PROGRAMS.map(p => ({ ...p, ...p.score(answers) })).sort((a, b) => b.score - a.score); }
+function next() {
+  if (current < QUESTIONS.length - 1) { current++; renderQuestion(); }
+  else { showResults(); }
+}
+function prev() {
+  if (current > 0) { current--; renderQuestion(); }
+  else { current = -1; renderIntro(); }
+}
+
+// ════════════════════════════════════════════════════════════════════
+//  RESULTS
+// ════════════════════════════════════════════════════════════════════
+function computeResults() {
+  return PROGRAMS.map(p => ({ ...p, ...p.score(answers) }))
+    .sort((a, b) => b.score - a.score);
+}
 function statusClass(s) { return s >= 65 ? 'status-high' : s >= 40 ? 'status-mid' : 'status-low'; }
-function statusText(s) { return s >= 65 ? 'Potrivire ridicată' : s >= 40 ? 'Potrivire medie' : 'Potrivire scăzută'; }
-function barColor(s) { return s >= 65 ? 'var(--green)' : s >= 40 ? 'var(--amber)' : 'var(--red)'; }
+function statusText(s)  { return s >= 65 ? 'Potrivire ridicată' : s >= 40 ? 'Potrivire medie' : 'Potrivire scăzută'; }
+function barColor(s)    { return s >= 65 ? 'var(--green)' : s >= 40 ? 'var(--amber)' : 'var(--red)'; }
 
 function showResults() {
   document.getElementById('progress-fill').style.width = '100%';
@@ -457,17 +583,26 @@ function showResults() {
           <div class="match-score-label">/ 100</div>
         </div>
       </div>
-      <div class="match-bar-track"><div class="match-bar-fill" style="width:${r.score}%;background:${barColor(r.score)}"></div></div>
+      <div class="match-bar-track">
+        <div class="match-bar-fill" style="width:${r.score}%;background:${barColor(r.score)}"></div>
+      </div>
       <span class="match-status ${statusClass(r.score)}">${statusText(r.score)}</span>
       <div class="expand-hint" onclick="toggleCard('${r.id}')">▾ Detalii eligibilitate & documente</div>
       <div class="match-detail">
         <div class="detail-section-title">Analiză eligibilitate</div>
         <div class="detail-list">
-          ${r.reasons.map(([ok, txt]) => `<div class="detail-item"><span class="detail-icon ${ok ? 'ok-icon' : 'no-icon'}">${ok ? '✓' : '✕'}</span><span>${txt}</span></div>`).join('')}
+          ${r.reasons.map(([ok, txt]) => `
+            <div class="detail-item">
+              <span class="detail-icon ${ok ? 'ok-icon' : 'no-icon'}">${ok ? '✓' : '✕'}</span>
+              <span>${txt}</span>
+            </div>`).join('')}
         </div>
         <div class="detail-section-title">Documente necesare</div>
         <div class="detail-list">
-          ${r.docs.map(d => `<div class="doc-item"><span class="doc-bullet">▪</span><span>${d}</span></div>`).join('')}
+          ${r.docs.map(d => `
+            <div class="doc-item">
+              <span class="doc-bullet">▪</span><span>${d}</span>
+            </div>`).join('')}
         </div>
       </div>
     </div>`).join('');
@@ -477,30 +612,47 @@ function showResults() {
     <div class="results">
       <div class="results-head">
         <div class="results-title">Rezultatul analizei</div>
-        <div class="results-sub">${best.score >= 40 ? `Cea mai bună potrivire: <strong style="color:${barColor(best.score)}">${best.name}</strong>` : 'Nicio linie nu are potrivire ridicată — recomandăm consultanță individuală.'}</div>
+        <div class="results-sub">
+          ${best.score >= 40
+            ? `Cea mai bună potrivire: <strong style="color:${barColor(best.score)}">${best.name}</strong>`
+            : 'Nicio linie nu are potrivire ridicată — recomandăm consultanță individuală.'}
+        </div>
       </div>
       ${cards}
       <div class="results-actions">
         <button class="btn-export" onclick="restart()">↺ Reîncepe</button>
         <button class="btn-export pdf" onclick="exportPDF()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <line x1="9" y1="15" x2="15" y2="15"/>
+          </svg>
           Descarcă raport PDF
         </button>
       </div>
       <div class="disclaimer">
-        <strong>Notă:</strong> Estimare orientativă pe baza criteriilor generale ale liniilor de finanțare cunoscute pentru 2026. Unele programe (Microindustrializare, Comerț) au buget incert pentru sesiuni noi în 2026. Punctajele nu garantează aprobarea. Verificați ghidul solicitantului în vigoare și consultați un specialist înainte de depunere.
+        <strong>Notă:</strong> Estimare orientativă pe baza criteriilor generale ale liniilor de finanțare cunoscute pentru 2026.
+        Unele programe au buget incert. Punctajele nu garantează aprobarea.
+        Verificați ghidul solicitantului în vigoare și consultați un specialist înainte de depunere.
       </div>
-
       <div class="cta-block">
         <div class="cta-title">Vrei să mergem mai departe?</div>
         <div class="cta-sub">Discută rezultatul cu un specialist și pregătește dosarul corect de la început.</div>
         <div class="cta-buttons">
           <a class="cta-btn cta-whatsapp" href="${buildWhatsApp(results)}" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1 0 12 2"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1 0 12 2"/>
+            </svg>
             Trimite solicitare WhatsApp
           </a>
           <a class="cta-btn cta-calendly" href="https://calendly.com/otilia-ioana96/30min" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
             Programează o consultație
           </a>
         </div>
@@ -513,10 +665,9 @@ function showResults() {
 }
 
 const WHATSAPP_NR = '40749229686';
-
 function buildWhatsApp(results) {
   const best = results[0];
-  const top3 = results.slice(0, 3).map((r, i) => `${i + 1}. ${r.name} (${r.score}/100)`).join('\n');
+  const top3 = results.slice(0,3).map((r,i) => `${i+1}. ${r.name} (${r.score}/100)`).join('\n');
   const inv = answers.investitie ? parseFloat(answers.investitie).toLocaleString('ro-RO') + ' LEI' : 'nespecificat';
   const msg =
     `Bună ziua, Otilia! Am completat chestionarul de finanțare.\n\n` +
@@ -528,10 +679,23 @@ function buildWhatsApp(results) {
 }
 
 function toggleCard(id) { document.getElementById('card-' + id).classList.toggle('expanded'); }
-function restart() { current = -1; for (const k in answers) delete answers[k]; document.getElementById('results-container').innerHTML = ''; renderIntro(); }
+function restart() {
+  current = -1;
+  for (const k in answers) delete answers[k];
+  document.getElementById('results-container').innerHTML = '';
+  renderIntro();
+}
 
+// ════════════════════════════════════════════════════════════════════
+//  PDF EXPORT
+// ════════════════════════════════════════════════════════════════════
 let toastTimeout;
-function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastTimeout); toastTimeout = setTimeout(() => t.classList.remove('show'), 2200); }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.classList.remove('show'), 2200);
+}
 
 function exportPDF() {
   if (!window.jspdf) { showToast('⚠️ Librăria PDF se încarcă, reîncercați.'); return; }
@@ -542,52 +706,55 @@ function exportPDF() {
   const W = 210; let y = 0;
 
   doc.setFillColor(17, 19, 24); doc.rect(0, 0, W, 40, 'F');
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(18); doc.setTextColor(232, 236, 244);
+  doc.setFont('helvetica','bold'); doc.setFontSize(18); doc.setTextColor(232,236,244);
   doc.text('Raport Potrivire Finantare 2026', 16, 18);
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(90, 100, 120);
+  doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(90,100,120);
   doc.text('Analiza orientativa — 10 linii de finantare', 16, 25);
   doc.text('Generat: ' + date, 16, 31);
-
   y = 50;
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(40, 40, 40);
+
+  doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(40,40,40);
   doc.text('Clasament linii de finantare', 16, y); y += 6;
 
   doc.autoTable({
     startY: y,
-    head: [['#', 'Linie de finantare', 'Plafon', 'Scor', 'Potrivire']],
-    body: results.map((r, i) => [i + 1, r.name, r.meta, r.score + '/100', statusText(r.score)]),
+    head: [['#','Linie de finantare','Plafon','Scor','Potrivire']],
+    body: results.map((r,i) => [i+1, r.name, r.meta, r.score+'/100', statusText(r.score)]),
     theme: 'plain',
-    styles: { font: 'helvetica', fontSize: 8, cellPadding: 3, textColor: [40, 40, 40] },
-    headStyles: { fillColor: [17, 19, 24], textColor: [200, 208, 220], fontSize: 7.5, fontStyle: 'bold' },
-    alternateRowStyles: { fillColor: [245, 246, 250] },
-    columnStyles: { 0: { cellWidth: 8, halign: 'center' }, 3: { halign: 'right', fontStyle: 'bold' } },
-    margin: { left: 16, right: 16 },
+    styles: { font:'helvetica', fontSize:8, cellPadding:3, textColor:[40,40,40] },
+    headStyles: { fillColor:[17,19,24], textColor:[200,208,220], fontSize:7.5, fontStyle:'bold' },
+    alternateRowStyles: { fillColor:[245,246,250] },
+    columnStyles: { 0:{cellWidth:8,halign:'center'}, 3:{halign:'right',fontStyle:'bold'} },
+    margin: { left:16, right:16 },
   });
   y = doc.lastAutoTable.finalY + 12;
 
   results.forEach(r => {
     if (y > 235) { doc.addPage(); y = 20; }
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(40, 40, 40);
+    doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(40,40,40);
     doc.text(`${r.name}  —  ${r.score}/100`, 16, y); y += 4.5;
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(110, 110, 110);
+    doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(110,110,110);
     const d = doc.splitTextToSize(r.meta + '. ' + r.desc, W - 32);
     doc.text(d, 16, y); y += d.length * 4 + 2;
-
-    doc.autoTable({ startY: y, head: [['Analiza eligibilitate']], body: r.reasons.map(([ok, t]) => [(ok ? '[DA] ' : '[NU] ') + t]), theme: 'plain', styles: { font: 'helvetica', fontSize: 8, cellPadding: 2, textColor: [50, 50, 50] }, headStyles: { fillColor: [240, 242, 246], textColor: [79, 156, 249], fontSize: 7, fontStyle: 'bold' }, margin: { left: 16, right: 16 } });
+    doc.autoTable({ startY:y, head:[['Analiza eligibilitate']], body:r.reasons.map(([ok,t]) => [(ok?'[DA] ':'[NU] ')+t]), theme:'plain', styles:{font:'helvetica',fontSize:8,cellPadding:2,textColor:[50,50,50]}, headStyles:{fillColor:[240,242,246],textColor:[79,156,249],fontSize:7,fontStyle:'bold'}, margin:{left:16,right:16} });
     y = doc.lastAutoTable.finalY + 2;
-    doc.autoTable({ startY: y, head: [['Documente necesare']], body: r.docs.map(x => ['- ' + x]), theme: 'plain', styles: { font: 'helvetica', fontSize: 8, cellPadding: 2, textColor: [50, 50, 50] }, headStyles: { fillColor: [240, 242, 246], textColor: [79, 156, 249], fontSize: 7, fontStyle: 'bold' }, margin: { left: 16, right: 16 } });
+    doc.autoTable({ startY:y, head:[['Documente necesare']], body:r.docs.map(x => ['- '+x]), theme:'plain', styles:{font:'helvetica',fontSize:8,cellPadding:2,textColor:[50,50,50]}, headStyles:{fillColor:[240,242,246],textColor:[79,156,249],fontSize:7,fontStyle:'bold'}, margin:{left:16,right:16} });
     y = doc.lastAutoTable.finalY + 9;
   });
 
   if (y > 255) { doc.addPage(); y = 20; }
-  doc.setFont('helvetica', 'italic'); doc.setFontSize(7); doc.setTextColor(130, 130, 130);
-  const disc = doc.splitTextToSize('Nota: Estimare orientativa bazata pe criterii generale pentru liniile cunoscute in 2026. Unele programe au buget incert. Nu reprezinta o garantie de aprobare. Verificati ghidul solicitantului in vigoare si consultati un specialist inainte de depunere.', W - 32);
+  doc.setFont('helvetica','italic'); doc.setFontSize(7); doc.setTextColor(130,130,130);
+  const disc = doc.splitTextToSize('Nota: Estimare orientativa bazata pe criterii generale pentru liniile cunoscute in 2026. Nu reprezinta o garantie de aprobare. Verificati ghidul solicitantului in vigoare.', W - 32);
   doc.text(disc, 16, y);
 
   const pages = doc.internal.getNumberOfPages();
-  for (let i = 1; i <= pages; i++) { doc.setPage(i); doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(150, 150, 150); doc.text('Raport Potrivire Finantare 2026', 16, 290); doc.text('Pagina ' + i + ' / ' + pages, W - 16, 290, { align: 'right' }); }
-
-  doc.save('Raport_Finantare_2026_' + date.replace(/\./g, '-') + '.pdf');
+  for (let i = 1; i <= pages; i++) {
+    doc.setPage(i);
+    doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(150,150,150);
+    doc.text('Raport Potrivire Finantare 2026', 16, 290);
+    doc.text('Pagina '+i+' / '+pages, W-16, 290, { align:'right' });
+  }
+  doc.save('Raport_Finantare_2026_' + date.replace(/\./g,'-') + '.pdf');
   showToast('✓ PDF exportat cu succes');
 }
 

@@ -3,199 +3,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Evaluarea Sinelui & Dharma — Metanoia</title>
+<title>Testul Dharma — Jay Shetty (Gândește ca un călugăr)</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Karla:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
     :root {
-        --v1: #4a6c8f; --v2: #6f93b8; --c1: #faf5ec; --c2: #f2e8d0;
-        --t1: #c4622d; --tx1: #141a24; --tx2: #2c3648;
+        --bg: #faf5ec; --card: #ffffff; --primary: #c4622d; --secondary: #4a6c8f; --text: #141a24; --text-muted: #5f6c80; --border: #e8d5b0;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-        font-family: 'Karla', sans-serif; background: var(--c1); color: var(--tx1);
-        display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
+        font-family: 'Karla', sans-serif; background-color: var(--bg); color: var(--text);
+        display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px;
     }
-    .container {
-        background: #fff; width: 100%; max-width: 550px; padding: 30px;
-        border-radius: 0; border: 2px solid var(--c2);
-        box-shadow: 0 12px 32px rgba(111,147,184,0.12);
+    .wrapper {
+        background: var(--card); width: 100%; max-width: 500px; padding: 25px;
+        border: 2px solid var(--border); box-shadow: 0 8px 24px rgba(74,108,143,0.1);
     }
-    h1 {
-        font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.8rem;
-        color: var(--v1); text-align: center; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;
+    .header { text-align: center; margin-bottom: 25px; }
+    h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--secondary); text-transform: uppercase; letter-spacing: 1px; }
+    .subtitle { font-size: 0.75rem; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
+    .progress-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
+    .progress-bar { width: 75%; height: 6px; background: var(--border); position: relative; border-radius: 3px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
+    .q-box { display: none; }
+    .q-box.active { display: block; }
+    .q-text { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 20px; line-height: 1.4; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .opt-btn {
+        background: var(--bg); border: 1px solid var(--border); padding: 14px; text-align: left;
+        font-family: 'Karla', sans-serif; font-size: 0.9rem; color: var(--text); cursor: pointer;
+        transition: all 0.2s ease; font-weight: 500; line-height: 1.3;
     }
-    .subtitle { text-align: center; font-size: 0.85rem; color: var(--t1); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
-    .progress-bar { width: 100%; height: 4px; background: var(--c2); margin-bottom: 25px; position: relative; }
-    .progress-fill { height: 100%; background: var(--t1); width: 8.33%; transition: width 0.3s ease; }
-    .question-box { display: none; }
-    .question-box.active { display: block; animation: fadeIn 0.4s ease; }
-    .question-text { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--tx2); margin-bottom: 20px; line-height: 1.4; }
-    .options { display: flex; flex-direction: column; gap: 12px; }
-    .option-btn {
-        background: var(--c1); border: 1px solid var(--c2); padding: 16px; text-align: left;
-        font-family: 'Karla', sans-serif; font-size: 0.95rem; color: var(--tx2); cursor: pointer;
-        transition: all 0.2s ease; font-weight: 500; line-height: 1.4;
+    .opt-btn:hover { background: var(--border); }
+    .opt-btn.selected { background: var(--secondary); color: #fff; border-color: var(--secondary); }
+    .footer-nav { display: flex; justify-content: space-between; margin-top: 25px; }
+    .nav-btn {
+        background: var(--secondary); color: #fff; border: none; padding: 10px 20px;
+        font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.75rem;
+        cursor: pointer; transition: opacity 0.2s; width: 48%;
     }
-    .option-btn:hover { background: var(--c2); border-color: var(--v2); }
-    .option-btn.selected { background: var(--v1); color: #fff; border-color: var(--v1); }
-    .nav-btns { display: flex; justify-content: space-between; margin-top: 30px; gap: 15px; }
-    button.nav-action {
-        background: var(--v2); color: #fff; border: none; padding: 12px 24px;
-        font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;
-        cursor: pointer; transition: background 0.2s; width: 48%;
-    }
-    button.nav-action:hover { background: var(--v1); }
-    button:disabled { background: #ccc !important; cursor: not-allowed; }
-    #result-box { display: none; animation: fadeIn 0.5s ease; }
-    .result-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--t1); margin-bottom: 15px; text-align: center; }
-    .result-section { margin-bottom: 20px; padding: 15px; background: var(--c1); border-left: 3px solid var(--v1); }
-    .result-section h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 8px; color: var(--v1); }
-    .result-section p { font-size: 0.92rem; line-height: 1.6; color: var(--tx2); }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .nav-btn:hover { opacity: 0.9; }
+    .nav-btn:disabled { background: #ccc !important; cursor: not-allowed; opacity: 0.6; }
+    #result-box { display: none; }
+    .result-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--primary); margin-bottom: 15px; text-align: center; font-weight: 900; }
+    .result-card { padding: 15px; background: var(--bg); border-left: 4px solid var(--primary); margin-bottom: 15px; }
+    .result-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--secondary); margin-bottom: 6px; }
+    .result-card p { font-size: 0.88rem; line-height: 1.5; color: var(--text); }
 </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Metanoia</h1>
-    <div class="subtitle">Evaluarea Sinelui & Dharma</div>
+<div class="wrapper">
+    <div class="header">
+        <h1>Gândește ca un călugăr</h1>
+        <div class="subtitle">Testul Varnas &bull; Descoperă-ți Dharma</div>
+    </div>
     
-    <div id="quiz-wrapper">
-        <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
-        <div id="questions-container"></div>
-        <div class="nav-btns">
-            <button class="nav-action" id="prev-btn" onclick="navigate(-1)" disabled>Înapoi</button>
-            <button class="nav-action" id="next-btn" onclick="navigate(1)" disabled>Înainte</button>
+    <div id="quiz-area">
+        <div class="progress-container">
+            <span id="q-counter">Întrebarea 1 din 10</span>
+            <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+        </div>
+        <div id="dynamic-questions"></div>
+        <div class="footer-nav">
+            <button class="nav-btn" id="prev" onclick="move(-1)" disabled>Înapoi</button>
+            <button class="nav-btn" id="next" onclick="move(1)" disabled>Înainte</button>
         </div>
     </div>
 
     <div id="result-box">
-        <div class="result-title">Profilul tău de Aliniere</div>
-        <div id="result-content"></div>
-        <button class="nav-action" style="width:100%; margin-top:20px; padding:15px;" onclick="window.location.reload()">Refă Chestionarul</button>
+        <div class="result-title">Arhetipul Tău Varna</div>
+        <div id="result-text"></div>
+        <button class="nav-btn" style="width:100%; margin-top:15px; padding:12px;" onclick="window.location.reload()">Refă Testul</button>
     </div>
 </div>
 
 <script>
-const data = [
-    { q: "1. Când cei apropiați îți critică planurile sau viziunea, ce se întâmplă în interiorul tău?", a: "Mă enervez, mă cert și consum energie încercând să le dovedesc că am dreptate.", b: "Tac, înghit nodul în gât și mimez că fac ca ei pentru liniște, deși pe interior fierb.", c: "Îi ascult rece, le izolez panica și îmi văd de execuție în secret, fără să le cer aprobarea." },
-    { q: "2. Cum simți în profunzime momentele în care nu ai lichidități (bani) în cont?", a: "Ca pe o rușine sau un eșec personal care îmi taie temporar încrederea în mine.", b: "Ca pe o sclavie cruntă — mă obligă să accept compromisuri, medii sau oameni toxici.", c: "Ca pe o simplă problemă tehnică de cash-flow; mă enervează, dar știu exact cum să generez alții." },
-    { q: "3. În relațiile de zi cu zi sau în muncă, unde simți că se află cel mai mare DEFECT al tău?", a: "Toleranța prea lungă la nesimțire: rabd și acumulez mult înainte să explodez și să tai punțile.", b: "Mândria și impulsivitatea: când mă simt călcată pe coadă, pot distruge o punte instant din orgoliu.", c: "Rigiditatea și încăpățânarea oarbă: merg înainte pe drumul meu chiar și când dau cu capul de zid." },
-    { q: "4. În ce context simți că rulezi instant în 'Zona ta de Geniu' (Abilitatea Supremă)?", a: "În creație pură: design, arhitectură de brand, cod, rețete premium, adică transformarea ideii în estetică.", b: "În managementul crizelor: când e haos complet în jur, eu sunt singura care rămâne lucidă și organizează salvarea.", c: "În influență și expansiune: când conving oamenii, vând concepte și îi fac pe alții să creadă în viziune." },
-    { q: "5. Ce te sperie de fapt cel mai mult când te gândești la succesul tău absolut și libertate deplină?", a: "Faptul că voi fi complet singură pe cont propriu, fără să mai am pe ce context sau fabrică să dau vina.", b: "Invidia sau izolarea: frica subconștientă că oamenii apropiați nu mă vor mai putea controla și mă vor bârfi.", c: "Nu mă sperie absolut nimic, sunt structural pregătită să îmi asum zborul total." },
-    { q: "6. Cum reacționează sistemul tău nervos atunci când ești într-o stare de epuizare extremă?", a: "Devin hiperactivă și agitată: încep să fac o mie de lucruri deodată ca să fug psihic de oboseală.", b: "Clachez emoțional: plâng din detalii minore sau refulez nervos pe primul om care îmi iese în cale.", c: "Intru în modul robot: mă izolez complet, devin extrem de rece și execut mecanic doar ce e critic." },
-    { q: "7. Care este capcana sau minciuna personală pe care ți-o repeți cel mai des pe post de alibi?", a: "Refugiul în viitor: 'Mai suport puțin contextul ăsta doar până strâng o sumă fixă de bani'.", b: "Sindromul salvatorului: 'Trebuie să rezolv eu problemele tuturor din jur, abia apoi am dreptul să exist eu'.", c: "Hiper-independența defensivă: 'Pot și trebuie să le fac pe toate singură, nu am nevoie și nu mă încred în nimeni'." },
-    { q: "8. Ce tip de comportament te scoate instant din starea de echilibru și îți activează furia?", a: "Mediocritatea asumată: oamenii lenți, pasivi, care nu vor nimic de la viață dar se plâng continuu.", b: "Abuzul de putere: șefii incompetenți sau partenerii care încearcă să îmi dicteze mie ce am voie să fac.", c: "Falsitatea structurală: lingușitorii, măștile duble și oamenii care își schimbă caracterul după interes." },
-    { q: "9. În momentul în care îți vine o idee extraordinară (un produs gourmet, o strategie nouă), ce faci?", a: "O împărtășesc rapid cu cei apropiați ca să le testez reacția, dar mă ofilesc dacă ei nu o înțeleg.", b: "O blochez în analiză: o întorc pe toate fețele din perfecționism, de frică să nu dau greș în public.", c: "Trec direct la execuție agresivă (fac codul, pun pe Insta, configurez plăți) înainte ca cineva să poată zică nu." },
-    { q: "10. Care este combustibilul emoțional real care îți alimentează ambiția în momentele grele?", a: "Nevoia de validare: dorința ca valoarea și inteligența mea să fie recunoscute oficial de ceilalți.", b: "Răzbunarea constructivă: ambiția de a le demonstra celor care m-au subestimat sau controlat cine sunt eu.", c: "Autonomia radicală: dorința să nu depind niciodată de nicio dispoziție, semnătură sau portofel străin." },
-    { q: "11. Cum se manifestă relația ta cu regulile sau structurile ierarhice impuse de un sistem extern?", a: "Le respect formal pentru a evita conflictele, dar îmi construiesc subtil propriile culoare de libertate.", b: "Le resping visceral: simt o nevoie nativă de a le dărâma sau sabota dacă nu le găsesc o logică perfectă.", c: "Le folosesc strategic: le învăț mecanismul perfect doar ca să le domin și să le pun să lucreze în avantajul meu." },
-    { q: "12. Când priviți profund în interior, ce înseamnă de fapt conceptul de 'Misiune' (Dharma) pentru tine?", a: "Să creez structuri de frumos și calitate premium care să ridice standardul comunității din jur.", b: "Să acționez ca un pilon de putere și protecție pentru cei vulnerabili (copil, oameni dragi), fiind un scut în criză.", c: "Să cuceresc independența totală și să las în spate un sistem de business automatizat, construit de mine." }
+const testData = [
+    { q: "1. Ce te motivează cel mai mult în activitatea ta zilnică?", a: "Să caut adevărul, să învăț continuu și să împărtășesc cunoașterea cu ceilalți.", b: "Să organizez echipe, să protejez oamenii și să am control asupra rezultatului.", c: "Să creez produse, să fac strategii de marketing, să vând sau să generat profit.", d: "Să ajut la execuție, să fiu omul de bază pe care se bazează structura în mod practic." },
+    { q: "2. Într-o situație de criză majoră, care este tendința ta instinctivă?", a: "Să analizez profund cauzele și să caut înțelepciunea sau logica din spatele problemei.", b: "Să preiau imediat conducerea, să dau sarcini clare și să apăr persoanele implicate.", c: "Să caut soluția cea mai profitabilă sau inovatoare pentru a transforma criza în oportunitate.", d: "Să ofer sprijin operațional imediat, rezolvând problemele practice fără să mă pun în față." },
+    { q: "3. Cum îți place cel mai mult să lucrezi în cadrul unui proiect?", a: "Independent, având libertatea totală de a explora idei și concepte profunde.", b: "Ca manager sau lider care coordonează execuția și stabilește viziunea mare.", c: "În rețea, colaborând strâns cu clienții, partenerii sau echipa de vânzări.", d: "Ca parte dintr-o structură stabilă, concentrându-mă pe calitatea muncii mele." },
+    { q: "4. Ce mediu de lucru îți consumă cel mai repede energia sau te stresează?", a: "Un mediu superficial, unde se prețuiesc doar banii sau aparențele, nu calitatea ideilor.", b: "Un mediu haotic, unde nimeni nu își asumă răspunderea și deciziile sunt slabe.", c: "Un mediu rigid, birocratic, care îmi blochează creativitatea sau capacitatea de a vinde.", d: "Un mediu instabil, unde regulile și cerințele se schimbă de la o oră la alta din impuls." },
+    { q: "5. Dacă ai primi o sumă mare de bani, care ar fi primul tău impuls strategic?", a: "I-aș investi în educație, cărți, cercetare sau cursuri de dezvoltare profundă.", b: "I-aș folosi pentru a extinde influența afacerii mele și a oferi protecție/siguranță familiei.", c: "I-aș rula imediat în noi linii de produse, campanii de promovare sau stocuri premium.", d: "I-aș pune în siguranță pentru stabilitatea casei, investind în optimizarea vieții practice." },
+    { q: "6. Care dintre următoarele abilități consideri că este super-puterea ta?", a: "Capacitatea de a vedea esența lucrurilor și de a explica pe înțelesul tuturor ideile complexe.", b: "Curajul de a lua decizii grele sub presiune și de a gestiona riscurile macro.", c: "Creativitatea comercială: designul de brand, identificarea nișelor și arta de a negocia.", d: "Loialitatea, atenția chirurgicală la detalii în execuție și finalizarea sarcinilor dificile." },
+    { q: "7. Ce tip de recunoaștere îți aduce cea mai mare satisfacție interioară?", a: "Când cineva îmi spune: 'M-ai ajutat să înțeleg lucrurile complet diferit, mi-ai schimbat mintea'.", b: "Când echipa sau partenerii mă respectă pentru corectitudinea și puterea mea de decizie.", c: "Când văd că un concept creat de mine (site, produs, meniu) se vinde masiv și e validat de piață.", d: "Când sunt apreciată ca fiind pilonul de încredere fără de care proiectul s-ar fi prăbușit." },
+    { q: "8. Ce defect îți reproșezi cel mai des în momentele tale de auto-analiză?", a: "Că tind să analizez prea mult pe interior și devin prea detașată sau critică cu ceilalți.", b: "Că sunt prea impulsivă sau mândră atunci când simt că cineva îmi contestă autoritatea.", c: "Că mă plictisesc repede de detalii administrative și vreau mereu să trec la următorul proiect mare.", d: "Că accept prea multe sarcini de la alții, punându-mă uneori pe ultimul loc din datorie." },
+    { q: "9. Cum vezi rolul tău în construirea brandului tău (de exemplu, Metanoia/Soul Meal)?", a: "Să fiu filosoful din spate: cel care definește valorile, conceptul profund și identitatea spirituală.", b: "Să fiu managerul de proiect: cel care controlează execuția, termenele și milestone-urile.", c: "Să fiu motorul comercial: cel care creează produsele premium, designul și atrage clienții.", d: "Să fiu specialistul de încredere: cel care se asigură că logistica și baza funcționează perfect." },
+    { q: "10. Pentru tine, definiția supremă a libertății înseamnă:", a: "Să am mintea liberă de dogme și timp suficient pentru a contempla și învăța.", b: "Să am autonomie totală asupra deciziilor mele, fără directivă de la niciun șef extern.", c: "Să am independență financiară completă generată de propriile mele sisteme comerciale.", d: "Să am liniște, stabilitate și siguranța că munca mea este utilă și protejată." }
 ];
 
-let currentStep = 0;
-const answers = new Array(data.length).fill(null);
+let currentIdx = 0;
+const userAnswers = new Array(testData.length).fill(null);
 
-function initQuiz() {
-    const container = document.getElementById('questions-container');
-    data.forEach((item, index) => {
-        const box = document.createElement('div');
-        box.className = `question-box ${index === 0 ? 'active' : ''}`;
-        box.id = `q-box-${index}`;
-        box.innerHTML = `
-            <div class="question-text">${item.q}</div>
+function buildQuiz() {
+    const holder = document.getElementById('dynamic-questions');
+    testData.forEach((box, i) => {
+        const qDiv = document.createElement('div');
+        qDiv.className = `q-box ${i === 0 ? 'active' : ''}`;
+        qDiv.id = `step-${i}`;
+        qDiv.innerHTML = `
+            <div class="q-text">${box.q}</div>
             <div class="options">
-                <button class="option-btn" onclick="selectOption(${index}, 'A', this)">${item.a}</button>
-                <button class="option-btn" onclick="selectOption(${index}, 'B', this)">${item.b}</button>
-                <button class="option-btn" onclick="selectOption(${index}, 'C', this)">${item.c}</button>
+                <button class="opt-btn" onclick="hitOption(${i}, 'A', this)">${box.a}</button>
+                <button class="opt-btn" onclick="hitOption(${i}, 'B', this)">${box.b}</button>
+                <button class="opt-btn" onclick="hitOption(${i}, 'C', this)">${box.c}</button>
+                <button class="opt-btn" onclick="hitOption(${i}, 'D', this)">${box.d}</button>
             </div>
         `;
-        container.appendChild(box);
+        holder.appendChild(qDiv);
     });
+    updateProgress();
 }
 
-function selectOption(qIndex, option, btnElement) {
-    answers[qIndex] = option;
-    const buttons = btnElement.parentElement.querySelectorAll('.option-btn');
-    buttons.forEach(btn => btn.classList.remove('selected'));
-    btnElement.classList.add('selected');
-    document.getElementById('next-btn').disabled = false;
+function hitOption(qIdx, type, btn) {
+    userAnswers[qIdx] = type;
+    const allBtns = btn.parentElement.querySelectorAll('.opt-btn');
+    allBtns.forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('next').disabled = false;
 }
 
-function navigate(direction) {
-    document.getElementById(`q-box-${currentStep}`).classList.remove('active');
-    currentStep += direction;
+function updateProgress() {
+    document.getElementById('q-counter').innerText = `Întrebarea ${currentIdx + 1} din ${testData.length}`;
+    const pct = ((currentIdx) / testData.length) * 100;
+    document.getElementById('fill').style.width = `${pct}%`;
+}
+
+function move(dir) {
+    document.getElementById(`step-${currentIdx}`).classList.remove('active');
+    currentIdx += dir;
     
-    if (currentStep >= data.length) {
-        showResults();
+    if (currentIdx >= testData.length) {
+        processDharma();
         return;
     }
     
-    document.getElementById(`q-box-${currentStep}`).classList.add('active');
-    document.getElementById('prev-btn').disabled = currentStep === 0;
-    document.getElementById('next-btn').disabled = answers[currentStep] === null;
+    document.getElementById(`step-${currentIdx}`).classList.add('active');
+    document.getElementById('prev').disabled = currentIdx === 0;
+    document.getElementById('next').disabled = userAnswers[currentIdx] === null;
     
-    // Update progress bar
-    const progressPercent = ((currentStep + 1) / data.length) * 100;
-    document.getElementById('progress').style.width = `${progressPercent}%`;
-    if(currentStep === data.length - 1) {
-        document.getElementById('next-btn').innerText = "Vezi Evaluarea";
+    updateProgress();
+    if(currentIdx === testData.length - 1) {
+        document.getElementById('next').innerText = "Află Dharma";
     } else {
-        document.getElementById('next-btn').innerText = "Înainte";
+        document.getElementById('next').innerText = "Înainte";
     }
 }
 
-function showResults() {
-    document.getElementById('quiz-wrapper').style.display = 'none';
-    const resultBox = document.getElementById('result-box');
-    const content = document.getElementById('result-content');
-    resultBox.style.display = 'block';
+function processDharma() {
+    document.getElementById('quiz-area').style.display = 'none';
+    const rBox = document.getElementById('result-box');
+    const txt = document.getElementById('result-text');
+    rBox.style.display = 'block';
 
-    const counts = { A: 0, B: 0, C: 0 };
-    answers.forEach(ans => { if(ans) counts[ans]++; });
+    const scores = { A: 0, B: 0, C: 0, D: 0 };
+    userAnswers.forEach(ans => { if(ans) scores[ans]++; });
 
-    let arhetip = "", dharma = "", puncteTare = "", puncteSlab = "";
+    let main = 'A';
+    if(scores.B > scores[main]) main = 'B';
+    if(scores.C > scores[main]) main = 'C';
+    if(scores.D > scores[main]) main = 'D';
 
-    if (counts.C >= counts.A && counts.C >= counts.B) {
-        arhetip = "Arhitectul Autonom (Profil Dominant Execuție & Rechin de Business)";
-        dharma = "Să construiești sisteme independente de business (Metanoia/Soul Meal) bazate pe viteză și pragmatism brut, tăind dependențele emoționale.";
-        puncteTare = "Viteză militară de execuție, rezistență excepțională la stres, gândire logică detașată în momente de criză monetară sau personală.";
-        puncteSlab = "Hiper-independență defensivă (refuzul de a cere sau accepta ajutor), tendința de a intra în modul 'robot' și de a arde punți folositoare din mândrie radicală.";
-    } else if (counts.A >= counts.B && counts.A >= counts.C) {
-        arhetip = "Creatorul de Structuri Premium (Profil Estetic & Alchimist)";
-        dharma = "Să ridici standardul gastronomic și vizual din Țara Hațegului prin concepte gourmet de nișă, oferind comunității produse cu identitate puternică.";
-        puncteTare = "Geniu vizual, atenție chirurgicală la detalii, capacitatea nativă de a insufla valoare și preț premium unui produs simplu (design, cod, branding).";
-        puncteSlab = "Dependență mascată de validare externă (sensibilitate mare când cei dragi nu înțeleg proiectul) și riscul de a consuma resurse apărând orgoliul în loc de a executa.";
+    let title = "", desc = "", drive = "", shadow = "";
+
+    if(main === 'A') {
+        title = "GHIDUL (Inteligentul / Brahmana)";
+        desc = "Ești condusă de dorința de a cunoaște, de a învăța și de a împărtăși adevărul. În business-ul tău, ești filosoful brandului. Rolul tău este să definești valorile profunde, conceptul alternativ (Metanoia) și să educi piața.";
+        drive = "Cunoașterea pură, alinierea cu valorile spirituale, independența mentală.";
+        shadow = "Tendința de a analiza în exces, detașarea rece de problemele practice și riscul de a te izola.";
+    } else if(main === 'B') {
+        title = "LIDERUL (Luptătorul / Kshatriya)";
+        desc = "Ești un manager înnăscut. Iubești structura, controlul pe procese, milestone-urile și protecția celor din jur. În afacerea ta, ești cel care organizează haosul în timpi clari de livrare, apără echipa și coordonează macro.";
+        drive = "Guvernanța, dreptatea, ordinea, asumarea riscurilor mari sub presiune.";
+        shadow = "Impulsivitatea din mândrie atunci când autoritatea îți este pusă la îndoială și dificultatea de a delega.";
+    } else if(main === 'C') {
+        title = "CREATORUL (Negustorul / Vaishya)";
+        desc = "Ești un alchimist comercial. Zona ta de geniu este inovația, designul de brand, marketingul strategic și identificarea oportunităților de profit (cum sunt Meniurile To-Go sau produsele gourmet scumpe). Transformi ideea în bani.";
+        drive = "Creativitatea, expansiunea, interacțiunea cu oamenii, generarea de sisteme profitabile.";
+        shadow = "Plictiseala rapidă în fața rutinelor administrative și tendința de a sări la următorul proiect fără a-l stabiliza pe cel curent.";
     } else {
-        arhetip = "Liderul de Criză & Scutul Emoțional (Profil Anchor)";
-        dharma = "Să stabilizezi procese, să fii pilonul de rezistență în momentele de haos logistic sau operațional și să folosești presiunea ca pe un catalizator.";
-        puncteTare = "Luciditate totală când totul în jur se prăbușește, simț de răspundere uriaș pentru cei dependenți de tine (copil, echipă) și putere de sacrificiu.";
-        puncteSlab = "Sindromul salvatorului (tendința de a absorbi problemele altora pe post de bottleneck propriu), cumpărarea unei păci false prin înghițirea nodurilor în gât.";
+        title = "CREATORUL DE SPRIJIN (Pilonul / Shudra)";
+        desc = "Ești baza stabilă a oricărui sistem de succes. Îți place execuția impecabilă, ești atentă la detaliile logistice și ești omul pe care se bazează întreaga structură operatională atunci când restul lumii e în haos.";
+        drive = "Utilitatea practică, loialitatea, finalizarea proceselor, excelența muncii bine făcute.";
+        shadow = "Sindromul salvatorului: tendința de a accepta sarcinile tuturor și de a te pune pe ultimul loc, blocându-ți ascensiunea.";
     }
 
-    content.innerHTML = `
-        <div class="result-section">
-            <h3>Arhetipul Sinelui tau:</h3>
-            <p><strong>${arhetip}</strong></p>
+    txt.innerHTML = `
+        <div class="result-card">
+            <h3>Arhetip: ${title}</h3>
+            <p>${desc}</p>
         </div>
-        <div class="result-section">
-            <h3>Dharma Ta Reala (Calea):</h3>
-            <p>${dharma}</p>
+        <div class="result-card" style="border-left-color: var(--secondary);">
+            <h3>Motivația principală:</h3>
+            <p>${drive}</p>
         </div>
-        <div class="result-section">
-            <h3>Punctul Tău Forte Principal (De pus la lucru):</h3>
-            <p>${puncteTare}</p>
+        <div class="result-card" style="border-left-color: #5c3517;">
+            <h3>Punctul vulnerabil (Unde pierzi energie):</h3>
+            <p>${shadow}</p>
         </div>
-        <div class="result-section">
-            <h3>Defectul/Bottleneck-ul de controlat:</h3>
-            <p>${puncteSlab}</p>
-        </div>
-        <div style="font-size:0.85rem; line-height:1.4; color:var(--v1); text-align:center; font-style:italic; margin-top:20px;">
-            "Matricea ta psihologică arată că ai deja toată infrastructura internă de manager. Tot ce te mai ține legată de fabrică sunt atașamentele sau alibiurile emoționale. Pune Punctul Forte la lucru."
-        </div>
+        <p style="font-style:italic; font-size:0.85rem; text-align:center; margin-top:20px; color:var(--secondary);">
+            "Când îți cunoști Varna, știi exact ce ai de făcut. Nu mai muncești sub prețul pieței tale interne."
+        </p>
     `;
 }
 
-window.onload = initQuiz;
+window.onload = buildQuiz;
 </script>
 </body>
 </html>

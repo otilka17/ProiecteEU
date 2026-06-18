@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pași PTJ — Extindere Agropensiune & Catering</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Karla:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #faf5ec;
+  --navy: #14253a;
+  --terra: #c4622d;
+  --navy-light: #1e3650;
+  --navy-dim: rgba(20,37,58,0.06);
+  --terra-dim: rgba(196,98,45,0.08);
+  --border: rgba(20,37,58,0.11);
+  --muted: #7a8899;
+  --green: #2d7a4f;
+  --green-dim: rgba(45,122,79,0.09);
+  --amber: #b07d2a;
+  --amber-dim: rgba(176,125,42,0.09);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--cream);
+  color: var(--navy);
+  font-family: 'Karla', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(20,37,58,0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20,37,58,0.022) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none; z-index: 0;
+}
+
+.app {
+  position: relative; z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 44px 24px 80px;
+}
+
+/* ── HEADER ── */
+header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 8px;
+}
+
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  line-height: 1.2;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.page-title em { font-style: italic; }
+
+.page-sub {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap { margin-bottom: 36px; }
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.progress-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.progress-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--terra);
+}
+
+.progress-track {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--terra), #e07940);
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── PHASE ── */
+.phase {
+  margin-bottom: 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: white;
+  overflow: hidden;
+}
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.phase-header:hover { background: var(--navy-dim); }
+
+.phase-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--terra);
+  flex-shrink: 0;
+  letter-spacing: 0.08em;
+}
+
+.phase-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--navy);
+  flex: 1;
+  line-height: 1.2;
+}
+
+.phase-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  letter-spacing: 0.05em;
+}
+
+.badge-done { background: var(--green-dim); color: var(--green); }
+.badge-active { background: var(--amber-dim); color: var(--amber); }
+.badge-todo { background: var(--navy-dim); color: var(--muted); }
+
+.phase-chevron {
+  font-size: 11px;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.phase.open .phase-chevron { transform: rotate(180deg); }
+
+.phase-body {
+  display: none;
+  padding: 0 20px 18px;
+  border-top: 1px solid var(--border);
+}
+
+.phase.open .phase-body { display: block; }
+
+.phase-note {
+  font-size: 12px;
+  color: var(--muted);
+  padding: 12px 0 14px;
+  line-height: 1.6;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+
+/* ── STEP ITEM ── */
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(20,37,58,0.06);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.step-item:last-child { border-bottom: none; }
+.step-item:hover .step-check { border-color: var(--terra); }
+
+.step-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+.step-item.checked .step-check {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.step-item.checked .step-check::after {
+  content: '✓';
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.step-item.checked .step-content { opacity: 0.45; }
+.step-item.checked .step-text { text-decoration: line-through; }
+
+.step-content { flex: 1; }
+
+.step-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--navy);
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+
+.step-sub {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.step-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 20px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.tag-urgent { background: rgba(168,50,50,0.1); color: #a83232; }
+.tag-ptj { background: var(--terra-dim); color: var(--terra); }
+.tag-anaf { background: var(--navy-dim); color: var(--muted); }
+.tag-dsvsa { background: rgba(45,122,79,0.1); color: var(--green); }
+
+/* ── INFO CARD ── */
+.info-card {
+  margin-top: 28px;
+  background: var(--navy);
+  border-radius: 4px;
+  padding: 24px 22px;
+}
+
+.info-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(250,245,236,0.4);
+  margin-bottom: 8px;
+}
+
+.info-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--cream);
+  margin-bottom: 4px;
+}
+
+.info-sub {
+  font-size: 13px;
+  color: rgba(250,245,236,0.5);
+  margin-bottom: 18px;
+}
+
+.info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: rgba(250,245,236,0.7);
+  line-height: 1.5;
+}
+
+.info-item strong { color: var(--cream); }
+
+.info-item a {
+  color: rgba(250,245,236,0.7);
+  text-decoration: none;
+}
+
+.info-item a:hover { color: var(--cream); }
+
+/* ── RESET ── */
+.reset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 20px;
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all 0.18s;
+}
+
+.reset-btn:hover { color: var(--navy); border-color: rgba(20,37,58,0.25); }
+
+@media (max-width: 480px) {
+  .app { padding: 28px 16px 60px; }
+  .page-title { font-size: 22px; }
+  .progress-pct { font-size: 18px; }
+  .phase-title { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="eyebrow">PTJ · Tranziție Just · Județ eligibil</div>
+    <div class="page-title">Pași dosar — <em>extindere agropensiune & catering</em></div>
+    <div class="page-sub">Bifează fiecare pas pe măsură ce îl finalizezi. Progresul se salvează în browser. Grant 50.000–300.000 EUR, apeluri deschise 2026.</div>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span class="progress-text" id="progress-text">0 din 0 pași bifați</span>
+      <span class="progress-pct" id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div id="phases-container"></div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+    <button class="reset-btn" onclick="resetAll()">↺ Resetează tot</button>
+  </div>
+
+  <div class="info-card">
+    <div class="info-eyebrow">Referință PTJ — Tranziție Just</div>
+    <div class="info-title">Agenția pentru Dezvoltare Regională Vest</div>
+    <div class="info-sub">ADR Vest gestionează PTJ pentru județele eligibile din Regiunea Vest, inclusiv Hunedoara.</div>
+    <div class="info-row">
+      <div class="info-item">📍 <strong>Adresă:</strong> Bd. Revoluției din 1989 nr. 17, Timișoara</div>
+      <div class="info-item">📞 <strong>Tel:</strong> <a href="tel:0256491981">0256 491 981</a></div>
+      <div class="info-item">✉️ <strong>Email:</strong> <a href="mailto:adrv@adrv.ro">adrv@adrv.ro</a></div>
+      <div class="info-item">🌐 <strong>Web PTJ:</strong> <a href="https://www.adrv.ro/ptj" target="_blank">www.adrv.ro/ptj</a></div>
+      <div class="info-item">📋 <strong>MySMIS:</strong> <a href="https://mysmis2021.eu.ro" target="_blank">mysmis2021.eu.ro</a> — platformă depunere dosare</div>
+      <div class="info-item">⚠️ <strong>Notă:</strong> Verificați ghidul solicitantului în vigoare. Condițiile se pot modifica per apel.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PHASES = [
+  {
+    id: 'faza1',
+    num: 'FAZA 01',
+    title: 'Verificare eligibilitate & documentare apel activ',
+    note: 'Înainte de orice document, confirmă că există apel PTJ activ sau calendar planificat pentru 2026. Durată estimată: 2–3 zile.',
+    steps: [
+      { id: 's1_1', text: 'Verifică apelurile PTJ active pe mysmis2021.eu.ro', sub: 'Caută apeluri active pentru județul tău. Descarcă ghidul solicitantului și anexele aferente.', tag: 'urgent' },
+      { id: 's1_2', text: 'Contactează ADR Vest pentru confirmare eligibilitate', sub: 'Întreabă dacă extinderea unei unități comerciale existente în agropensiune + catering se încadrează în apelul activ.', tag: 'ptj' },
+      { id: 's1_3', text: 'Confirmă că județul tău e în lista județelor de tranziție just', sub: 'Lista județelor eligibile PTJ: Hunedoara, Gorj, Dolj, Galați, Mureș, Prahova. Verifică ghidul pentru actualizări.' },
+      { id: 's1_4', text: 'Citește ghidul solicitantului integral', sub: 'Identifică: valoarea maximă eligibilă, intensitatea ajutorului, activitățile eligibile, criteriile de selecție și punctajul.' },
+      { id: 's1_5', text: 'Calculează punctajul estimat al proiectului tău', sub: 'Punctaj mai mare = șanse mai mari. Criterii tipice PTJ: creare locuri de muncă, inovare, componenta verde, femei/tineri.' },
+    ]
+  },
+  {
+    id: 'faza2',
+    num: 'FAZA 02',
+    title: 'Verificarea și completarea documentelor firmei',
+    note: 'Firma trebuie să fie activă, fără datorii, și cu codurile CAEN corecte pentru toate activitățile proiectului.',
+    steps: [
+      { id: 's2_1', text: 'Verifică că firma are cod CAEN pentru cazare turistică (5520)', sub: 'CAEN 5520 = facilități de cazare pentru vacanțe și perioade de scurtă durată. Obligatoriu pentru agropensiune.' },
+      { id: 's2_2', text: 'Verifică cod CAEN pentru restaurante / catering (5610 sau 5621)', sub: 'CAEN 5610 = restaurante. CAEN 5621 = activități de alimentație (catering). Adaugă ambele dacă lipsesc.' },
+      { id: 's2_3', text: 'Verifică cod CAEN procesare fructe-legume (1039)', sub: 'Dacă ai deja codul activ — bifează. Dacă nu, adaugă la ONRC online, taxa ~100 lei.' },
+      { id: 's2_4', text: 'Adaugă coduri CAEN lipsă la ONRC', sub: 'Se face online pe portal.onrc.ro. Durată 3–5 zile lucrătoare. Certificat constatator actualizat necesar în dosar.', tag: 'urgent' },
+      { id: 's2_5', text: 'Obține certificat constatator ONRC actualizat', sub: 'Document obligatoriu în dosar. Trebuie să reflecte toate codurile CAEN ale proiectului. Valabil 30 zile.' },
+      { id: 's2_6', text: 'Obține certificat fiscal de la ANAF — fără datorii', sub: 'Firmă și asociat/administrator. Datoriile la bugetul de stat = dosar respins automat.', tag: 'anaf' },
+      { id: 's2_7', text: 'Obține cazier judiciar administrator', sub: 'De la Poliție sau online. Valabil 30 zile de la emitere.' },
+      { id: 's2_8', text: 'Pregătește bilanțurile contabile ultimii 2–3 ani', sub: 'Bilanțuri depuse la ANAF, cu ștampilă de primire. Demonstrează istoricul financiar al firmei.' },
+    ]
+  },
+  {
+    id: 'faza3',
+    num: 'FAZA 03',
+    title: 'Autorizații pentru activitățile noi',
+    note: 'Fiecare activitate nouă adăugată (cazare, catering, procesare) are nevoie de autorizare specifică. Unele pot fi obținute după aprobare, dar documentele de intenție se includ în dosar.',
+    steps: [
+      { id: 's3_1', text: 'Verifică autorizația DSVSA existentă — ce activități acoperă', sub: 'Identifică dacă autorizația actuală acoperă doar bar/cafenea sau include și preparare alimente.', tag: 'dsvsa' },
+      { id: 's3_2', text: 'Extinde autorizarea DSVSA pentru catering și procesare borcane', sub: 'Sună la DSVSA județeană — cere "extindere autorizație unitate mică procesare alimentară și catering".', tag: 'dsvsa' },
+      { id: 's3_3', text: 'Obține certificat de clasificare pensiune turistică', sub: 'Emis de Ministerul Turismului / Autoritatea Națională pentru Turism. Obligatoriu pentru a funcționa legal ca pensiune. Clasele: 1–5 margarete.' },
+      { id: 's3_4', text: 'Verifică dacă acordul de la Primărie acoperă și cazarea', sub: 'Acordul comercial existent poate necesita completare pentru activitate de cazare turistică.' },
+      { id: 's3_5', text: 'Obține autorizație ISU pentru spațiul de cazare', sub: 'Inspecția Situațiilor de Urgență verifică normele PSI pentru pensiuni. Obligatoriu înainte de clasificare.' },
+      { id: 's3_6', text: 'Verifică normele sanitare DSP pentru spațiile de cazare', sub: 'Dacă adaugi camere/băi noi, DSP poate cere inspecție separată de cea DSVSA.' },
+    ]
+  },
+  {
+    id: 'faza4',
+    num: 'FAZA 04',
+    title: 'Documentele pentru spațiu și construcție',
+    note: 'PTJ finanțează și construcție/extindere, nu doar echipamente. Dacă extinzi fizic clădirea, ai nevoie de autorizație de construire.',
+    steps: [
+      { id: 's4_1', text: 'Obține extras de Carte Funciară pentru imobil', sub: 'De la OCPI județean sau online pe e-terra.ro. Verifică că nu are sarcini/ipoteci care blochează proiectul.' },
+      { id: 's4_2', text: 'Obține certificat de urbanism de la Primărie', sub: 'Confirmă destinația imobilului și posibilitatea extinderii/schimbării destinației în cazare + catering.' },
+      { id: 's4_3', text: 'Angajează arhitect autorizat cu experiență în fonduri europene', sub: 'Cere referințe pentru proiecte AFIR sau PTJ aprobate. Costul proiectului tehnic: 3–8% din valoarea lucrărilor.' },
+      { id: 's4_4', text: 'Elaborează studiul de fezabilitate (SF) sau DALI', sub: 'SF pentru construcție nouă / extindere. DALI (Documentație de Avizare Lucrări de Intervenție) pentru reabilitare clădire existentă.' },
+      { id: 's4_5', text: 'Obține devizul general al lucrărilor', sub: 'Detaliat pe categorii. Baza pentru bugetul proiectului PTJ. Trebuie corelat cu ofertele de preț.' },
+      { id: 's4_6', text: 'Obține autorizație de construire (dacă e cazul)', sub: 'Necesară dacă extinzi fizic sau schimbi destinația spațiului. Emisă de Primărie în 30–60 zile.' },
+    ]
+  },
+  {
+    id: 'faza5',
+    num: 'FAZA 05',
+    title: 'Planul de afaceri PTJ',
+    note: 'Documentul central al dosarului. Trebuie corelat cu ghidul apelului PTJ și să demonstreze viabilitate economică pe minim 3–5 ani.',
+    steps: [
+      { id: 's5_1', text: 'Descarcă modelul oficial de plan de afaceri din ghidul apelului', sub: 'Fiecare apel PTJ poate avea un model specific. Nu folosi un model generic — urmează structura cerută.' },
+      { id: 's5_2', text: 'Descrie activitățile proiectului — ce se schimbă față de acum', sub: 'Băcănie actuală → agropensiune (X camere) + catering (evenimente, comenzi) + procesare (conserve, produse artizanale).' },
+      { id: 's5_3', text: 'Calculează capacitatea pensiunii și veniturile estimate', sub: 'ex: 4 camere × 250 lei/noapte × 150 nopți/an + catering lunar + vânzări borcane. Fii realist, nu optimist.' },
+      { id: 's5_4', text: 'Planifică locurile de muncă create', sub: 'PTJ punctează puternic crearea de locuri de muncă. Minim 1–2 angajați noi. Calculează salarii + contribuții în cheltuieli.' },
+      { id: 's5_5', text: 'Elaborează proiecțiile financiare pe 3–5 ani', sub: 'Bilanț previzionat, cont de profit și pierdere, flux de numerar. Proiectul trebuie să fie profitabil din an 2–3.' },
+      { id: 's5_6', text: 'Descrie strategia de marketing și piața țintă', sub: 'Turiști pe DN 68 / zona Hațeg, grupuri catering, clienți fideli băcănie. Booking.com, Google My Business, rețele sociale.' },
+      { id: 's5_7', text: 'Include componenta verde / sustenabilitate', sub: 'Panouri solare, izolație termică, colectare selectivă, produse locale — aduc punctaj suplimentar la PTJ.' },
+      { id: 's5_8', text: 'Corelează bugetul proiectului cu devizul și ofertele de preț', sub: 'Fiecare linie de buget trebuie justificată cu ofertă de preț. Fără justificare = cheltuială neeligibilă.' },
+    ]
+  },
+  {
+    id: 'faza6',
+    num: 'FAZA 06',
+    title: 'Oferte de preț pentru echipamente și lucrări',
+    note: 'Minim 2 oferte de preț pentru fiecare echipament sau serviciu. Fără oferte = cheltuiala devine neeligibilă.',
+    steps: [
+      { id: 's6_1', text: 'Listează toate echipamentele pentru bucătăria profesională', sub: 'Cuptor profesional, hotă industrială, masă inox, friteuză, frigider comercial, mașină de spălat vase, sealer etc.' },
+      { id: 's6_2', text: 'Listează echipamentele pentru camerele de cazare', sub: 'Paturi, saltele, mobilier, sistem climatizare, TV, lenjerie, accesorii baie pentru fiecare cameră.' },
+      { id: 's6_3', text: 'Listează echipamentele pentru procesare / conserve', sub: 'Sterilizator profesional, mașină de etichetat, cântar omologat, recipiente, ambalaje certificate alimentar.' },
+      { id: 's6_4', text: 'Solicită minim 2 oferte de preț per echipament', sub: 'Ofertele trebuie să fie pe hârtie / email, cu antet furnizor, dată, specificații tehnice complete.' },
+      { id: 's6_5', text: 'Solicită minim 2 oferte pentru lucrările de construcție / amenajare', sub: 'De la constructori autorizați. Corelează cu devizul din SF/DALI.' },
+      { id: 's6_6', text: 'Verifică că furnizorii nu sunt persoane afiliate', sub: 'Furnizorul nu poate fi soț/soție/rudă sau firmă cu același asociat. Conflict de interese = excludere automată din dosar.' },
+    ]
+  },
+  {
+    id: 'faza7',
+    num: 'FAZA 07',
+    title: 'Dovada cofinanțării',
+    note: 'PTJ acoperă de obicei 70–85% din valoarea eligibilă. Diferența (15–30%) trebuie demonstrată că există înainte de depunere.',
+    steps: [
+      { id: 's7_1', text: 'Calculează valoarea cofinanțării necesare', sub: 'ex: proiect 200.000 EUR × 20% cofinanțare = 40.000 EUR. Verifică procentul exact în ghidul apelului.' },
+      { id: 's7_2', text: 'Alege sursa cofinanțării: cont propriu sau credit bancar', sub: 'Cont propriu = extras de cont cu suma disponibilă. Credit = scrisoare de intenție / preacord de la bancă.' },
+      { id: 's7_3', text: 'Obține extras de cont bancar sau scrisoare bancă', sub: 'Documentul trebuie să fie recent (max 30 zile). Suma trebuie să acopere integral cofinanțarea.' },
+      { id: 's7_4', text: 'Verifică dacă firma are credite sau garanții active', sub: 'Creditele existente pot afecta capacitatea de cofinanțare. Banca evaluează total angajamente.' },
+    ]
+  },
+  {
+    id: 'faza8',
+    num: 'FAZA 08',
+    title: 'Depunere dosar în MySMIS2021',
+    note: 'Dosarul PTJ se depune exclusiv online în platforma MySMIS2021. Verifică lista de conformitate din ghid înainte de a apăsa Submit.',
+    steps: [
+      { id: 's8_1', text: 'Creează cont în MySMIS2021 dacă nu există', sub: 'Pe mysmis2021.eu.ro. Contul e pe persoana fizică (administrator sau reprezentant legal al firmei).' },
+      { id: 's8_2', text: 'Completează cererea de finanțare în MySMIS', sub: 'Urmează structura din ghid. Salvează frecvent. Nu se poate modifica după depunere.' },
+      { id: 's8_3', text: 'Încarcă toate documentele obligatorii în platformă', sub: 'Plan de afaceri, SF/DALI, oferte de preț, documente firmă, autorizații, dovada cofinanțării, declarații.' },
+      { id: 's8_4', text: 'Verifică lista de conformitate din ghid — punct cu punct', sub: 'Fiecare document trebuie bifat. Un document lipsă = neconformitate = respingere fără evaluare de fond.' },
+      { id: 's8_5', text: 'Depune cererea în intervalul apelului', sub: 'Verifică ora exactă de închidere a apelului. MySMIS poate fi lent în ultimele ore — depune cu 2 zile înainte.' },
+      { id: 's8_6', text: 'Salvează numărul de înregistrare și confirmarea depunerii', sub: 'Screenshot + PDF al confirmării. Numărul de înregistrare e dovada depunerii în termen.' },
+      { id: 's8_7', text: 'Urmărește stadiul evaluării în MySMIS', sub: 'Etape: conformitate administrativă → eligibilitate → selecție (punctaj). Durată medie totală: 60–120 zile.' },
+      { id: 's8_8', text: 'Răspunde prompt la solicitările de clarificări', sub: 'Termenul de răspuns e de obicei 5–10 zile lucrătoare. Nerespuns = dosar respins.' },
+      { id: 's8_9', text: 'Semnează contractul de finanțare', sub: 'După aprobare, semnezi cu ADR / Organism Intermediar. Abia după semnare poți face cheltuieli eligibile.', tag: 'urgent' },
+    ]
+  },
+];
+
+const STORAGE_KEY = 'ptj_agropensiune_v1';
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+  catch { return {}; }
+}
+
+function saveState(state) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+}
+
+let state = loadState();
+
+function render() {
+  const container = document.getElementById('phases-container');
+  container.innerHTML = '';
+
+  let totalSteps = 0, doneSteps = 0;
+
+  PHASES.forEach(phase => {
+    const phaseTotal = phase.steps.length;
+    const phaseDone = phase.steps.filter(s => state[s.id]).length;
+    totalSteps += phaseTotal;
+    doneSteps += phaseDone;
+
+    const isOpen = state['open_' + phase.id] !== false;
+    const badgeClass = phaseDone === phaseTotal ? 'badge-done' : phaseDone > 0 ? 'badge-active' : 'badge-todo';
+    const badgeText = phaseDone === phaseTotal ? '✓ Complet' : phaseDone > 0 ? `${phaseDone}/${phaseTotal}` : 'De făcut';
+
+    const stepsHTML = phase.steps.map(s => {
+      const checked = !!state[s.id];
+      const tagHTML = s.tag === 'urgent' ? '<span class="step-tag tag-urgent">Urgent</span>'
+        : s.tag === 'ptj' ? '<span class="step-tag tag-ptj">PTJ</span>'
+        : s.tag === 'anaf' ? '<span class="step-tag tag-anaf">ANAF</span>'
+        : s.tag === 'dsvsa' ? '<span class="step-tag tag-dsvsa">DSVSA</span>'
+        : '';
+
+      return `
+      <div class="step-item ${checked ? 'checked' : ''}" onclick="toggleStep('${s.id}')">
+        <div class="step-check"></div>
+        <div class="step-content">
+          <div class="step-text">${s.text}${tagHTML}</div>
+          ${s.sub ? `<div class="step-sub">${s.sub}</div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+
+    const phaseEl = document.createElement('div');
+    phaseEl.className = 'phase' + (isOpen ? ' open' : '');
+    phaseEl.id = 'phase_' + phase.id;
+    phaseEl.innerHTML = `
+      <div class="phase-header" onclick="togglePhase('${phase.id}')">
+        <span class="phase-num">${phase.num}</span>
+        <span class="phase-title">${phase.title}</span>
+        <span class="phase-badge ${badgeClass}">${badgeText}</span>
+        <span class="phase-chevron">▾</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-note">${phase.note}</div>
+        ${stepsHTML}
+      </div>`;
+
+    container.appendChild(phaseEl);
+  });
+
+  const pct = totalSteps ? Math.round(doneSteps / totalSteps * 100) : 0;
+  document.getElementById('progress-text').textContent = `${doneSteps} din ${totalSteps} pași bifați`;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function toggleStep(id) {
+  state[id] = !state[id];
+  saveState(state);
+  render();
+}
+
+function togglePhase(id) {
+  state['open_' + id] = !(state['open_' + id] !== false);
+  saveState(state);
+  render();
+}
+
+function resetAll() {
+  if (!confirm('Resetezi toate bifele? Progresul se pierde.')) return;
+  state = {};
+  saveState(state);
+  render();
+}
+
+if (!localStorage.getItem(STORAGE_KEY)) {
+  state['open_faza1'] = true;
+}
+
+render();
+</script>
+</body>
+</html>

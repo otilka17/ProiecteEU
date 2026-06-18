@@ -3,376 +3,548 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal Consultanță & Management Proiecte</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Karla:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Cabinet Strategie & Finanțare Europeană</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Karla:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --cream: #faf5ec;
   --navy: #14253a;
   --terra: #c4622d;
-  --navy-light: #1e3650;
-  --border: rgba(20,37,58,0.11);
+  --border: rgba(20,37,58,0.10);
   --muted: #7a8899;
-  --green: #2d7a4f;
-  --green-dim: rgba(45,122,79,0.08);
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 body {
   background: var(--cream);
   color: var(--navy);
   font-family: 'Karla', sans-serif;
-  font-size: 15px;
-  line-height: 1.6;
-  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
 }
 body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(20,37,58,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(20,37,58,0.015) 1px, transparent 1px);
-  background-size: 40px 40px;
+    linear-gradient(rgba(20,37,58,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20,37,58,0.018) 1px, transparent 1px);
+  background-size: 48px 48px;
   pointer-events: none; z-index: 0;
 }
-.container {
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,245,236,0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--navy);
+  text-decoration: none;
+}
+.nav-brand span { color: var(--terra); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--navy); }
+@media (max-width: 600px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+}
+.hero {
   position: relative; z-index: 1;
-  max-width: 940px;
+  padding: 80px 40px 60px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 60px 24px 100px;
-}
-
-/* ── HEADER ── */
-header {
-  margin-bottom: 48px;
-  text-align: center;
-}
-.eyebrow {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--terra);
-  margin-bottom: 12px;
-}
-.page-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 38px;
-  line-height: 1.2;
-  color: var(--navy);
-  margin-bottom: 14px;
-}
-.page-sub {
-  font-size: 16px;
-  color: var(--muted);
-  max-width: 580px;
-  margin: 0 auto;
-}
-
-/* ── LIVE INFO PANEL ── */
-.live-monitor {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 24px;
-  margin-bottom: 48px;
-  box-shadow: 0 4px 20px rgba(20,37,58,0.02);
-}
-.monitor-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 14px;
-  margin-bottom: 18px;
-}
-.monitor-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.pulse-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--green);
-  border-radius: 50%;
-  display: inline-block;
-  box-shadow: 0 0 0 4px var(--green-dim);
-}
-.links-row {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  min-height: 70vh;
 }
-@media (min-width: 600px) {
-  .links-row { grid-template-columns: repeat(3, 1fr); }
-}
-.official-link {
-  display: flex;
-  flex-direction: column;
-  padding: 12px 14px;
-  background: var(--cream);
-  border-radius: 4px;
-  text-decoration: none;
-  transition: all 0.2s;
-  border: 1px solid transparent;
-}
-.official-link:hover {
-  border-color: var(--terra);
-  background: white;
-  transform: translateY(-1px);
-}
-.link-site {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  color: var(--terra);
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-.link-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--navy);
-}
-
-/* ── GRID CARDURI ── */
-.cards-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
-@media (min-width: 600px) {
-  .cards-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-.card {
-  position: relative;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 36px 28px;
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 320px;
-  overflow: hidden;
-  background-size: cover;
-  background-position: center;
-}
-
-.card::before {
-  content: '';
+.hero-ghost {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(250, 245, 236, 0.90) 0%, rgba(250, 245, 236, 0.97) 100%);
-  z-index: 1;
-  transition: background 0.3s ease;
+  top: -20px; right: -20px;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(120px, 18vw, 220px);
+  font-weight: 700;
+  color: rgba(20,37,58,0.04);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
 }
-.card:hover::before {
-  background: linear-gradient(180deg, rgba(14, 28, 44, 0.90) 0%, rgba(14, 28, 44, 0.97) 100%);
-}
-
-.card-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-  flex-grow: 1;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  border-color: var(--terra);
-  box-shadow: 0 16px 32px rgba(20,37,58,0.08);
-}
-
-.card-meta {
+.hero-left { position: relative; z-index: 2; }
+.hero-eyebrow {
   font-family: 'DM Mono', monospace;
   font-size: 10px;
-  color: var(--terra);
+  letter-spacing: 0.20em;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 6px;
-  transition: color 0.3s;
-}
-.card-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 21px;
-  color: var(--navy);
-  line-height: 1.3;
-  margin-bottom: 12px;
-  transition: color 0.3s;
-}
-.card-desc {
-  font-size: 13.5px;
-  color: var(--muted);
-  line-height: 1.6;
-  margin-bottom: 24px;
-  transition: color 0.3s;
-}
-.card-link {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--navy);
-  border-bottom: 1px solid var(--border);
-  width: max-content;
-  transition: all 0.3s;
-}
-
-.card:hover .card-title { color: var(--cream); }
-.card:hover .card-desc { color: rgba(250,245,236,0.7); }
-.card:hover .card-meta { color: #eab308; }
-.card:hover .card-link {
-  color: var(--cream);
-  border-color: var(--cream);
-}
-
-/* ── FOOTER ── */
-footer {
-  margin-top: 80px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.profile-info {
+  color: var(--terra);
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.avatar {
-  width: 26px;
-  height: 26px;
-  background: var(--navy);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px; height: 1px;
+  background: var(--terra);
 }
-.profile-name {
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 58px);
+  line-height: 1.1;
   color: var(--navy);
+  margin-bottom: 24px;
 }
-.repo-status {
+.hero-title em { font-style: italic; color: var(--terra); }
+.hero-body {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 440px;
+  line-height: 1.75;
+  margin-bottom: 36px;
+}
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: 'DM Mono', monospace;
   font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: var(--navy);
+  padding: 14px 24px;
+  text-decoration: none;
+  transition: background 0.25s;
+}
+.hero-cta:hover { background: var(--terra); }
+.hero-right { position: relative; z-index: 2; align-self: end; padding-bottom: 8px; }
+.hero-stat { padding: 20px 0; border-top: 1px solid var(--border); }
+.hero-stat:last-child { border-bottom: 1px solid var(--border); }
+.stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: var(--navy);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-value span { color: var(--terra); }
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
   color: var(--muted);
+}
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; padding: 60px 24px 40px; min-height: auto; gap: 40px; }
+  .hero-ghost { font-size: 100px; }
+}
+.section-divider {
+  position: relative; z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.divider-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--terra);
+  white-space: nowrap;
+}
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+@media (max-width: 600px) { .section-divider { padding: 0 24px; } }
+.spreads {
+  position: relative; z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+}
+.spread {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 420px;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+.spread.reverse { direction: rtl; }
+.spread.reverse > * { direction: ltr; }
+.spread-photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--navy);
+}
+.spread-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.4,0,0.2,1), filter 0.4s;
+  filter: grayscale(20%) brightness(0.88);
+}
+.spread:hover .spread-photo img {
+  transform: scale(1.04);
+  filter: grayscale(0%) brightness(0.95);
+}
+.spread-photo-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(20,37,58,0.18) 0%, transparent 60%);
+  z-index: 1;
+  transition: background 0.4s;
+}
+.spread:hover .spread-photo-overlay {
+  background: linear-gradient(135deg, rgba(196,98,45,0.12) 0%, transparent 60%);
+}
+.spread-num {
+  position: absolute;
+  bottom: 16px; right: 20px;
+  z-index: 2;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  color: rgba(250,245,236,0.5);
+}
+.spread.reverse .spread-num { right: auto; left: 20px; }
+.spread-content {
+  padding: 52px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: white;
+  transition: background 0.3s;
+}
+.spread:hover .spread-content { background: var(--cream); }
+.spread-category {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.spread-category::before {
+  content: '';
+  display: block;
+  width: 20px; height: 1px;
+  background: var(--terra);
+}
+.spread-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 2.8vw, 30px);
+  line-height: 1.2;
+  color: var(--navy);
+  margin-bottom: 16px;
+  transition: color 0.3s;
+}
+.spread:hover .spread-title { color: var(--terra); }
+.spread-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 28px;
+  max-width: 360px;
+}
+.spread-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--navy);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 4px;
+  width: max-content;
+  transition: all 0.2s;
+}
+.spread:hover .spread-link { color: var(--terra); border-color: var(--terra); gap: 14px; }
+@media (max-width: 768px) {
+  .spreads { padding: 0 0 40px; }
+  .spread { grid-template-columns: 1fr; min-height: auto; }
+  .spread.reverse { direction: ltr; }
+  .spread-photo { height: 240px; }
+  .spread-content { padding: 32px 24px; }
+  .spread-num { bottom: 12px; right: 14px; }
+}
+.resources {
+  position: relative; z-index: 1;
+  background: var(--navy);
+  padding: 60px 40px;
+}
+.resources-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 60px;
+  align-items: start;
+}
+.resources-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(250,245,236,0.35);
+  margin-bottom: 12px;
+}
+.resources-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--cream);
+  line-height: 1.3;
+}
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(250,245,236,0.08);
+}
+.resource-item {
+  background: rgba(20,37,58,0.6);
+  padding: 20px;
+  text-decoration: none;
+  transition: background 0.2s;
+  display: block;
+}
+.resource-item:hover { background: rgba(196,98,45,0.15); }
+.resource-site {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 6px;
+}
+.resource-name { font-size: 13px; font-weight: 600; color: var(--cream); line-height: 1.35; }
+@media (max-width: 768px) {
+  .resources { padding: 48px 24px; }
+  .resources-inner { grid-template-columns: 1fr; gap: 32px; }
+  .resources-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) { .resources-grid { grid-template-columns: 1fr; } }
+footer {
+  position: relative; z-index: 1;
+  background: var(--cream);
+  border-top: 1px solid var(--border);
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-brand {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.footer-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--terra); display: inline-block; }
+.footer-note { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+@media (max-width: 600px) {
+  footer { flex-direction: column; gap: 8px; padding: 24px; text-align: center; }
 }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <header>
-    <div class="eyebrow">Sisteme de Management Integrat</div>
-    <div class="page-title">Portal Consultanță & Management de Proiect</div>
-    <div class="page-sub">Soluții avansate pentru analiză, monitorizare și implementare structurală. Accesează instrumentele dedicate din ecosistemul tău digital.</div>
-  </header>
+<nav>
+  <a href="#" class="nav-brand">Cabinet <span>·</span> Strategie</a>
+  <ul class="nav-links">
+    <li><a href="#instrumente">Instrumente</a></li>
+    <li><a href="#resurse">Resurse oficiale</a></li>
+  </ul>
+</nav>
 
-  <div class="live-monitor">
-    <div class="monitor-header">
-      <div class="monitor-title">
-        <span class="pulse-dot"></span> Monitorizare Programe & Cadru Legislativ
-      </div>
-      <div style="font-family:'DM Mono', monospace; font-size:11px; color: var(--muted);">Sesiune curentă: 2026</div>
+<section class="hero">
+  <div class="hero-ghost">EU</div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">Management integrat de proiect</div>
+    <h1 class="hero-title">Strategie.<br><em>Eligibilitate.</em><br>Implementare.</h1>
+    <p class="hero-body">Instrumente de analiză, planificare și monitorizare pentru accesarea fondurilor europene. Fiecare instrument e construit pentru un singur scop: să reducă distanța dintre idee și contract semnat.</p>
+    <a href="#instrumente" class="hero-cta">Vezi instrumentele →</a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat">
+      <div class="stat-value">50–300<span>k EUR</span></div>
+      <div class="stat-label">Plafon grant PTJ · Tranziție Just</div>
     </div>
-    <div class="links-row">
-      <a href="https://www.afir.ro" target="_blank" class="official-link">
-        <span class="link-site">afir.ro</span>
-        <span class="link-label">Ghiduri și Măsuri Naționale</span>
-      </a>
-      <a href="https://mysmis2021.gov.ro" target="_blank" class="official-link">
-        <span class="link-site">mysmis2021</span>
-        <span class="link-label">Sistemul Electronic Guvernamental</span>
-      </a>
-      <a href="https://mfe.gov.ro" target="_blank" class="official-link">
-        <span class="link-site">mfe.gov.ro</span>
-        <span class="link-label">Ministerul Investițiilor și Proiectelor</span>
-      </a>
+    <div class="hero-stat">
+      <div class="stat-value">6<span>+</span></div>
+      <div class="stat-label">Județe eligibile PTJ · 2026</div>
+    </div>
+    <div class="hero-stat">
+      <div class="stat-value">2026</div>
+      <div class="stat-label">Apeluri active · sesiune curentă</div>
     </div>
   </div>
+</section>
 
-  <div class="cards-grid">
-    
-    <a href="./ProiecteEU/checklist-gal-leader-generic.html" class="card" style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop');">
-      <div class="card-content">
-        <div>
-          <div class="card-meta">Aplicație Interactivă</div>
-          <div class="card-title">Checklist Pas cu Pas / Monitorizare</div>
-          <div class="card-desc">Verificator procedural pentru controlul documentelor, avizelor și conformității administrative. Salvează și actualizează progresul în timp real.</div>
-        </div>
-        <span class="card-link">Lansează checklist-ul →</span>
-      </div>
-    </a>
-
-    <a href="./ProiecteEU/ptjpensiune.html" class="card" style="background-image: url('https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=600&auto=format&fit=crop');">
-      <div class="card-content">
-        <div>
-          <div class="card-meta">Planificare Structurală</div>
-          <div class="card-title">Plan de Afaceri & Structură de Proiect</div>
-          <div class="card-desc">Centralizator pentru indicatori financiari, devize generale pe capitole, corelarea fluxurilor și memorii tehnice specifice.</div>
-        </div>
-        <span class="card-link">Deschide documentul →</span>
-      </div>
-    </a>
-
-    <a href="./ProiecteEU/calificare.html" class="card" style="background-image: url('https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=600&auto=format&fit=crop');">
-      <div class="card-content">
-        <div>
-          <div class="card-meta">Evaluare Inițială</div>
-          <div class="card-title">Formular Calificare & Screening Client</div>
-          <div class="card-desc">Sistem automatizat de evaluare a eligibilității aplicantului. Analizează criteriile obligatorii și estimează punctajul preliminar de selecție.</div>
-        </div>
-        <span class="card-link">Evaluează eligibilitatea →</span>
-      </div>
-    </a>
-
-    <a href="./ProiecteEU/personalitate.html" class="card" style="background-image: url('https://images.unsplash.com/photo-1611095774955-715099a68619?q=80&w=600&auto=format&fit=crop');">
-      <div class="card-content">
-        <div>
-          <div class="card-meta">Resurse Umane</div>
-          <div class="card-title">Evaluare Profil Antreprenorial & Leadership</div>
-          <div class="card-desc">Chestionar pentru identificarea abilităților de management, orientarea spre risc și determinarea profilului psihologic al liderului de echipă.</div>
-        </div>
-        <span class="card-link">Începe evaluarea →</span>
-      </div>
-    </a>
-
-    <a href="./ProiecteEU/Sun.html" class="card" style="background-image: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=600&auto=format&fit=crop');">
-      <div class="card-content">
-        <div>
-          <div class="card-meta">Tranziție Verde</div>
-          <div class="card-title">Studiu Soluții Eco & Eficiență Energetică</div>
-          <div class="card-desc">Sistem de calcul și analiză pentru integrarea surselor regenerabile (sisteme solare / off-grid) și conformarea cu standardele europene verzi.</div>
-        </div>
-        <span class="card-link">Vezi analiza energetică →</span>
-      </div>
-    </a>
-
-  </div>
-
-  <footer>
-    <div class="profile-info">
-      <div class="avatar">O17</div>
-      <div class="profile-name">otilka17 / ProiecteEU</div>
-    </div>
-    <div class="repo-status">● Management Integrat de Proiect</div>
-  </footer>
+<div class="section-divider" id="instrumente">
+  <span class="divider-label">Instrumente disponibile</span>
+  <div class="divider-line"></div>
 </div>
+
+<div class="spreads">
+
+  <a href="ProiecteEU/checklist-gal-leader-generic.html" class="spread">
+    <div class="spread-photo">
+      <img src="https://images.unsplash.com/photo-1444628838545-ac4016a5418a?q=80&w=900&auto=format&fit=crop" alt="Checklist GAL LEADER" loading="lazy">
+      <div class="spread-photo-overlay"></div>
+      <div class="spread-num">01 / 06</div>
+    </div>
+    <div class="spread-content">
+      <div class="spread-category">Verificator procedural</div>
+      <div class="spread-title">Checklist GAL / LEADER<br>Pensiune turistică</div>
+      <div class="spread-desc">9 faze, 53 de pași — de la identificarea GAL-ului local până la semnarea contractului. Valabil pentru orice GAL din România.</div>
+      <span class="spread-link">Lansează checklist-ul →</span>
+    </div>
+  </a>
+
+  <a href="ProiecteEU/checklist-ptj-agropensiune.html" class="spread reverse">
+    <div class="spread-photo">
+      <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=900&auto=format&fit=crop" alt="PTJ Agropensiune" loading="lazy">
+      <div class="spread-photo-overlay"></div>
+      <div class="spread-num">02 / 06</div>
+    </div>
+    <div class="spread-content">
+      <div class="spread-category">Tranziție Just · PTJ</div>
+      <div class="spread-title">Checklist PTJ<br>Agropensiune & Catering</div>
+      <div class="spread-desc">8 faze, 50 de pași pentru extinderea unei unități în agropensiune cu catering și procesare. Grant 50–300k EUR, 2026.</div>
+      <span class="spread-link">Lansează checklist-ul →</span>
+    </div>
+  </a>
+
+  <a href="ProiecteEU/ptjpensiune.html" class="spread">
+    <div class="spread-photo">
+      <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=900&auto=format&fit=crop" alt="Plan de afaceri" loading="lazy">
+      <div class="spread-photo-overlay"></div>
+      <div class="spread-num">03 / 06</div>
+    </div>
+    <div class="spread-content">
+      <div class="spread-category">Planificare structurală</div>
+      <div class="spread-title">Plan de afaceri &<br>Structură de proiect</div>
+      <div class="spread-desc">Centralizator pentru indicatori financiari, devize pe capitole, corelarea fluxurilor și memorii tehnice specifice fondurilor europene.</div>
+      <span class="spread-link">Deschide documentul →</span>
+    </div>
+  </a>
+
+  <a href="ProiecteEU/calificare.html" class="spread reverse">
+    <div class="spread-photo">
+      <img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=900&auto=format&fit=crop" alt="Screening eligibilitate" loading="lazy">
+      <div class="spread-photo-overlay"></div>
+      <div class="spread-num">04 / 06</div>
+    </div>
+    <div class="spread-content">
+      <div class="spread-category">Evaluare inițială</div>
+      <div class="spread-title">Screening client &<br>Calificare eligibilitate</div>
+      <div class="spread-desc">Sistem automatizat de evaluare a eligibilității. Identifică punctele slabe și estimează scorul preliminar de selecție.</div>
+      <span class="spread-link">Evaluează eligibilitatea →</span>
+    </div>
+  </a>
+
+  <a href="ProiecteEU/personalitate.html" class="spread">
+    <div class="spread-photo">
+      <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=900&auto=format&fit=crop" alt="Profil antreprenorial" loading="lazy">
+      <div class="spread-photo-overlay"></div>
+      <div class="spread-num">05 / 06</div>
+    </div>
+    <div class="spread-content">
+      <div class="spread-category">Resurse umane</div>
+      <div class="spread-title">Profil antreprenorial<br>& Leadership</div>
+      <div class="spread-desc">Chestionar pentru identificarea abilităților de management, orientarea spre risc și profilul psihologic al liderului de proiect.</div>
+      <span class="spread-link">Începe evaluarea →</span>
+    </div>
+  </a>
+
+  <a href="ProiecteEU/Sun.html" class="spread reverse">
+    <div class="spread-photo">
+      <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=900&auto=format&fit=crop" alt="Eficienta energetica" loading="lazy">
+      <div class="spread-photo-overlay"></div>
+      <div class="spread-num">06 / 06</div>
+    </div>
+    <div class="spread-content">
+      <div class="spread-category">Tranziție verde</div>
+      <div class="spread-title">Soluții Eco &<br>Eficiență energetică</div>
+      <div class="spread-desc">Calcul și analiză pentru integrarea surselor regenerabile — sisteme solare, off-grid, eficiență termică. Conformare cu standardele europene verzi.</div>
+      <span class="spread-link">Vezi analiza energetică →</span>
+    </div>
+  </a>
+
+</div>
+
+<section class="resources" id="resurse">
+  <div class="resources-inner">
+    <div>
+      <div class="resources-label">Cadru legislativ · 2026</div>
+      <div class="resources-title">Platforme & instituții oficiale</div>
+    </div>
+    <div class="resources-grid">
+      <a href="https://mysmis2021.eu.ro" target="_blank" class="resource-item">
+        <div class="resource-site">mysmis2021.eu.ro</div>
+        <div class="resource-name">Depunere dosare fonduri europene</div>
+      </a>
+      <a href="https://www.afir.ro" target="_blank" class="resource-item">
+        <div class="resource-site">afir.ro</div>
+        <div class="resource-name">Ghiduri & măsuri AFIR naționale</div>
+      </a>
+      <a href="https://mfe.gov.ro" target="_blank" class="resource-item">
+        <div class="resource-site">mfe.gov.ro</div>
+        <div class="resource-name">Ministerul Fondurilor Europene</div>
+      </a>
+      <a href="https://www.adrv.ro" target="_blank" class="resource-item">
+        <div class="resource-site">adrv.ro</div>
+        <div class="resource-name">ADR Vest · PTJ Hunedoara</div>
+      </a>
+      <a href="https://www.rndr.ro" target="_blank" class="resource-item">
+        <div class="resource-site">rndr.ro</div>
+        <div class="resource-name">Rețeaua Națională GAL România</div>
+      </a>
+      <a href="https://portal.onrc.ro" target="_blank" class="resource-item">
+        <div class="resource-site">onrc.ro</div>
+        <div class="resource-name">Registrul Comerțului · ONRC</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <span class="footer-dot"></span>
+    otilka17 · ProiecteEU
+  </div>
+  <div class="footer-note">Management integrat · Sesiune 2026</div>
+</footer>
 
 </body>
 </html>

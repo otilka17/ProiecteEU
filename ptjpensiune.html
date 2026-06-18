@@ -3,612 +3,867 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pași PTJ — Extindere Agropensiune & Catering</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Karla:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Buget Estimativ v2 — Plantație Lavandă DR30</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
-  --cream: #faf5ec;
-  --navy: #14253a;
-  --terra: #c4622d;
-  --navy-light: #1e3650;
-  --navy-dim: rgba(20,37,58,0.06);
-  --terra-dim: rgba(196,98,45,0.08);
-  --border: rgba(20,37,58,0.11);
-  --muted: #7a8899;
-  --green: #2d7a4f;
-  --green-dim: rgba(45,122,79,0.09);
-  --amber: #b07d2a;
-  --amber-dim: rgba(176,125,42,0.09);
+  --navy:    #14253a;
+  --cream:   #faf5ec;
+  --terra:   #c4622d;
+  --terra2:  #e07940;
+  --gold:    #b8964e;
+  --ink:     #1e2d3d;
+  --muted:   #6b7a8d;
+  --border:  rgba(20,37,58,0.12);
+  --lavender:#7b6d9e;
+  --lav-dim: rgba(123,109,158,0.10);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--cream);
-  color: var(--navy);
+  color: var(--ink);
   font-family: 'Karla', sans-serif;
   font-size: 15px;
-  line-height: 1.6;
-  min-height: 100vh;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
 
-body::before {
+/* ── COVER ── */
+.cover {
+  background: var(--navy);
+  padding: 64px 48px 56px;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+.cover::after {
   content: '';
-  position: fixed; inset: 0;
-  background-image:
-    linear-gradient(rgba(20,37,58,0.022) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(20,37,58,0.022) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none; z-index: 0;
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,98,45,0.15) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-.app {
-  position: relative; z-index: 1;
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 44px 24px 80px;
-}
+.cover-inner { max-width: 680px; position: relative; z-index: 1; }
 
-/* ── HEADER ── */
-header {
-  margin-bottom: 32px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--border);
-}
-
-.eyebrow {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.15em;
+.cover-eyebrow {
+  font-family: 'Karla', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--terra);
-  margin-bottom: 8px;
+  color: var(--terra2);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cover-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 32px; height: 1px;
+  background: var(--terra2);
 }
 
-.page-title {
+.cover-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.cover-title em {
+  font-style: italic;
+  color: var(--terra2);
+}
+
+.cover-subtitle {
+  font-family: 'Source Serif 4', serif;
+  font-size: 18px;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(250,245,236,0.65);
+  margin-bottom: 40px;
+  line-height: 1.5;
+}
+
+.cover-meta {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 0;
+  border-top: 1px solid rgba(250,245,236,0.15);
+  padding-top: 28px;
+  width: fit-content;
+}
+
+.cover-stat {
+  padding-right: 36px;
+  border-right: 1px solid rgba(250,245,236,0.12);
+  margin-right: 36px;
+}
+.cover-stat:last-child {
+  border-right: none;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+.cover-stat-val {
   font-family: 'Playfair Display', serif;
   font-size: 28px;
-  line-height: 1.2;
-  color: var(--navy);
-  margin-bottom: 6px;
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1;
+  margin-bottom: 4px;
 }
-
-.page-title em { font-style: italic; }
-
-.page-sub {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-/* ── PROGRESS BAR ── */
-.progress-wrap { margin-bottom: 36px; }
-
-.progress-label {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 8px;
-}
-
-.progress-text {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  color: var(--muted);
-}
-
-.progress-pct {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  color: var(--terra);
-}
-
-.progress-track {
-  height: 3px;
-  background: var(--border);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--terra), #e07940);
-  border-radius: 2px;
-  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
-}
-
-/* ── PHASE ── */
-.phase {
-  margin-bottom: 10px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  background: white;
-  overflow: hidden;
-}
-
-.phase-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 16px 20px;
-  cursor: pointer;
-  user-select: none;
-  transition: background 0.15s;
-}
-
-.phase-header:hover { background: var(--navy-dim); }
-
-.phase-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  color: var(--terra);
-  flex-shrink: 0;
-  letter-spacing: 0.08em;
-}
-
-.phase-title {
-  font-family: 'Playfair Display', serif;
+.cover-stat-val span {
   font-size: 16px;
+  font-weight: 400;
+  color: var(--terra2);
+}
+
+.cover-stat-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(250,245,236,0.45);
+}
+
+/* ── MAIN ── */
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 56px 40px 80px;
+}
+
+/* ── SECTION BLOCK ── */
+.section {
+  margin-bottom: 52px;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--navy);
+}
+
+.section-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 56px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--terra);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.section-info { flex: 1; }
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
   color: var(--navy);
-  flex: 1;
   line-height: 1.2;
 }
 
-.phase-badge {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  padding: 3px 10px;
-  border-radius: 20px;
-  flex-shrink: 0;
-  letter-spacing: 0.05em;
-}
-
-.badge-done { background: var(--green-dim); color: var(--green); }
-.badge-active { background: var(--amber-dim); color: var(--amber); }
-.badge-todo { background: var(--navy-dim); color: var(--muted); }
-
-.phase-chevron {
-  font-size: 11px;
-  color: var(--muted);
-  flex-shrink: 0;
-  transition: transform 0.2s;
-}
-
-.phase.open .phase-chevron { transform: rotate(180deg); }
-
-.phase-body {
-  display: none;
-  padding: 0 20px 18px;
-  border-top: 1px solid var(--border);
-}
-
-.phase.open .phase-body { display: block; }
-
-.phase-note {
+.section-desc {
   font-size: 12px;
   color: var(--muted);
-  padding: 12px 0 14px;
-  line-height: 1.6;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 14px;
+  margin-top: 3px;
+  font-style: italic;
 }
 
-/* ── STEP ITEM ── */
-.step-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(20,37,58,0.06);
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-
-.step-item:last-child { border-bottom: none; }
-.step-item:hover .step-check { border-color: var(--terra); }
-
-.step-check {
-  width: 22px;
-  height: 22px;
-  border-radius: 3px;
-  border: 1.5px solid var(--border);
+.section-total {
+  text-align: right;
   flex-shrink: 0;
-  margin-top: 1px;
-  transition: all 0.18s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
 }
 
-.step-item.checked .step-check {
-  background: var(--green);
-  border-color: var(--green);
-}
-
-.step-item.checked .step-check::after {
-  content: '✓';
-  color: white;
-  font-size: 13px;
+.section-total-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
   font-weight: 700;
+  color: var(--navy);
   line-height: 1;
 }
 
-.step-item.checked .step-content { opacity: 0.45; }
-.step-item.checked .step-text { text-decoration: line-through; }
-
-.step-content { flex: 1; }
-
-.step-text {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--navy);
-  line-height: 1.4;
-  margin-bottom: 2px;
-}
-
-.step-sub {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-.step-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 2px 7px;
-  border-radius: 20px;
-  margin-left: 6px;
-  vertical-align: middle;
-}
-
-.tag-urgent { background: rgba(168,50,50,0.1); color: #a83232; }
-.tag-ptj { background: var(--terra-dim); color: var(--terra); }
-.tag-anaf { background: var(--navy-dim); color: var(--muted); }
-.tag-dsvsa { background: rgba(45,122,79,0.1); color: var(--green); }
-
-/* ── INFO CARD ── */
-.info-card {
-  margin-top: 28px;
-  background: var(--navy);
-  border-radius: 4px;
-  padding: 24px 22px;
-}
-
-.info-eyebrow {
-  font-family: 'DM Mono', monospace;
+.section-total-label {
   font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ── TABLE ── */
+.budget-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.budget-table thead tr {
+  background: var(--navy);
+}
+
+.budget-table thead th {
+  font-family: 'Karla', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(250,245,236,0.4);
-  margin-bottom: 8px;
+  color: rgba(250,245,236,0.6);
+  padding: 10px 14px;
+  text-align: left;
 }
 
-.info-title {
+.budget-table thead th:last-child { text-align: right; }
+
+.budget-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+}
+
+.budget-table tbody tr:hover { background: rgba(20,37,58,0.03); }
+.budget-table tbody tr:last-child { border-bottom: none; }
+
+.budget-table tbody td {
+  padding: 13px 14px;
+  font-size: 14px;
+  color: var(--ink);
+  vertical-align: top;
+}
+
+.budget-table tbody td:last-child {
+  text-align: right;
   font-family: 'Playfair Display', serif;
-  font-size: 18px;
-  color: var(--cream);
-  margin-bottom: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  white-space: nowrap;
 }
 
-.info-sub {
+.td-name { font-weight: 600; }
+.td-detail {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+  font-style: italic;
+}
+
+.td-range {
+  color: var(--terra);
+  font-size: 13px;
+}
+
+/* alert row */
+.alert-row td {
+  background: rgba(196,98,45,0.06);
+  border-left: 3px solid var(--terra);
+}
+
+/* subtotal row */
+.subtotal-row {
+  background: var(--navy) !important;
+}
+.subtotal-row td {
+  color: var(--cream) !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  padding: 12px 14px !important;
+  border-bottom: none !important;
+  font-family: 'Karla', sans-serif !important;
+}
+.subtotal-row td:last-child {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 18px !important;
+  color: var(--cream) !important;
+}
+
+/* ── GRAND TOTAL ── */
+.grand-total {
+  margin-top: 48px;
+  background: var(--navy);
+  padding: 36px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.grand-total-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(250,245,236,0.45);
+  margin-bottom: 6px;
+}
+
+.grand-total-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--cream);
+  line-height: 1.2;
+}
+
+.grand-total-sub {
   font-size: 13px;
   color: rgba(250,245,236,0.5);
-  margin-bottom: 18px;
+  margin-top: 4px;
+  font-style: italic;
 }
 
-.info-row {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.grand-total-right { text-align: right; }
+
+.grand-total-range {
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1;
 }
 
-.info-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  color: rgba(250,245,236,0.7);
-  line-height: 1.5;
+.grand-total-range span {
+  font-size: 20px;
+  color: var(--terra2);
+  font-weight: 400;
 }
 
-.info-item strong { color: var(--cream); }
-
-.info-item a {
-  color: rgba(250,245,236,0.7);
-  text-decoration: none;
-}
-
-.info-item a:hover { color: var(--cream); }
-
-/* ── RESET ── */
-.reset-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin-top: 20px;
-  padding: 10px 18px;
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  background: transparent;
-  color: var(--muted);
-  font-family: 'DM Mono', monospace;
+.grand-total-label {
   font-size: 11px;
-  cursor: pointer;
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  transition: all 0.18s;
+  color: rgba(250,245,236,0.45);
+  margin-top: 6px;
 }
 
-.reset-btn:hover { color: var(--navy); border-color: rgba(20,37,58,0.25); }
+/* ── GRANT BAR ── */
+.grant-bar-section {
+  margin-top: 36px;
+  padding: 28px 32px;
+  background: white;
+  border: 1px solid var(--border);
+}
 
-@media (max-width: 480px) {
-  .app { padding: 28px 16px 60px; }
-  .page-title { font-size: 22px; }
-  .progress-pct { font-size: 18px; }
-  .phase-title { font-size: 14px; }
+.grant-bar-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 20px;
+}
+
+.grant-bar-track {
+  height: 10px;
+  background: rgba(20,37,58,0.08);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.grant-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--terra), var(--terra2));
+  width: 70%;
+}
+
+.grant-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.grant-bar-labels strong { color: var(--navy); }
+
+.grant-bar-note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.6;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+.grant-bar-note strong { color: var(--terra); font-style: normal; }
+
+/* ── ATENȚIE BOX ── */
+.atentie-box {
+  margin-top: 28px;
+  padding: 20px 24px;
+  border-left: 4px solid var(--terra);
+  background: rgba(196,98,45,0.06);
+}
+
+.atentie-label {
+  font-family: 'Karla', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 6px;
+}
+
+.atentie-text {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.65;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--navy);
+  color: rgba(250,245,236,0.4);
+  text-align: center;
+  padding: 28px 20px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+}
+
+footer strong { color: rgba(250,245,236,0.7); }
+
+/* ── PRINT ── */
+@media print {
+  body { background: white; }
+  .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .grand-total { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .subtotal-row { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  main { padding: 32px 20px; }
+  .section { page-break-inside: avoid; }
+}
+
+@media (max-width: 600px) {
+  .cover { padding: 40px 20px; }
+  main { padding: 36px 20px 60px; }
+  .cover-meta { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .cover-stat { border-right: none; margin-right: 0; padding-right: 0; }
+  .grand-total { padding: 24px 20px; }
+  .grand-total-range { font-size: 28px; }
+  .grant-bar-section { padding: 20px; }
 }
 </style>
 </head>
 <body>
-<div class="app">
 
-  <header>
-    <div class="eyebrow">PTJ · Tranziție Just · Județ eligibil</div>
-    <div class="page-title">Pași dosar — <em>extindere agropensiune & catering</em></div>
-    <div class="page-sub">Bifează fiecare pas pe măsură ce îl finalizezi. Progresul se salvează în browser. Grant 50.000–300.000 EUR, apeluri deschise 2026.</div>
-  </header>
+<div class="cover">
+  <div class="cover-inner">
+    <div class="cover-eyebrow">DR30 · AFIR · Dosar finanțare 2026</div>
+    <div class="cover-title">Buget estimativ<br><em>plantație lavandă</em></div>
+    <div class="cover-subtitle">IE 102181 · UAT Arpașu de Jos · județul Sibiu · 0,63 ha · Procesare completă + magazin scandinav</div>
 
-  <div class="progress-wrap">
-    <div class="progress-label">
-      <span class="progress-text" id="progress-text">0 din 0 pași bifați</span>
-      <span class="progress-pct" id="progress-pct">0%</span>
-    </div>
-    <div class="progress-track">
-      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-    </div>
-  </div>
-
-  <div id="phases-container"></div>
-
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
-    <button class="reset-btn" onclick="resetAll()">↺ Resetează tot</button>
-  </div>
-
-  <div class="info-card">
-    <div class="info-eyebrow">Referință PTJ — Tranziție Just</div>
-    <div class="info-title">Agenția pentru Dezvoltare Regională Vest</div>
-    <div class="info-sub">ADR Vest gestionează PTJ pentru județele eligibile din Regiunea Vest, inclusiv Hunedoara.</div>
-    <div class="info-row">
-      <div class="info-item">📍 <strong>Adresă:</strong> Bd. Revoluției din 1989 nr. 17, Timișoara</div>
-      <div class="info-item">📞 <strong>Tel:</strong> <a href="tel:0256491981">0256 491 981</a></div>
-      <div class="info-item">✉️ <strong>Email:</strong> <a href="mailto:adrv@adrv.ro">adrv@adrv.ro</a></div>
-      <div class="info-item">🌐 <strong>Web PTJ:</strong> <a href="https://www.adrv.ro/ptj" target="_blank">www.adrv.ro/ptj</a></div>
-      <div class="info-item">📋 <strong>MySMIS:</strong> <a href="https://mysmis2021.eu.ro" target="_blank">mysmis2021.eu.ro</a> — platformă depunere dosare</div>
-      <div class="info-item">⚠️ <strong>Notă:</strong> Verificați ghidul solicitantului în vigoare. Condițiile se pot modifica per apel.</div>
+    <div class="cover-meta">
+      <div class="cover-stat">
+        <div class="cover-stat-val">70.000 <span>EUR</span></div>
+        <div class="cover-stat-label">Grant DR30</div>
+      </div>
+      <div class="cover-stat">
+        <div class="cover-stat-val">~49.000 <span>EUR</span></div>
+        <div class="cover-stat-label">Buget proiect</div>
+      </div>
+      <div class="cover-stat">
+        <div class="cover-stat-val">4 <span>categorii</span></div>
+        <div class="cover-stat-label">Capitole buget</div>
+      </div>
     </div>
   </div>
-
 </div>
 
-<script>
-const PHASES = [
-  {
-    id: 'faza1',
-    num: 'FAZA 01',
-    title: 'Verificare eligibilitate & documentare apel activ',
-    note: 'Înainte de orice document, confirmă că există apel PTJ activ sau calendar planificat pentru 2026. Durată estimată: 2–3 zile.',
-    steps: [
-      { id: 's1_1', text: 'Verifică apelurile PTJ active pe mysmis2021.eu.ro', sub: 'Caută apeluri active pentru județul tău. Descarcă ghidul solicitantului și anexele aferente.', tag: 'urgent' },
-      { id: 's1_2', text: 'Contactează ADR Vest pentru confirmare eligibilitate', sub: 'Întreabă dacă extinderea unei unități comerciale existente în agropensiune + catering se încadrează în apelul activ.', tag: 'ptj' },
-      { id: 's1_3', text: 'Confirmă că județul tău e în lista județelor de tranziție just', sub: 'Lista județelor eligibile PTJ: Hunedoara, Gorj, Dolj, Galați, Mureș, Prahova. Verifică ghidul pentru actualizări.' },
-      { id: 's1_4', text: 'Citește ghidul solicitantului integral', sub: 'Identifică: valoarea maximă eligibilă, intensitatea ajutorului, activitățile eligibile, criteriile de selecție și punctajul.' },
-      { id: 's1_5', text: 'Calculează punctajul estimat al proiectului tău', sub: 'Punctaj mai mare = șanse mai mari. Criterii tipice PTJ: creare locuri de muncă, inovare, componenta verde, femei/tineri.' },
-    ]
-  },
-  {
-    id: 'faza2',
-    num: 'FAZA 02',
-    title: 'Verificarea și completarea documentelor firmei',
-    note: 'Firma trebuie să fie activă, fără datorii, și cu codurile CAEN corecte pentru toate activitățile proiectului.',
-    steps: [
-      { id: 's2_1', text: 'Verifică că firma are cod CAEN pentru cazare turistică (5520)', sub: 'CAEN 5520 = facilități de cazare pentru vacanțe și perioade de scurtă durată. Obligatoriu pentru agropensiune.' },
-      { id: 's2_2', text: 'Verifică cod CAEN pentru restaurante / catering (5610 sau 5621)', sub: 'CAEN 5610 = restaurante. CAEN 5621 = activități de alimentație (catering). Adaugă ambele dacă lipsesc.' },
-      { id: 's2_3', text: 'Verifică cod CAEN procesare fructe-legume (1039)', sub: 'Dacă ai deja codul activ — bifează. Dacă nu, adaugă la ONRC online, taxa ~100 lei.' },
-      { id: 's2_4', text: 'Adaugă coduri CAEN lipsă la ONRC', sub: 'Se face online pe portal.onrc.ro. Durată 3–5 zile lucrătoare. Certificat constatator actualizat necesar în dosar.', tag: 'urgent' },
-      { id: 's2_5', text: 'Obține certificat constatator ONRC actualizat', sub: 'Document obligatoriu în dosar. Trebuie să reflecte toate codurile CAEN ale proiectului. Valabil 30 zile.' },
-      { id: 's2_6', text: 'Obține certificat fiscal de la ANAF — fără datorii', sub: 'Firmă și asociat/administrator. Datoriile la bugetul de stat = dosar respins automat.', tag: 'anaf' },
-      { id: 's2_7', text: 'Obține cazier judiciar administrator', sub: 'De la Poliție sau online. Valabil 30 zile de la emitere.' },
-      { id: 's2_8', text: 'Pregătește bilanțurile contabile ultimii 2–3 ani', sub: 'Bilanțuri depuse la ANAF, cu ștampilă de primire. Demonstrează istoricul financiar al firmei.' },
-    ]
-  },
-  {
-    id: 'faza3',
-    num: 'FAZA 03',
-    title: 'Autorizații pentru activitățile noi',
-    note: 'Fiecare activitate nouă adăugată (cazare, catering, procesare) are nevoie de autorizare specifică. Unele pot fi obținute după aprobare, dar documentele de intenție se includ în dosar.',
-    steps: [
-      { id: 's3_1', text: 'Verifică autorizația DSVSA existentă — ce activități acoperă', sub: 'Identifică dacă autorizația actuală acoperă doar bar/cafenea sau include și preparare alimente.', tag: 'dsvsa' },
-      { id: 's3_2', text: 'Extinde autorizarea DSVSA pentru catering și procesare borcane', sub: 'Sună la DSVSA județeană — cere "extindere autorizație unitate mică procesare alimentară și catering".', tag: 'dsvsa' },
-      { id: 's3_3', text: 'Obține certificat de clasificare pensiune turistică', sub: 'Emis de Ministerul Turismului / Autoritatea Națională pentru Turism. Obligatoriu pentru a funcționa legal ca pensiune. Clasele: 1–5 margarete.' },
-      { id: 's3_4', text: 'Verifică dacă acordul de la Primărie acoperă și cazarea', sub: 'Acordul comercial existent poate necesita completare pentru activitate de cazare turistică.' },
-      { id: 's3_5', text: 'Obține autorizație ISU pentru spațiul de cazare', sub: 'Inspecția Situațiilor de Urgență verifică normele PSI pentru pensiuni. Obligatoriu înainte de clasificare.' },
-      { id: 's3_6', text: 'Verifică normele sanitare DSP pentru spațiile de cazare', sub: 'Dacă adaugi camere/băi noi, DSP poate cere inspecție separată de cea DSVSA.' },
-    ]
-  },
-  {
-    id: 'faza4',
-    num: 'FAZA 04',
-    title: 'Documentele pentru spațiu și construcție',
-    note: 'PTJ finanțează și construcție/extindere, nu doar echipamente. Dacă extinzi fizic clădirea, ai nevoie de autorizație de construire.',
-    steps: [
-      { id: 's4_1', text: 'Obține extras de Carte Funciară pentru imobil', sub: 'De la OCPI județean sau online pe e-terra.ro. Verifică că nu are sarcini/ipoteci care blochează proiectul.' },
-      { id: 's4_2', text: 'Obține certificat de urbanism de la Primărie', sub: 'Confirmă destinația imobilului și posibilitatea extinderii/schimbării destinației în cazare + catering.' },
-      { id: 's4_3', text: 'Angajează arhitect autorizat cu experiență în fonduri europene', sub: 'Cere referințe pentru proiecte AFIR sau PTJ aprobate. Costul proiectului tehnic: 3–8% din valoarea lucrărilor.' },
-      { id: 's4_4', text: 'Elaborează studiul de fezabilitate (SF) sau DALI', sub: 'SF pentru construcție nouă / extindere. DALI (Documentație de Avizare Lucrări de Intervenție) pentru reabilitare clădire existentă.' },
-      { id: 's4_5', text: 'Obține devizul general al lucrărilor', sub: 'Detaliat pe categorii. Baza pentru bugetul proiectului PTJ. Trebuie corelat cu ofertele de preț.' },
-      { id: 's4_6', text: 'Obține autorizație de construire (dacă e cazul)', sub: 'Necesară dacă extinzi fizic sau schimbi destinația spațiului. Emisă de Primărie în 30–60 zile.' },
-    ]
-  },
-  {
-    id: 'faza5',
-    num: 'FAZA 05',
-    title: 'Planul de afaceri PTJ',
-    note: 'Documentul central al dosarului. Trebuie corelat cu ghidul apelului PTJ și să demonstreze viabilitate economică pe minim 3–5 ani.',
-    steps: [
-      { id: 's5_1', text: 'Descarcă modelul oficial de plan de afaceri din ghidul apelului', sub: 'Fiecare apel PTJ poate avea un model specific. Nu folosi un model generic — urmează structura cerută.' },
-      { id: 's5_2', text: 'Descrie activitățile proiectului — ce se schimbă față de acum', sub: 'Băcănie actuală → agropensiune (X camere) + catering (evenimente, comenzi) + procesare (conserve, produse artizanale).' },
-      { id: 's5_3', text: 'Calculează capacitatea pensiunii și veniturile estimate', sub: 'ex: 4 camere × 250 lei/noapte × 150 nopți/an + catering lunar + vânzări borcane. Fii realist, nu optimist.' },
-      { id: 's5_4', text: 'Planifică locurile de muncă create', sub: 'PTJ punctează puternic crearea de locuri de muncă. Minim 1–2 angajați noi. Calculează salarii + contribuții în cheltuieli.' },
-      { id: 's5_5', text: 'Elaborează proiecțiile financiare pe 3–5 ani', sub: 'Bilanț previzionat, cont de profit și pierdere, flux de numerar. Proiectul trebuie să fie profitabil din an 2–3.' },
-      { id: 's5_6', text: 'Descrie strategia de marketing și piața țintă', sub: 'Turiști pe DN 68 / zona Hațeg, grupuri catering, clienți fideli băcănie. Booking.com, Google My Business, rețele sociale.' },
-      { id: 's5_7', text: 'Include componenta verde / sustenabilitate', sub: 'Panouri solare, izolație termică, colectare selectivă, produse locale — aduc punctaj suplimentar la PTJ.' },
-      { id: 's5_8', text: 'Corelează bugetul proiectului cu devizul și ofertele de preț', sub: 'Fiecare linie de buget trebuie justificată cu ofertă de preț. Fără justificare = cheltuială neeligibilă.' },
-    ]
-  },
-  {
-    id: 'faza6',
-    num: 'FAZA 06',
-    title: 'Oferte de preț pentru echipamente și lucrări',
-    note: 'Minim 2 oferte de preț pentru fiecare echipament sau serviciu. Fără oferte = cheltuiala devine neeligibilă.',
-    steps: [
-      { id: 's6_1', text: 'Listează toate echipamentele pentru bucătăria profesională', sub: 'Cuptor profesional, hotă industrială, masă inox, friteuză, frigider comercial, mașină de spălat vase, sealer etc.' },
-      { id: 's6_2', text: 'Listează echipamentele pentru camerele de cazare', sub: 'Paturi, saltele, mobilier, sistem climatizare, TV, lenjerie, accesorii baie pentru fiecare cameră.' },
-      { id: 's6_3', text: 'Listează echipamentele pentru procesare / conserve', sub: 'Sterilizator profesional, mașină de etichetat, cântar omologat, recipiente, ambalaje certificate alimentar.' },
-      { id: 's6_4', text: 'Solicită minim 2 oferte de preț per echipament', sub: 'Ofertele trebuie să fie pe hârtie / email, cu antet furnizor, dată, specificații tehnice complete.' },
-      { id: 's6_5', text: 'Solicită minim 2 oferte pentru lucrările de construcție / amenajare', sub: 'De la constructori autorizați. Corelează cu devizul din SF/DALI.' },
-      { id: 's6_6', text: 'Verifică că furnizorii nu sunt persoane afiliate', sub: 'Furnizorul nu poate fi soț/soție/rudă sau firmă cu același asociat. Conflict de interese = excludere automată din dosar.' },
-    ]
-  },
-  {
-    id: 'faza7',
-    num: 'FAZA 07',
-    title: 'Dovada cofinanțării',
-    note: 'PTJ acoperă de obicei 70–85% din valoarea eligibilă. Diferența (15–30%) trebuie demonstrată că există înainte de depunere.',
-    steps: [
-      { id: 's7_1', text: 'Calculează valoarea cofinanțării necesare', sub: 'ex: proiect 200.000 EUR × 20% cofinanțare = 40.000 EUR. Verifică procentul exact în ghidul apelului.' },
-      { id: 's7_2', text: 'Alege sursa cofinanțării: cont propriu sau credit bancar', sub: 'Cont propriu = extras de cont cu suma disponibilă. Credit = scrisoare de intenție / preacord de la bancă.' },
-      { id: 's7_3', text: 'Obține extras de cont bancar sau scrisoare bancă', sub: 'Documentul trebuie să fie recent (max 30 zile). Suma trebuie să acopere integral cofinanțarea.' },
-      { id: 's7_4', text: 'Verifică dacă firma are credite sau garanții active', sub: 'Creditele existente pot afecta capacitatea de cofinanțare. Banca evaluează total angajamente.' },
-    ]
-  },
-  {
-    id: 'faza8',
-    num: 'FAZA 08',
-    title: 'Depunere dosar în MySMIS2021',
-    note: 'Dosarul PTJ se depune exclusiv online în platforma MySMIS2021. Verifică lista de conformitate din ghid înainte de a apăsa Submit.',
-    steps: [
-      { id: 's8_1', text: 'Creează cont în MySMIS2021 dacă nu există', sub: 'Pe mysmis2021.eu.ro. Contul e pe persoana fizică (administrator sau reprezentant legal al firmei).' },
-      { id: 's8_2', text: 'Completează cererea de finanțare în MySMIS', sub: 'Urmează structura din ghid. Salvează frecvent. Nu se poate modifica după depunere.' },
-      { id: 's8_3', text: 'Încarcă toate documentele obligatorii în platformă', sub: 'Plan de afaceri, SF/DALI, oferte de preț, documente firmă, autorizații, dovada cofinanțării, declarații.' },
-      { id: 's8_4', text: 'Verifică lista de conformitate din ghid — punct cu punct', sub: 'Fiecare document trebuie bifat. Un document lipsă = neconformitate = respingere fără evaluare de fond.' },
-      { id: 's8_5', text: 'Depune cererea în intervalul apelului', sub: 'Verifică ora exactă de închidere a apelului. MySMIS poate fi lent în ultimele ore — depune cu 2 zile înainte.' },
-      { id: 's8_6', text: 'Salvează numărul de înregistrare și confirmarea depunerii', sub: 'Screenshot + PDF al confirmării. Numărul de înregistrare e dovada depunerii în termen.' },
-      { id: 's8_7', text: 'Urmărește stadiul evaluării în MySMIS', sub: 'Etape: conformitate administrativă → eligibilitate → selecție (punctaj). Durată medie totală: 60–120 zile.' },
-      { id: 's8_8', text: 'Răspunde prompt la solicitările de clarificări', sub: 'Termenul de răspuns e de obicei 5–10 zile lucrătoare. Nerespuns = dosar respins.' },
-      { id: 's8_9', text: 'Semnează contractul de finanțare', sub: 'După aprobare, semnezi cu ADR / Organism Intermediar. Abia după semnare poți face cheltuieli eligibile.', tag: 'urgent' },
-    ]
-  },
-];
+<main>
 
-const STORAGE_KEY = 'ptj_agropensiune_v1';
-
-function loadState() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
-  catch { return {}; }
-}
-
-function saveState(state) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
-}
-
-let state = loadState();
-
-function render() {
-  const container = document.getElementById('phases-container');
-  container.innerHTML = '';
-
-  let totalSteps = 0, doneSteps = 0;
-
-  PHASES.forEach(phase => {
-    const phaseTotal = phase.steps.length;
-    const phaseDone = phase.steps.filter(s => state[s.id]).length;
-    totalSteps += phaseTotal;
-    doneSteps += phaseDone;
-
-    const isOpen = state['open_' + phase.id] !== false;
-    const badgeClass = phaseDone === phaseTotal ? 'badge-done' : phaseDone > 0 ? 'badge-active' : 'badge-todo';
-    const badgeText = phaseDone === phaseTotal ? '✓ Complet' : phaseDone > 0 ? `${phaseDone}/${phaseTotal}` : 'De făcut';
-
-    const stepsHTML = phase.steps.map(s => {
-      const checked = !!state[s.id];
-      const tagHTML = s.tag === 'urgent' ? '<span class="step-tag tag-urgent">Urgent</span>'
-        : s.tag === 'ptj' ? '<span class="step-tag tag-ptj">PTJ</span>'
-        : s.tag === 'anaf' ? '<span class="step-tag tag-anaf">ANAF</span>'
-        : s.tag === 'dsvsa' ? '<span class="step-tag tag-dsvsa">DSVSA</span>'
-        : '';
-
-      return `
-      <div class="step-item ${checked ? 'checked' : ''}" onclick="toggleStep('${s.id}')">
-        <div class="step-check"></div>
-        <div class="step-content">
-          <div class="step-text">${s.text}${tagHTML}</div>
-          ${s.sub ? `<div class="step-sub">${s.sub}</div>` : ''}
-        </div>
-      </div>`;
-    }).join('');
-
-    const phaseEl = document.createElement('div');
-    phaseEl.className = 'phase' + (isOpen ? ' open' : '');
-    phaseEl.id = 'phase_' + phase.id;
-    phaseEl.innerHTML = `
-      <div class="phase-header" onclick="togglePhase('${phase.id}')">
-        <span class="phase-num">${phase.num}</span>
-        <span class="phase-title">${phase.title}</span>
-        <span class="phase-badge ${badgeClass}">${badgeText}</span>
-        <span class="phase-chevron">▾</span>
+  <div class="section">
+    <div class="section-header">
+      <div class="section-letter">A</div>
+      <div class="section-info">
+        <div class="section-title">Plantație lavandă — 0,63 ha <span style="font-size:12px;color:var(--terra);font-family:'Karla',sans-serif;font-weight:600">⚠ Schimbare categorie fânață→arabil obligatorie</span></div>
+        <div class="section-desc">CF: IE 102181 · 6.300 mp · Fânață extravilan · UAT Arpașu de Jos</div>
       </div>
-      <div class="phase-body">
-        <div class="phase-note">${phase.note}</div>
-        ${stepsHTML}
-      </div>`;
+      <div class="section-total">
+        <div class="section-total-val">5.600 EUR</div>
+        <div class="section-total-label">Subtotal</div>
+      </div>
+    </div>
 
-    container.appendChild(phaseEl);
-  });
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th style="width:40%">Specificație</th>
+          <th style="width:38%">Detaliu</th>
+          <th style="width:22%">Cost EUR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="alert-row">
+          <td>
+            <div class="td-name">Schimbare categorie folosință</div>
+            <div class="td-detail" style="color:var(--terra)">⚠ Prioritate absolută — fără aceasta lavanda nu e justificată în plan</div>
+          </td>
+          <td><div class="td-detail">OCPI Sibiu + aprobare APIA · durată 2–4 luni · taxe + notar</div></td>
+          <td>300</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Pregătire teren</div>
+          </td>
+          <td><div class="td-detail">Arat, discuit, frezat — utilaj închiriat local</div></td>
+          <td>200</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Butași lavandă</div>
+          </td>
+          <td><div class="td-detail">~8.400 buc × 0,30 EUR/buc — furnizor atestat (6.300 mp)</div></td>
+          <td>2.520</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Plantare + manoperă</div>
+          </td>
+          <td><div class="td-detail">4 zilieri × 10 zile × 150 lei/zi</div></td>
+          <td>300</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Sistem irigații picurare</div>
+          </td>
+          <td><div class="td-detail">Pompă + furtun + dropper 0,63 ha · depresiune Arpașu ~470 m alt.</div></td>
+          <td>1.880</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Rezervor apă 5.000 L</div>
+          </td>
+          <td><div class="td-detail">Polietilenă + suport metalic — tampon foraj</div></td>
+          <td>400</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="2">Subtotal A — Plantație</td>
+          <td>5.600 EUR</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  const pct = totalSteps ? Math.round(doneSteps / totalSteps * 100) : 0;
-  document.getElementById('progress-text').textContent = `${doneSteps} din ${totalSteps} pași bifați`;
-  document.getElementById('progress-pct').textContent = pct + '%';
-  document.getElementById('progress-fill').style.width = pct + '%';
-}
+  <div class="section">
+    <div class="section-header">
+      <div class="section-letter">B</div>
+      <div class="section-info">
+        <div class="section-title">Procesare completă</div>
+        <div class="section-desc">Ulei esențial, flori uscate, cosmetice, sirop — aparatură generică polivalentă</div>
+      </div>
+      <div class="section-total">
+        <div class="section-total-val">5.710 EUR</div>
+        <div class="section-total-label">Subtotal</div>
+      </div>
+    </div>
 
-function toggleStep(id) {
-  state[id] = !state[id];
-  saveState(state);
-  render();
-}
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th style="width:40%">Specificație</th>
+          <th style="width:38%">Detaliu</th>
+          <th style="width:22%">Cost EUR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="td-name">Distilator 100 L cu coloană inox</div>
+          </td>
+          <td><div class="td-detail">Cazan + separator ulei esențial — preț real piață ~7.750 lei</div></td>
+          <td>1.560</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Uscător rastel tunel lavandă</div>
+          </td>
+          <td><div class="td-detail">Construcție proprie metal + plasă inox alimentar</div></td>
+          <td>800</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Masă inox procesare + cântar omologat</div>
+          </td>
+          <td><div class="td-detail">Echipament alimentar certificat DSVSA</div></td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Mașină etichetat manuală</div>
+          </td>
+          <td><div class="td-detail">Starter pack etichete + dispenser</div></td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Sealer termic pungi / borcane</div>
+          </td>
+          <td><div class="td-detail">Sigilare produse finite ambalate</div></td>
+          <td>350</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Recipiente sticlă + borcane</div>
+          </td>
+          <td><div class="td-detail">Stoc inițial ~500 buc diverse capacități</div></td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Frigider comercial produse finite</div>
+          </td>
+          <td><div class="td-detail">Second-hand certificat — depozitare apă florală</div></td>
+          <td>500</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Presă / centrifugă produse cosmetice</div>
+          </td>
+          <td><div class="td-detail">Procesare săpun, cremă, loțiune — polivalent</div></td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Materii prime cosmetice starter</div>
+          </td>
+          <td><div class="td-detail">Ceară, uleiuri bază, ambalaje, ingrediente</div></td>
+          <td>500</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="2">Subtotal B — Procesare</td>
+          <td>5.710 EUR</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-function togglePhase(id) {
-  state['open_' + id] = !(state['open_' + id] !== false);
-  saveState(state);
-  render();
-}
+  <div class="section">
+    <div class="section-header">
+      <div class="section-letter">C</div>
+      <div class="section-info">
+        <div class="section-title">Utilități — depresiune Arpașu, ~470 m altitudine</div>
+        <div class="section-desc">Foraj revizuit față de estimarea inițială · zonă de câmpie joasă, apă probabil la 30–50 m</div>
+      </div>
+      <div class="section-total">
+        <div class="section-total-val td-range">13.200–16.200</div>
+        <div class="section-total-label">EUR · interval</div>
+      </div>
+    </div>
 
-function resetAll() {
-  if (!confirm('Resetezi toate bifele? Progresul se pierde.')) return;
-  state = {};
-  saveState(state);
-  render();
-}
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th style="width:40%">Specificație</th>
+          <th style="width:38%">Detaliu</th>
+          <th style="width:22%">Cost EUR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="td-name">Foraj apă potabilă</div>
+            <div class="td-detail">Revizuit: depresiune ~470 m, nu munte înalt</div>
+          </td>
+          <td><div class="td-detail">Estimat 30–50 m adâncime · cost redus față de versiunea anterioară · recomandăm totuși studiu hidrogeo. preliminar</div></td>
+          <td><span class="td-range">4.000–7.000</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Pompă submersibilă + tablou electric</div>
+          </td>
+          <td><div class="td-detail">Grundfos sau similar, debit minim 1,5 m³/h</div></td>
+          <td>1.200</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Fosă septică ecologică</div>
+          </td>
+          <td><div class="td-detail">2.000 L vidanjabilă + montaj + autorizare</div></td>
+          <td>3.500</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Panouri fotovoltaice 3 kWp off-grid</div>
+          </td>
+          <td><div class="td-detail">Invertor + baterii LiFePO4 + montaj complet</div></td>
+          <td>5.500</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="2">Subtotal C — Utilități</td>
+          <td>13.200–16.200 EUR</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-if (!localStorage.getItem(STORAGE_KEY)) {
-  state['open_faza1'] = true;
-}
+  <div class="section">
+    <div class="section-header">
+      <div class="section-letter">D</div>
+      <div class="section-info">
+        <div class="section-title">Anexă agricolă — magazin scandinav ~40 mp</div>
+        <div class="section-desc">Destinație: depozitare + prelucrare + desfacere produse proprii · extravilan · procedură de autorizare simplificată</div>
+      </div>
+      <div class="section-total">
+        <div class="section-total-val td-range">18.000–24.000</div>
+        <div class="section-total-label">EUR · interval</div>
+      </div>
+    </div>
 
-render();
-</script>
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th style="width:40%">Specificație</th>
+          <th style="width:38%">Detaliu</th>
+          <th style="width:22%">Cost EUR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="td-name">Fundație + radier beton armat</div>
+          </td>
+          <td><div class="td-detail">Sapă, cofraj, armare, turnare beton C20/25 · ~40 mp</div></td>
+          <td><span class="td-range">3.000–4.500</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Structură piloni / structură lemn finisată</div>
+          </td>
+          <td><div class="td-detail">Pereți tip sandwich izolați cu design exterior scandinav</div></td>
+          <td><span class="td-range">5.000–7.000</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Acoperiș tablă tip țiglă metalică</div>
+          </td>
+          <td><div class="td-detail">Șarpantă lemn + învelitoare · izolație termo</div></td>
+          <td><span class="td-range">2.500–3.500</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Tâmplărie PVC + ușă metalică</div>
+          </td>
+          <td><div class="td-detail">2 ferestre + 1 ușă intrare + 1 ușă serviciu</div></td>
+          <td>1.800</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Finisaje interioare</div>
+          </td>
+          <td><div class="td-detail">Gresie pardoseală, faianță zona procesare, tavan fals</div></td>
+          <td>1.500</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Instalație electrică + iluminat</div>
+          </td>
+          <td><div class="td-detail">Tablou, prize, prize trifazice procesare, corp iluminat LED</div></td>
+          <td>800</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Instalație sanitară minimă</div>
+          </td>
+          <td><div class="td-detail">Lavoar + WC + racord la fosă septică</div></td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Amenajare spațiu desfacere</div>
+          </td>
+          <td><div class="td-detail">Rafturi lemn, tejghea, vitrină expunere produse, iluminat accent</div></td>
+          <td>1.500</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Casă de marcat + POS</div>
+          </td>
+          <td><div class="td-detail">Obligatoriu fiscal · model omologat ANAF</div></td>
+          <td>400</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Signalistică + panou exterior</div>
+          </td>
+          <td><div class="td-detail">Panou firmă + identitate vizuală spațiu</div></td>
+          <td>500</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="td-name">Proiect tehnic arhitect</div>
+          </td>
+          <td><div class="td-detail">Proiect tehnic complet solicitat de AFIR pentru decontare</div></td>
+          <td><span class="td-range">800–1.200</span></td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="2">Subtotal D — Magazin scandinav</td>
+          <td>18.000–24.000 EUR</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grand-total">
+    <div class="grand-total-left">
+      <div class="grand-total-eyebrow">Total general proiect · versiunea 2 · CF + structură scandinavă</div>
+      <div class="grand-total-title">Plantație lavandă<br>Arpașu de Jos · DR30</div>
+      <div class="grand-total-sub">A + B + C + D · 6.300 mp fânață → arabil · prețuri 2026</div>
+    </div>
+    <div class="grand-total-right">
+      <div class="grand-total-range">43.010 <span>–</span> 52.510</div>
+      <div class="grand-total-label">EUR · total estimat</div>
+    </div>
+  </div>
+
+  <div class="grant-bar-section">
+    <div class="grant-bar-title">Acoperire grant DR30 — 70.000 EUR forfetar</div>
+    <div class="grant-bar-track">
+      <div class="grant-bar-fill"></div>
+    </div>
+    <div class="grant-bar-labels">
+      <span>0 EUR</span>
+      <span><strong>~49.000 EUR</strong> — centrul intervalului</span>
+      <span>70.000 EUR</span>
+    </div>
+    <div class="grant-bar-note">
+      Proiectul se încadrează confortabil în forfetarul DR30. Față de versiunea inițială, <strong>forajul e revizuit în jos</strong> (depresiune ~470 m, nu munte înalt) și suprafața corectată la 6.300 mp conform CF. Rămâne o marjă de <strong>16.000–25.000 EUR</strong> pentru cheltuieli neprevăzute și consultanță dosar (5–8%). <strong>Acțiunea prioritară: schimbarea categoriei din fânață în arabil</strong> — fără aceasta dosarul nu poate fi depus.
+    </div>
+  </div>
+
+  <div class="atentie-box">
+    <div class="atentie-label">⚠ Atenție — acțiuni obligatorii înainte de depunerea dosarului</div>
+    <div class="atentie-text">
+      <strong>1. Schimbare categorie CF din fânață în arabil</strong> — fânața e pajiște permanentă, lavanda necesită arabil. Procedură la OCPI Sibiu + aprobare APIA, durată 2–4 luni. Fără aceasta planul de afaceri nu poate justifica cultura.<br><br>
+      <strong>2. Legea 17 / Art. 3</strong> — planul cadastral indică intersecție cu Legea 17. Verificați dacă terenul intră sub incidența dreptului de preempțiune la vânzare (dacă urmează să fie cumpărat, nu e deja în proprietate).<br><br>
+      <strong>3. Toate sumele sunt estimative</strong> bazate pe prețuri piață iunie 2026. Pentru dosar AFIR sunt necesare minimum 2 oferte de preț per echipament, corelate cu BDPR (bdpr.afir.info). Construcția scandinavă în extravilan ca anexă agricolă necesită autorizație de construire — verificați PUG-ul comunei Arpașu de Jos.
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <strong>IE 102181 · UAT Arpașu de Jos · Județul Sibiu · Fânață 6.300 mp → arabil</strong><br>
+  Consultant: Otilia Sălășan · Versiunea 2 — date CF confirmate · 18.06.2026<br>
+  Estimare orientativă · Verificați ghidul DR30 în vigoare pe afir.ro
+</footer>
+
 </body>
 </html>

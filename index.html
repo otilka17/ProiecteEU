@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal Consultanță — Finanțări & Turism</title>
+<title>Hub Consultanță Integrată — Proiect Agroturism Sebiș</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Karla:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -65,11 +65,39 @@ header {
 .page-sub {
   font-size: 16px;
   color: var(--muted);
-  max-width: 580px;
+  max-width: 620px;
   margin: 0 auto;
 }
 
-/* ── LIVE INFO PANEL (INSPIRATION + LINKS) ── */
+/* ── URBANISM NOTE ── */
+.legal-framework {
+  background: white;
+  border-left: 3px solid var(--terra);
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0 6px 6px 0;
+  padding: 24px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 20px rgba(20,37,58,0.02);
+}
+.legal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: var(--navy);
+}
+.legal-text {
+  font-size: 13.5px;
+  color: var(--navy-light);
+  line-height: 1.6;
+}
+.legal-highlight {
+  font-weight: 600;
+  color: var(--terra);
+}
+
+/* ── LIVE INFO PANEL ── */
 .live-monitor {
   background: white;
   border: 1px solid var(--border);
@@ -158,23 +186,22 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 300px;
+  min-height: 320px;
   overflow: hidden;
   background-size: cover;
   background-position: center;
 }
 
-/* Overlay dual state */
 .card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(250, 245, 236, 0.88) 0%, rgba(250, 245, 236, 0.96) 100%);
+  background: linear-gradient(180deg, rgba(250, 245, 236, 0.90) 0%, rgba(250, 245, 236, 0.97) 100%);
   z-index: 1;
   transition: background 0.3s ease;
 }
 .card:hover::before {
-  background: linear-gradient(180deg, rgba(14, 28, 44, 0.88) 0%, rgba(14, 28, 44, 0.96) 100%);
+  background: linear-gradient(180deg, rgba(14, 28, 44, 0.90) 0%, rgba(14, 28, 44, 0.97) 100%);
 }
 
 .card-content {
@@ -230,10 +257,9 @@ header {
   transition: all 0.3s;
 }
 
-/* Hover typography shift */
 .card:hover .card-title { color: var(--cream); }
-.card:hover .card-desc { color: rgba(250,245,236,0.65); }
-.card:hover .card-meta { color: #eab308; } /* Amber cald pentru contrast */
+.card:hover .card-desc { color: rgba(250,245,236,0.7); }
+.card:hover .card-meta { color: #eab308; }
 .card:hover .card-link {
   color: var(--cream);
   border-color: var(--cream);
@@ -281,88 +307,95 @@ footer {
 
 <div class="container">
   <header>
-    <div class="eyebrow">Sisteme integrate de finanțare</div>
-    <div class="page-title">Consultanță Fonduri Structurale & <em>Arhitectură</em></div>
-    <div class="page-sub">Arhitectura unui proiect de succes combină viziunea antreprenorială cu rigoarea ghidurilor oficiale.</div>
+    <div class="eyebrow">Strategie LEADER 2023 - 2027</div>
+    <div class="page-title">Agroturism <em>Off-Grid</em> Sebiș</div>
+    <div class="page-sub">Arhitectura sustenabilă a unui proiect integrat: exploatare agricolă activă îmbinată cu autonomie funcțională totală în extravilan.</div>
   </header>
+
+  <div class="legal-framework">
+    <div class="legal-title">Abordarea Strategică a Extravilanului</div>
+    <div class="legal-text">
+      Conform normelor tehnice, autorizarea unei construcții în extravilan <span class="legal-highlight">fără PUZ</span> este condiționată direct de existența unei activități agricole reale. Acest proiect fuzionează <span class="legal-highlight">Plantația de Lavandă și Stupina</span> cu o micro-structură agroturistică sustenabilă, dependentă energetic exclusiv de resurse regenerabile proprii.
+    </div>
+  </div>
 
   <div class="live-monitor">
     <div class="monitor-header">
       <div class="monitor-title">
-        <span class="pulse-dot"></span> Monitorizare Apeluri & Ghiduri Active
+        <span class="pulse-dot"></span> Monitorizare Legislație & Ghiduri Active
       </div>
-      <div style="font-family:'DM Mono', monospace; font-size:11px; color: var(--muted);">Anul contractual: 2026</div>
+      <div style="font-family:'DM Mono', monospace; font-size:11px; color: var(--muted);">Sesiune de depunere: 2026</div>
     </div>
     <div class="links-row">
       <a href="https://www.afir.ro" target="_blank" class="official-link">
         <span class="link-site">afir.ro</span>
-        <span class="link-label">Ghiduri oficiale DR-36</span>
+        <span class="link-label">Ghiduri DR-36 & Agroturism</span>
       </a>
       <a href="https://mysmis2021.gov.ro" target="_blank" class="official-link">
         <span class="link-site">mysmis2021</span>
-        <span class="link-label">Depunere electronică</span>
+        <span class="link-label">Platformă Depunere Dosar</span>
       </a>
       <a href="https://turism.gov.ro" target="_blank" class="official-link">
         <span class="link-site">ministerul turismului</span>
-        <span class="link-label">Criterii clasificare pensiuni</span>
+        <span class="link-label">Criterii Agropensiuni (Min. 1 ha)</span>
       </a>
     </div>
   </div>
 
   <div class="cards-grid">
     
-    <a href="checklist-gal-leader-dr-36.html" class="card" style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop');">
+    <a href="checklist-gal-leader.html" class="card" style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop');">
       <div class="card-content">
         <div>
-          <div class="card-meta">Instrument Interactiv</div>
+          <div class="card-meta">Interfață Procedurală</div>
           <div class="card-title">Checklist GAL / LEADER DR-36</div>
-          <div class="card-desc">Verificator inteligent de parcurs pentru dosarul complet de finanțare în zona Sebiș. Monitorizează-ți progresul pas cu pas.</div>
+          <div class="card-desc">Verificator pas cu pas adaptat pentru specificul GAL Sebiș. Monitorizează avizele, documentele stupinei, adeverințele APIA și corelarea dosarului.</div>
         </div>
-        <span class="card-link">Lansează aplicația →</span>
+        <span class="card-link">Lansează checklist-ul →</span>
       </div>
     </a>
 
     <a href="ptjpensiune.html" class="card" style="background-image: url('https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=600&auto=format&fit=crop');">
       <div class="card-content">
         <div>
-          <div class="card-meta">Documentație Tehnică</div>
-          <div class="card-title">Plan de Afaceri & PT Pensiune</div>
-          <div class="card-desc">Sinteze financiare, devize pe capitole, soluții de compartimentare și design pentru structuri de primire agroturistice.</div>
+          <div class="card-meta">Memorii & Arhitectură</div>
+          <div class="card-title">Plan Agroturistic & Proiect Tehnic</div>
+          <div class="card-desc">Dimensionarea spațiilor de cazare conectate la profilul agricol. Corelarea fluxurilor pentru procesarea lavandei și depozitarea produselor apicole.</div>
         </div>
-        <span class="card-link">Deschide documentul →</span>
+        <span class="card-link">Deschide proiectul tehnic →</span>
       </div>
     </a>
 
     <a href="calificare.html" class="card" style="background-image: url('https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=600&auto=format&fit=crop');">
       <div class="card-content">
         <div>
-          <div class="card-meta">Evaluare Inițială</div>
-          <div class="card-title">Formular Calificare Client</div>
-          <div class="card-desc">Sistem automatizat de analiză a eligibilității solicitantului. Determină pragul de punctaj înainte de a investi în proiectare.</div>
+          <div class="card-meta">Algoritm de Filtrare</div>
+          <div class="card-title">Formular Calificare & Eligibilitate</div>
+          <div class="card-desc">Sistem de screening automatizat axat pe dubla condiție: calitatea de tânăr fermier / antreprenor și încadrarea suprafețelor de cultură din extravilan.</div>
         </div>
-        <span class="card-link">Completează formularul →</span>
+        <span class="card-link">Verifică criteriile critice →</span>
       </div>
     </a>
 
     <a href="personalitate.html" class="card" style="background-image: url('https://images.unsplash.com/photo-1611095774955-715099a68619?q=80&w=600&auto=format&fit=crop');">
       <div class="card-content">
         <div>
-          <div class="card-meta">Profil Antreprenorial</div>
-          <div class="card-title">Test de Personalitate / Leadership</div>
-          <div class="card-desc">Evaluează competențele de management necesare operării unei afaceri în turismul rural și identifică punctele forte ale echipei.</div>
+          <div class="card-meta">Competențe Cheie</div>
+          <div class="card-title">Profil Antreprenorial & Managerial</div>
+          <div class="card-desc">Evaluarea aptitudinilor solicitantului (fiul - 20 ani) ca vector principal de punctaj. Analiză psihologică orientată spre managementul riscurilor.</div>
         </div>
-        <span class="card-link">Începe testarea →</span>
+        <span class="card-link">Accesează testarea →</span>
       </div>
     </a>
 
-    <a href="Sun.html" class="card" style="background-image: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=600&auto=format&fit=crop');">
+    <a href="sun.html" class="card" style="background-image: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=600&auto=format&fit=crop');">
       <div class="card-content">
         <div>
-          <div class="card-meta">Tranziție Verde</div>
-          <div class="card-title">Studiu Soluții Verzi (Sun)</div>
-          <div class="card-desc">Dimensionarea sistemelor fotovoltaice și de eficiență energetică. O componentă obligatorie pentru punctaj maxim în noile linii AFIR.</div>
+          <div class="card-meta">Infrastructură Autonomă</div>
+          <div class="card-title">Studiu Soluții Verzi & Breviar Off-Grid</div>
+          <div class="card-desc">Calcule matematice stricte pentru sistemul fotovoltaic insular (baterii), debitul forajului de apă adâncă și avizarea fosei septice ecologice.</div>
         </div>
-        <span class="card-link">Vezi proiecția solară →</span>
+        <span class="card-link">Vezi calculele de eficiență →</span>
       </div>
     </a>
 
@@ -371,12 +404,11 @@ footer {
   <footer>
     <div class="profile-info">
       <div class="avatar">O17</div>
-      <div class="profile-name">otilka17 / repository</div>
+      <div class="profile-name">otilka17 / agroturism-sebis</div>
     </div>
-    <div class="repo-status">● Management de Proiect Integrat</div>
+    <div class="repo-status">● Soluție Tehnică fără PUZ aprobată de principiu</div>
   </footer>
 </div>
 
 </body>
 </html>
-

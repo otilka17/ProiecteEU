@@ -1,178 +1,1377 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checklist Calificare Start-Up Nation Ed. IV</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f4f7f6;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-            max-width: 650px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        h1 {
-            color: #2c3e50;
-            font-size: 24px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-top: 0;
-        }
-        h2 {
-            color: #2980b9;
-            font-size: 18px;
-            margin-top: 25px;
-            margin-bottom: 10px;
-            background: #ecf0f1;
-            padding: 8px 12px;
-            border-radius: 4px;
-        }
-        .info-note {
-            background-color: #e8f4fd;
-            border-left: 4px solid #3498db;
-            padding: 12px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border-radius: 0 4px 4px 0;
-        }
-        .checkbox-group {
-            margin-bottom: 12px;
-            display: flex;
-            align-items: flex-start;
-        }
-        .checkbox-group input[type="checkbox"] {
-            margin-top: 5px;
-            margin-right: 12px;
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-        .checkbox-group label {
-            cursor: pointer;
-            font-size: 15px;
-        }
-        .checkbox-group span {
-            display: block;
-            font-size: 12.5px;
-            color: #7f8c8d;
-            margin-top: 2px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist Eligibilitate — Start-Up Nation Ed. IV</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #14253a;
+    --cream: #faf5ec;
+    --terra: #c4622d;
+    --terra-light: #e8845a;
+    --gold: #b8964e;
+    --ink: #1a1a1a;
+    --muted: #6b7280;
+    --ok: #2d6a4f;
+    --ok-bg: #d8f3dc;
+    --no: #9b1a1a;
+    --no-bg: #fde8e8;
+    --warn: #7c5c1e;
+    --warn-bg: #fef3cd;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Karla', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 64px 40px 52px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(196,98,45,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .header-label {
+    font-family: 'Karla', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--terra-light);
+    margin-bottom: 18px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  header h1 em {
+    font-style: italic;
+    color: var(--terra-light);
+  }
+  .header-sub {
+    font-family: 'Source Serif 4', serif;
+    font-size: 17px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(250,245,236,0.72);
+    max-width: 560px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: rgba(250,245,236,0.55);
+    text-transform: uppercase;
+  }
+  .meta-item strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0;
+    text-transform: none;
+    font-family: 'Playfair Display', serif;
+  }
+
+  /* ── SCORE STRIP ── */
+  .score-strip {
+    background: var(--terra);
+    padding: 24px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.18);
+  }
+  .score-strip-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .score-label {
+    font-family: 'Karla', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(250,245,236,0.75);
+  }
+  .score-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .score-bar-wrap {
+    flex: 1;
+    min-width: 120px;
+    height: 6px;
+    background: rgba(250,245,236,0.25);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .score-bar-fill {
+    height: 100%;
+    background: var(--cream);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .score-verdict {
+    font-family: 'Karla', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cream);
+    text-align: right;
+    min-width: 120px;
+  }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 56px 40px 80px;
+  }
+
+  /* ── PILON ── */
+  .pilon {
+    margin-bottom: 56px;
+    border-top: 2px solid var(--navy);
+    padding-top: 32px;
+  }
+  .pilon-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .pilon-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--terra);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .pilon-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.25;
+  }
+  .pilon-score-badge {
+    margin-left: auto;
+    font-family: 'Karla', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    padding-top: 4px;
+  }
+  .pilon-score-badge span {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 0;
+    display: inline-block;
+    margin-right: 2px;
+  }
+
+  /* ── QUESTION ── */
+  .question {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px 20px;
+    align-items: start;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(20,37,58,0.1);
+    transition: background 0.2s;
+  }
+  .question:last-child { border-bottom: none; }
+
+  .q-body {}
+  .q-text {
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+  .q-hint {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .q-weight {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-top: 6px;
+  }
+
+  .q-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 4px;
+    flex-shrink: 0;
+  }
+  .toggle-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-family: 'Karla', sans-serif;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .toggle-da {
+    color: var(--ok);
+    border-color: rgba(45,106,79,0.3);
+  }
+  .toggle-da:hover,
+  .toggle-da.active {
+    background: var(--ok);
+    border-color: var(--ok);
+    color: white;
+  }
+  .toggle-nu {
+    color: var(--no);
+    border-color: rgba(155,26,26,0.3);
+  }
+  .toggle-nu:hover,
+  .toggle-nu.active {
+    background: var(--no);
+    border-color: var(--no);
+    color: white;
+  }
+
+  /* ── RESULT BANNER ── */
+  .result-section {
+    margin-top: 64px;
+    border-top: 3px solid var(--navy);
+    padding-top: 48px;
+  }
+  .result-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .result-subtitle {
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  .verdict-box {
+    padding: 28px 32px;
+    margin-bottom: 40px;
+    border-left: 5px solid var(--terra);
+    background: white;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  .verdict-box.verde { border-left-color: var(--ok); background: var(--ok-bg); }
+  .verdict-box.rosu { border-left-color: var(--no); background: var(--no-bg); }
+  .verdict-box.galben { border-left-color: var(--gold); background: var(--warn-bg); }
+
+  .verdict-icon { font-size: 28px; margin-bottom: 8px; }
+  .verdict-label {
+    font-family: 'Karla', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .verdict-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+  .verdict-detail {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── CE URMEAZĂ ── */
+  .urmează-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(20,37,58,0.15);
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  @media (max-width: 600px) {
+    .steps-grid { grid-template-columns: 1fr; }
+  }
+
+  .step-card {
+    padding: 22px 24px;
+    background: white;
+    border-top: 3px solid var(--navy);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  }
+  .step-card.terra { border-top-color: var(--terra); }
+  .step-card.gold { border-top-color: var(--gold); }
+  .step-card.ok { border-top-color: var(--ok); }
+
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--terra);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .step-card.terra .step-num { color: var(--terra); }
+  .step-card.gold .step-num { color: var(--gold); }
+  .step-card.ok .step-num { color: var(--ok); }
+
+  .step-title {
+    font-family: 'Karla', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .step-text {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .step-timeline {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--terra);
+  }
+
+  /* ── DOCUMENTE ── */
+  .docs-section {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 36px 40px;
+    margin-bottom: 48px;
+  }
+  .docs-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  .docs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 32px;
+  }
+  @media (max-width: 560px) { .docs-grid { grid-template-columns: 1fr; } }
+  .doc-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-size: 14px;
+    color: rgba(250,245,236,0.85);
+    padding: 4px 0;
+  }
+  .doc-item::before {
+    content: '—';
+    color: var(--terra-light);
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+
+  /* ── PDF SELECTOR ── */
+  .pdf-section {
+    border: 2px solid var(--navy);
+    padding: 40px;
+    margin-top: 16px;
+  }
+  .pdf-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .pdf-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+  .pdf-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .pdf-option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: var(--cream);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    user-select: none;
+  }
+  .pdf-option:hover { border-color: rgba(20,37,58,0.3); }
+  .pdf-option.selected { border-color: var(--terra); background: white; }
+  .pdf-option input[type="radio"] { display: none; }
+  .pdf-option-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--muted);
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .pdf-option.selected .pdf-option-dot {
+    border-color: var(--terra);
+  }
+  .pdf-option.selected .pdf-option-dot::after {
+    content: '';
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 8px; height: 8px;
+    background: var(--terra);
+    border-radius: 50%;
+  }
+  .pdf-option-info {}
+  .pdf-option-name {
+    font-family: 'Karla', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--navy);
+  }
+  .pdf-option-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--terra);
+    color: var(--cream);
+    font-family: 'Karla', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    text-decoration: none;
+  }
+  .btn-download:hover { background: #a8501f; }
+  .btn-download:active { transform: scale(0.98); }
+  .btn-download svg { flex-shrink: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: rgba(250,245,236,0.45);
+    text-align: center;
+    padding: 32px 20px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    line-height: 1.8;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    header, main { padding-left: 20px; padding-right: 20px; }
+    .score-strip { padding-left: 20px; padding-right: 20px; }
+    .docs-section { padding: 28px 20px; }
+    .pdf-section { padding: 28px 20px; }
+    .pilon-num { font-size: 36px; }
+    .q-toggle { gap: 6px; }
+    .toggle-btn { width: 32px; height: 32px; font-size: 14px; }
+  }
+
+  @media print {
+    .score-strip { position: static; }
+    .btn-download, .pdf-section { display: none; }
+  }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <h1>📋 Evaluare Eligibilitate: Start-Up Nation (Ed. IV)</h1>
-    
-    <div class="info-note">
-        <strong>Notă PM:</strong> Bifați criteriile îndeplinite de client în timpul interviului pentru a stabili strategia de aplicare.
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-label">Instrument de calificare · Finanțări europene 2026</div>
+    <h1>Ești eligibil pentru<br><em>Start-Up Nation?</em></h1>
+    <p class="header-sub">Checklist complet de pre-calificare pentru ediția IV. Bifați în timp real fiecare criteriu — la final primiți verdictul și pașii următori.</p>
+    <div class="header-meta">
+      <div class="meta-item">Grant maxim<strong>250.000 lei</strong></div>
+      <div class="meta-item">Piloane evaluate<strong>5</strong></div>
+      <div class="meta-item">Criterii totale<strong>18</strong></div>
     </div>
+  </div>
+</header>
 
-    <form>
-        <!-- PILONUL 1 -->
-        <h2>Pilonul 1: Administrator & Cursuri Obligatorii</h2>
-        
-        <div class="checkbox-group">
-            <input type="checkbox" id="p1_varsta" name="p1_varsta">
-            <div class="label-text">
-                <label for="p1_varsta"><strong>Vârsta/Statut eligibil:</strong> Solicitantul se încadrează în grupul țintă.</label>
-                <span>(Tineri < 30 de ani, persoane 30-35/45 de ani sau categorii vulnerabile)</span>
-            </div>
-        </div>
-
-        <div class="checkbox-group">
-            <input type="checkbox" id="p1_curs" name="p1_curs">
-            <div class="label-text">
-                <label for="p1_curs"><strong>Disponibilitate cursuri:</strong> Este de acord să absolve cursul obligatoriu de competențe antreprenoriale.</label>
-                <span>(Firma se poate înființa DOAR după obținerea certificatului de absolvire)</span>
-            </div>
-        </div>
-
-        <!-- PILONUL 2 -->
-        <h2>Pilonul 2: Status Juridic Firmă</h2>
-        
-        <div class="checkbox-group">
-            <input type="checkbox" id="p2_noua" name="p2_noua">
-            <div class="label-text">
-                <label for="p2_noua"><strong>Firmă nouă (sau în curs de înființare):</strong> Compania va fi înmatriculată după absolvirea cursului.</label>
-            </div>
-        </div>
-
-        <div class="checkbox-group">
-            <input type="checkbox" id="p2_actionar" name="p2_actionar">
-            <div class="label-text">
-                <label for="p2_actionar"><strong>Fără istoric de minimis blocant:</strong> Nu deține altă firmă aprobată pe Start-Up Nation în trecut sau pe același cod CAEN.</label>
-            </div>
-        </div>
-
-        <!-- PILONUL 3 -->
-        <h2>Pilonul 3: Domeniu & Locație (Punctaj)</h2>
-        
-        <div class="checkbox-group">
-            <input type="checkbox" id="p3_caen" name="p3_caen">
-            <div class="label-text">
-                <label for="p3_caen"><strong>Cod CAEN eligibil:</strong> Activitatea se încadrează pe Producție, Servicii, Comerț sau IT.</label>
-                <span>(Producția/IT primesc punctaj maxim; Comerțul/Serviciile se verifică la grilă)</span>
-            </div>
-        </div>
-
-        <div class="checkbox-group">
-            <input type="checkbox" id="p3_locatie" name="p3_locatie">
-            <div class="label-text">
-                <label for="p3_locatie"><strong>Locație strategică:</strong> Județul/mediul de implementare aduce punctaj optim.</label>
-                <span>(Punctaj suplimentar pentru județele prioritare din ghid)</span>
-            </div>
-        </div>
-
-        <!-- PILONUL 4 -->
-        <h2>Pilonul 4: Locuri de Muncă (Sustenabilitate)</h2>
-        
-        <div class="checkbox-group">
-            <input type="checkbox" id="p4_angajati" name="p4_angajati">
-            <div class="label-text">
-                <label for="p4_angajati"><strong>Asumare locuri de muncă:</strong> Dispune și dorește să angajeze minimum 1-2 persoane cu normă întreagă.</label>
-                <span>(Obligatoriu menținute pe o perioadă de minimum 2 ani)</span>
-            </div>
-        </div>
-
-        <div class="checkbox-group">
-            <input type="checkbox" id="p4_grup_tinta" name="p4_grup_tinta">
-            <div class="label-text">
-                <label for="p4_grup_tinta"><strong>Punctaj maxim angajați:</strong> Poate angaja persoane din categorii defavorizate.</label>
-                <span>(Șomeri, absolvenți recenți, tineri NEETs - aduc punctaj maxim la departajare)</span>
-            </div>
-        </div>
-
-        <!-- PILONUL 5 -->
-        <h2>Pilonul 5: Componenta Financiară</h2>
-        
-        <div class="checkbox-group">
-            <input type="checkbox" id="p5_cofinantare" name="p5_cofinantare">
-            <div class="label-text">
-                <label for="p5_cofinantare"><strong>Cofinanțare asigurată:</strong> Deține procentul de cofinanțare cerut de ghid (5% - 10%).</label>
-                <span>(Aprox. 12.500 - 25.000 LEI pentru un grant maxim)</span>
-            </div>
-        </div>
-
-        <div class="checkbox-group">
-            <input type="checkbox" id="p5_flux" name="p5_flux">
-            <div class="label-text">
-                <label for="p5_flux"><strong>Înțelegere mecanism bancar:</strong> Acceptă utilizarea unui credit-punte pentru fluxul de numerar.</label>
-                <span>(Nu trebuie să vină cu toată investiția de acasă, banca pune la dispoziție sumele aprobate)</span>
-            </div>
-        </div>
-    </form>
+<!-- SCORE STRIP -->
+<div class="score-strip">
+  <div class="score-strip-inner">
+    <div>
+      <div class="score-label">Scor de eligibilitate</div>
+      <div class="score-number" id="scoreNum">0 / 18</div>
+    </div>
+    <div class="score-bar-wrap">
+      <div class="score-bar-fill" id="scoreBar"></div>
+    </div>
+    <div class="score-verdict" id="scoreVerdict">— răspundeți mai jos —</div>
+  </div>
 </div>
 
+<!-- MAIN -->
+<main>
+
+  <!-- PILON 1 -->
+  <section class="pilon" id="pilon1">
+    <div class="pilon-header">
+      <div class="pilon-num">I</div>
+      <div>
+        <div class="pilon-title">Administrator &amp; Cursuri Obligatorii</div>
+      </div>
+      <div class="pilon-score-badge"><span id="p1score">0</span> / 4</div>
+    </div>
+
+    <div class="question" data-pilon="1" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Solicitantul are vârsta cuprinsă între 18 și 45 de ani sau se încadrează într-o categorie vulnerabilă?</div>
+        <div class="q-hint">Tinerii sub 30 ani primesc punctaj maxim la departajare. Persoanele 30–45 ani sunt eligibile pe pilonul general.</div>
+        <div class="q-weight">Criteriu obligatoriu</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="1" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Este de acord să absolve cursul obligatoriu de competențe antreprenoriale înainte de înregistrarea firmei?</div>
+        <div class="q-hint">Firma se poate înființa DOAR după obținerea certificatului de absolvire. Cursurile durează 3–6 săptămâni.</div>
+        <div class="q-weight">Criteriu obligatoriu · blochează dosarul dacă NU</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="1" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Solicitantul nu a mai beneficiat de un grant Start-Up Nation în edițiile anterioare?</div>
+        <div class="q-hint">Un administrator nu poate fi beneficiar de două ori în cadrul aceleiași scheme de stat.</div>
+        <div class="q-weight">Criteriu obligatoriu</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="1" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Administratorul nu are alte firme active cu datorii la ANAF sau cu insolvență?</div>
+        <div class="q-hint">Situația fiscală a tuturor firmelor asociate administratorului este verificată automat la aplicare.</div>
+        <div class="q-weight">Criteriu eliminatoriu</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILON 2 -->
+  <section class="pilon" id="pilon2">
+    <div class="pilon-header">
+      <div class="pilon-num">II</div>
+      <div>
+        <div class="pilon-title">Statut Juridic &amp; Istoricul Firmei</div>
+      </div>
+      <div class="pilon-score-badge"><span id="p2score">0</span> / 4</div>
+    </div>
+
+    <div class="question" data-pilon="2" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Firma este nouă sau urmează a fi înmatriculată după absolvirea cursului de antreprenoriat?</div>
+        <div class="q-hint">Start-Up Nation Ed. IV este dedicat firmelor nou-înființate. Firmele existente cu activitate nu sunt eligibile.</div>
+        <div class="q-weight">Criteriu obligatoriu</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="2" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">La data depunerii cererii, firma va avea mai puțin de 12 luni de la înregistrare la ONRC?</div>
+        <div class="q-hint">Vechimea se calculează de la data înregistrării în Registrul Comerțului, nu de la data primei operațiuni.</div>
+        <div class="q-weight">Criteriu obligatoriu</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="2" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Nu există un alt dosar activ pe Start-Up Nation cu același cod CAEN principal în aceeași regiune?</div>
+        <div class="q-hint">Ghidul poate limita numărul de proiecte aprobate pe același cod CAEN / județ pentru evitarea suprapunerii.</div>
+        <div class="q-weight">Risc de excludere</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="2" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Forma juridică va fi SRL (Societate cu Răspundere Limitată)?</div>
+        <div class="q-hint">SRL este forma preferată și cel mai bine punctată. PFA și SRL-D pot fi eligibile, dar cu restricții suplimentare.</div>
+        <div class="q-weight">Recomandare puternică</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILON 3 -->
+  <section class="pilon" id="pilon3">
+    <div class="pilon-header">
+      <div class="pilon-num">III</div>
+      <div>
+        <div class="pilon-title">Domeniu de Activitate &amp; Locație</div>
+      </div>
+      <div class="pilon-score-badge"><span id="p3score">0</span> / 3</div>
+    </div>
+
+    <div class="question" data-pilon="3" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Codul CAEN principal se încadrează în Producție, IT, Servicii sau Comerț eligibil?</div>
+        <div class="q-hint">Producție și IT primesc punctaj maxim în grilă. Comerțul este eligibil cu restricții (exclud tutun, alcool, jocuri de noroc). Verificați lista CAEN eligibile din ghidul solicitantului.</div>
+        <div class="q-weight">Criteriu de punctaj major</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="3" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Implementarea se face în afara regiunii București-Ilfov?</div>
+        <div class="q-hint">Județele din afara capitalei primesc punctaj suplimentar. Unele ediții au alocat bugete regionale separate.</div>
+        <div class="q-weight">Bonus punctaj regional</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="3" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Județul de implementare se află pe lista județelor prioritare din ghidul ediției IV?</div>
+        <div class="q-hint">Ghidul publicat va include o listă cu județe prioritare (ex. cu șomaj ridicat) care primesc punctaj suplimentar față de media națională.</div>
+        <div class="q-weight">Bonus punctaj județ prioritar</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILON 4 -->
+  <section class="pilon" id="pilon4">
+    <div class="pilon-header">
+      <div class="pilon-num">IV</div>
+      <div>
+        <div class="pilon-title">Locuri de Muncă &amp; Sustenabilitate</div>
+      </div>
+      <div class="pilon-score-badge"><span id="p4score">0</span> / 4</div>
+    </div>
+
+    <div class="question" data-pilon="4" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Poate angaja minimum 1–2 persoane cu normă întreagă în primele 6 luni de la acordarea grantului?</div>
+        <div class="q-hint">Locurile de muncă create sunt obligatoriu menținute minimum 2 ani de la finalizarea proiectului. Nerespectarea atrage recuperarea finanțării.</div>
+        <div class="q-weight">Criteriu obligatoriu</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="4" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Este posibil să angajeze persoane din categorii defavorizate (șomeri, absolvenți recenți, tineri NEETs)?</div>
+        <div class="q-hint">Angajările din categorii defavorizate aduc punctaj maxim la departajare și pot fi factorul decisiv între dosare similare.</div>
+        <div class="q-weight">Bonus departajare major</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="4" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Planul de afaceri include o componentă realistă de sustenabilitate post-grant (minim 2 ani)?</div>
+        <div class="q-hint">Evaluatorii punctează proiectele care demonstrează că activitatea poate continua independent după consumarea grantului.</div>
+        <div class="q-weight">Criteriu de calitate dosar</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="4" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Solicitantul înțelege că locurile de muncă nerespectate atrag returnarea proporțională a grantului?</div>
+        <div class="q-hint">Clauza de sustenabilitate este executorie. Lipsa dovezilor de menținere a angajărilor la controlul post-implementare = recuperarea sumelor.</div>
+        <div class="q-weight">Risc juridic — asumat explicit</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILON 5 -->
+  <section class="pilon" id="pilon5">
+    <div class="pilon-header">
+      <div class="pilon-num">V</div>
+      <div>
+        <div class="pilon-title">Componenta Financiară &amp; Mecanismul Bancar</div>
+      </div>
+      <div class="pilon-score-badge"><span id="p5score">0</span> / 3</div>
+    </div>
+
+    <div class="question" data-pilon="5" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Poate asigura cofinanțarea proprie de 5–10% din valoarea proiectului?</div>
+        <div class="q-hint">Pentru grant maxim de 250.000 lei, cofinanțarea proprie este aproximativ 12.500–25.000 lei. Aceasta trebuie dovedită prin extras de cont la momentul depunerii.</div>
+        <div class="q-weight">Criteriu obligatoriu</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="5" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Acceptă mecanismul credit-punte bancar pentru asigurarea fluxului de numerar pe parcursul implementării?</div>
+        <div class="q-hint">Grantul se decontează în tranșe după efectuarea cheltuielilor. Banca pune la dispoziție sumele aprobate, iar solicitantul nu trebuie să vină cu toată investiția din fonduri proprii.</div>
+        <div class="q-weight">Mecanism esențial de înțeles</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-pilon="5" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Cheltuielile planificate (echipamente, software, amenajare) se regăsesc pe lista cheltuielilor eligibile din ghid?</div>
+        <div class="q-hint">Cheltuielile neeligibile includ: terenuri, construcții noi, TVA recuperabilă, dobânzi. Verificați anexa ghidului solicitantului înainte de planificarea bugetului.</div>
+        <div class="q-weight">Criteriu de bugetare</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="result-section" id="resultSection">
+    <div class="result-title">Verdict &amp; Plan de acțiune</div>
+    <div class="result-subtitle">Bazat pe răspunsurile înregistrate până acum</div>
+
+    <div class="verdict-box" id="verdictBox">
+      <div class="verdict-icon" id="verdictIcon">📋</div>
+      <div class="verdict-label">Concluzie eligibilitate</div>
+      <div class="verdict-text" id="verdictText">Completați checklist-ul pentru a vedea verdictul.</div>
+      <div class="verdict-detail" id="verdictDetail">Răspundeți la toate cele 18 criterii de mai sus.</div>
+    </div>
+
+    <!-- CE URMEAZĂ -->
+    <div class="urmează-title">Ce urmează — pași concreți</div>
+    <div class="steps-grid">
+      <div class="step-card terra">
+        <div class="step-num">1</div>
+        <div class="step-title">Verificare ghid oficial</div>
+        <div class="step-text">Descărcați ghidul solicitantului de pe imm.gov.ro imediat ce sesiunea se deschide. Criteriile exacte pot varia față de edițiile anterioare.</div>
+        <div class="step-timeline">Acum · gratuit</div>
+      </div>
+      <div class="step-card gold">
+        <div class="step-num">2</div>
+        <div class="step-title">Înscriere curs antreprenoriat</div>
+        <div class="step-text">Găsiți un furnizor acreditat ANC în județul dvs. Cursul durează 3–6 săptămâni și este condiție prealabilă înregistrării firmei.</div>
+        <div class="step-timeline">Săptămânile 1–6</div>
+      </div>
+      <div class="step-card ok">
+        <div class="step-num">3</div>
+        <div class="step-title">Înregistrare firmă la ONRC</div>
+        <div class="step-text">După obținerea certificatului de absolvire, înregistrați SRL-ul cu codul CAEN eligibil ales. Sediul și capitalul social minim trebuie stabilite înainte.</div>
+        <div class="step-timeline">Săptămânile 6–8</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-title">Plan de afaceri complet</div>
+        <div class="step-text">Redactați planul de afaceri conform modelului din anexa ghidului. Include proiecții financiare pe 3 ani, plan de angajări și buget detaliat al proiectului.</div>
+        <div class="step-timeline">Săptămânile 8–12</div>
+      </div>
+      <div class="step-card terra">
+        <div class="step-num">5</div>
+        <div class="step-title">Pregătire dosar complet</div>
+        <div class="step-text">Colectați toate documentele din lista de mai jos. Verificați că certificatul fiscal și declarația de minimis sunt în termen de valabilitate la data depunerii.</div>
+        <div class="step-timeline">Săptămânile 10–14</div>
+      </div>
+      <div class="step-card gold">
+        <div class="step-num">6</div>
+        <div class="step-title">Depunere &amp; monitorizare</div>
+        <div class="step-text">Depuneți online pe platforma desemnată. Urmăriți statusul dosarului și fiți pregătiți să răspundeți la clarificări în termen de 5 zile lucrătoare.</div>
+        <div class="step-timeline">La deschiderea sesiunii</div>
+      </div>
+    </div>
+
+    <!-- DOCUMENTE -->
+    <div class="docs-section">
+      <div class="docs-title">Documente necesare dosar</div>
+      <div class="docs-grid">
+        <div class="doc-item">Certificat absolvire curs antreprenoriat (ANC)</div>
+        <div class="doc-item">Plan de afaceri — model ghid solicitant</div>
+        <div class="doc-item">Certificat înregistrare ONRC (firmă nouă)</div>
+        <div class="doc-item">Declarație de minimis</div>
+        <div class="doc-item">Proiecții financiare pe 3 ani</div>
+        <div class="doc-item">Documente angajări (contracte / angajamente)</div>
+        <div class="doc-item">Extras de cont — dovada cofinanțării proprii</div>
+        <div class="doc-item">Certificat fiscal fără datorii ANAF</div>
+        <div class="doc-item">Act identitate administrator</div>
+        <div class="doc-item">Oferte / facturi proforma echipamente</div>
+        <div class="doc-item">Cazier judiciar administrator</div>
+        <div class="doc-item">Contract spațiu / sediu social</div>
+      </div>
+    </div>
+
+    <!-- PDF SELECTOR -->
+    <div class="pdf-section">
+      <div class="pdf-title">Descarcă raportul</div>
+      <div class="pdf-sub">Alegeți formatul potrivit și salvați rezultatul interviului pentru dosarul clientului.</div>
+
+      <div class="pdf-options">
+        <label class="pdf-option selected" id="opt1" onclick="selectPdf('opt1')">
+          <input type="radio" name="pdftype" value="complet" checked>
+          <div class="pdf-option-dot"></div>
+          <div class="pdf-option-info">
+            <div class="pdf-option-name">Raport complet de calificare</div>
+            <div class="pdf-option-desc">Toate piloanele, răspunsurile bifate, verdict final și lista de documente — pentru dosar client.</div>
+          </div>
+        </label>
+        <label class="pdf-option" id="opt2" onclick="selectPdf('opt2')">
+          <input type="radio" name="pdftype" value="sumar">
+          <div class="pdf-option-dot"></div>
+          <div class="pdf-option-info">
+            <div class="pdf-option-name">Sumar executiv (1 pagină)</div>
+            <div class="pdf-option-desc">Scor total, verdict și pașii următori — pentru prezentare rapidă clientului.</div>
+          </div>
+        </label>
+        <label class="pdf-option" id="opt3" onclick="selectPdf('opt3')">
+          <input type="radio" name="pdftype" value="documente">
+          <div class="pdf-option-dot"></div>
+          <div class="pdf-option-info">
+            <div class="pdf-option-name">Lista de documente + pași</div>
+            <div class="pdf-option-desc">Doar checklist-ul de documente necesare și planul de 6 pași — de înmânat clientului.</div>
+          </div>
+        </label>
+      </div>
+
+      <button class="btn-download" onclick="downloadPDF()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Descarcă PDF
+      </button>
+    </div>
+
+  </section>
+</main>
+
+<footer>
+  Instrument orientativ · Start-Up Nation Ed. IV · Verificați întotdeauna ghidul solicitantului în vigoare pe imm.gov.ro<br>
+  Estimările de punctaj nu reprezintă garanție de aprobare.
+</footer>
+
+<script>
+  // ── STATE ──
+  const state = {}; // questionIndex -> 'da' | 'nu' | null
+  let selectedPdf = 'opt1';
+
+  const questions = document.querySelectorAll('.question');
+  questions.forEach((q, i) => { state[i] = null; });
+
+  const pilonMax = { 1: 4, 2: 4, 3: 3, 4: 4, 5: 3 };
+
+  // ── TOGGLE ──
+  function toggle(btn, val) {
+    const q = btn.closest('.question');
+    const idx = Array.from(questions).indexOf(q);
+    const daBtn = q.querySelector('.toggle-da');
+    const nuBtn = q.querySelector('.toggle-nu');
+
+    if (state[idx] === val) {
+      // deselect
+      state[idx] = null;
+      daBtn.classList.remove('active');
+      nuBtn.classList.remove('active');
+    } else {
+      state[idx] = val;
+      daBtn.classList.toggle('active', val === 'da');
+      nuBtn.classList.toggle('active', val === 'nu');
+    }
+    updateScore();
+  }
+
+  // ── SCORE ──
+  function updateScore() {
+    let total = 0, answered = 0;
+    const pilonScores = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+    questions.forEach((q, i) => {
+      const pilon = parseInt(q.dataset.pilon);
+      if (state[i] !== null) answered++;
+      if (state[i] === 'da') {
+        total++;
+        pilonScores[pilon]++;
+      }
+    });
+
+    const pct = (total / 18) * 100;
+
+    document.getElementById('scoreNum').textContent = total + ' / 18';
+    document.getElementById('scoreBar').style.width = pct + '%';
+
+    // per-pilon badges
+    for (let p = 1; p <= 5; p++) {
+      document.getElementById('p' + p + 'score').textContent = pilonScores[p];
+    }
+
+    // verdict
+    const v = document.getElementById('scoreVerdict');
+    const vBox = document.getElementById('verdictBox');
+    const vText = document.getElementById('verdictText');
+    const vDetail = document.getElementById('verdictDetail');
+    const vIcon = document.getElementById('verdictIcon');
+
+    vBox.className = 'verdict-box';
+
+    if (answered === 0) {
+      v.textContent = '— răspundeți mai jos —';
+      vText.textContent = 'Completați checklist-ul pentru a vedea verdictul.';
+      vDetail.textContent = 'Răspundeți la toate cele 18 criterii de mai sus.';
+      vIcon.textContent = '📋';
+    } else if (total >= 15) {
+      v.textContent = '✓ Profil puternic';
+      vBox.classList.add('verde');
+      vIcon.textContent = '✅';
+      vText.textContent = 'Profil de eligibilitate puternic — ' + total + '/18 criterii îndeplinite.';
+      vDetail.textContent = 'Dosarul are șanse ridicate de calificare. Prioritizați pregătirea planului de afaceri și înscrierea la cursul de antreprenoriat cât mai curând.';
+    } else if (total >= 10) {
+      v.textContent = '⚠ Eligibil cu rezerve';
+      vBox.classList.add('galben');
+      vIcon.textContent = '⚠️';
+      vText.textContent = 'Eligibil parțial — ' + total + '/18 criterii îndeplinite.';
+      vDetail.textContent = 'Există criterii neîndeplinite care pot afecta punctajul final. Analizați piloanele cu score scăzut și consultați ghidul solicitantului înainte de depunere.';
+    } else {
+      v.textContent = '✗ Risc de neeligibilitate';
+      vBox.classList.add('rosu');
+      vIcon.textContent = '❌';
+      vText.textContent = 'Profil cu risc ridicat — ' + total + '/18 criterii îndeplinite.';
+      vDetail.textContent = 'Mai multe criterii obligatorii nu sunt îndeplinite. Recomandăm identificarea blocajelor specifice și analizarea alternativelor de finanțare (ex. Comerț și Servicii 95/100 din raportul dvs.).';
+    }
+  }
+
+  // ── PDF SELECTOR ──
+  function selectPdf(id) {
+    ['opt1','opt2','opt3'].forEach(o => {
+      document.getElementById(o).classList.remove('selected');
+    });
+    document.getElementById(id).classList.add('selected');
+    selectedPdf = id;
+  }
+
+  // ── PDF DOWNLOAD ──
+  function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+
+    const navy = [20, 37, 58];
+    const terra = [196, 98, 45];
+    const cream = [250, 245, 236];
+    const muted = [107, 114, 128];
+    const ok = [45, 106, 79];
+    const no = [155, 26, 26];
+
+    let scoreTotal = 0;
+    const pilonScores = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    questions.forEach((q, i) => {
+      const pilon = parseInt(q.dataset.pilon);
+      if (state[i] === 'da') { scoreTotal++; pilonScores[pilon]++; }
+    });
+
+    const pdfType = selectedPdf === 'opt1' ? 'complet' : selectedPdf === 'opt2' ? 'sumar' : 'documente';
+
+    const pageW = 210, pageH = 297;
+    const margin = 20;
+    const contentW = pageW - margin * 2;
+    let y = 0;
+
+    function newPage() {
+      doc.addPage();
+      y = margin;
+      // header stripe
+      doc.setFillColor(...navy);
+      doc.rect(0, 0, pageW, 12, 'F');
+      doc.setFontSize(8);
+      doc.setTextColor(200, 200, 200);
+      doc.text('Checklist Eligibilitate · Start-Up Nation Ed. IV', margin, 8);
+      doc.text('imm.gov.ro', pageW - margin, 8, { align: 'right' });
+      y = 22;
+    }
+
+    function checkY(needed = 20) {
+      if (y + needed > pageH - 20) { newPage(); }
+    }
+
+    // ── COVER ──
+    doc.setFillColor(...navy);
+    doc.rect(0, 0, pageW, 90, 'F');
+
+    doc.setFillColor(...terra);
+    doc.rect(0, 90, pageW, 3, 'F');
+
+    doc.setFontSize(9);
+    doc.setTextColor(...cream);
+    doc.setFont('helvetica', 'normal');
+    doc.text('INSTRUMENT DE CALIFICARE · FINANȚĂRI EUROPENE 2026', margin, 30);
+
+    doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Checklist Eligibilitate', margin, 48);
+    doc.setFontSize(18);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Start-Up Nation — Ediția IV', margin, 60);
+
+    doc.setFontSize(10);
+    doc.setTextColor(180, 180, 180);
+    doc.text('Scor: ' + scoreTotal + '/18 criterii · Generat: ' + new Date().toLocaleDateString('ro-RO'), margin, 76);
+
+    y = 106;
+    doc.setTextColor(...navy);
+
+    // verdict summary box
+    let verdictLabel, verdictColor;
+    if (scoreTotal >= 15) { verdictLabel = 'PROFIL PUTERNIC — Eligibil'; verdictColor = ok; }
+    else if (scoreTotal >= 10) { verdictLabel = 'ELIGIBIL CU REZERVE'; verdictColor = [160, 120, 30]; }
+    else { verdictLabel = 'RISC DE NEELIGIBILITATE'; verdictColor = no; }
+
+    doc.setFillColor(...verdictColor);
+    doc.rect(margin, y, contentW, 20, 'F');
+    doc.setFontSize(13);
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.text(verdictLabel + ' · ' + scoreTotal + '/18', margin + 8, y + 13);
+    y += 30;
+
+    if (pdfType === 'sumar') {
+      // ── SUMAR EXECUTIV ──
+      doc.setFontSize(13);
+      doc.setTextColor(...navy);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Scor pe piloane', margin, y); y += 10;
+
+      const pilonNames = ['Administrator & Cursuri', 'Statut Juridic & Firmă', 'Domeniu & Locație', 'Locuri de Muncă', 'Componenta Financiară'];
+      const pilonMaxArr = [4, 4, 3, 4, 3];
+      pilonNames.forEach((name, i) => {
+        const p = i + 1;
+        const sc = pilonScores[p];
+        const mx = pilonMaxArr[i];
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(...navy);
+        doc.text(`${p}. ${name}`, margin, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(...muted);
+        doc.text(`${sc}/${mx}`, pageW - margin, y, { align: 'right' });
+        // bar
+        doc.setFillColor(230, 225, 215);
+        doc.rect(margin, y + 2, contentW, 3, 'F');
+        doc.setFillColor(...(sc >= mx * 0.75 ? ok : sc >= mx * 0.5 ? [160,120,30] : no));
+        doc.rect(margin, y + 2, (sc / mx) * contentW, 3, 'F');
+        y += 14;
+      });
+
+      y += 10;
+      doc.setFontSize(13);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...navy);
+      doc.text('Pași următori (sinteză)', margin, y); y += 10;
+
+      const steps = [
+        '1. Verificați ghidul oficial pe imm.gov.ro',
+        '2. Înscrieți-vă la un curs ANC de antreprenoriat',
+        '3. Înregistrați SRL-ul după obținerea certificatului',
+        '4. Redactați planul de afaceri conform anexei ghidului',
+        '5. Pregătiți dosarul complet de documente',
+        '6. Depuneți online la deschiderea sesiunii',
+      ];
+      steps.forEach(s => {
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(...navy);
+        doc.text(s, margin, y); y += 8;
+      });
+
+    } else if (pdfType === 'documente') {
+      // ── DOCUMENTE + PAȘI ──
+      doc.setFontSize(14);
+      doc.setTextColor(...navy);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Documente necesare dosar', margin, y); y += 10;
+
+      const docs = [
+        'Certificat absolvire curs antreprenoriat (ANC)',
+        'Plan de afaceri — model ghid solicitant',
+        'Certificat înregistrare ONRC (firmă nouă)',
+        'Declarație de minimis',
+        'Proiecții financiare pe 3 ani',
+        'Documente angajări (contracte / angajamente)',
+        'Extras de cont — dovada cofinanțării proprii',
+        'Certificat fiscal fără datorii ANAF',
+        'Act identitate administrator',
+        'Oferte / facturi proforma echipamente',
+        'Cazier judiciar administrator',
+        'Contract spațiu / sediu social',
+      ];
+      docs.forEach((d, i) => {
+        checkY(10);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(...muted);
+        doc.text('—', margin, y);
+        doc.setTextColor(...navy);
+        doc.text(d, margin + 8, y);
+        y += 9;
+      });
+
+      y += 12;
+      checkY(60);
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...navy);
+      doc.text('Plan de acțiune — 6 pași', margin, y); y += 10;
+
+      const stepsD = [
+        ['1. Verificare ghid oficial', 'Acum — imm.gov.ro · gratuit'],
+        ['2. Înscriere curs antreprenoriat', 'Săptămânile 1–6 · furnizor ANC acreditat'],
+        ['3. Înregistrare firmă la ONRC', 'Săptămânile 6–8 · după obținerea certificatului'],
+        ['4. Plan de afaceri complet', 'Săptămânile 8–12 · conform model ghid'],
+        ['5. Pregătire dosar complet', 'Săptămânile 10–14 · verificare valabilitate documente'],
+        ['6. Depunere & monitorizare', 'La deschiderea sesiunii · urmăriți platforma oficială'],
+      ];
+      stepsD.forEach(([title, time]) => {
+        checkY(14);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(...navy);
+        doc.text(title, margin, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(...terra);
+        doc.text(time, margin + 4, y + 6);
+        y += 15;
+      });
+
+    } else {
+      // ── COMPLET ──
+      const pilonNames = ['Administrator & Cursuri Obligatorii', 'Statut Juridic & Istoricul Firmei', 'Domeniu de Activitate & Locație', 'Locuri de Muncă & Sustenabilitate', 'Componenta Financiară & Mecanismul Bancar'];
+      const pilonMaxArr = [4, 4, 3, 4, 3];
+
+      // group questions by pilon
+      const qByPilon = { 1: [], 2: [], 3: [], 4: [], 5: [] };
+      questions.forEach((q, i) => {
+        const p = parseInt(q.dataset.pilon);
+        qByPilon[p].push({ text: q.querySelector('.q-text').textContent.trim(), ans: state[i] });
+      });
+
+      for (let p = 1; p <= 5; p++) {
+        checkY(30);
+        // pilon header
+        doc.setFillColor(...navy);
+        doc.rect(margin, y, contentW, 14, 'F');
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(255, 255, 255);
+        doc.text(`Pilonul ${p} — ${pilonNames[p-1]}`, margin + 4, y + 9);
+        doc.text(`${pilonScores[p]}/${pilonMaxArr[p-1]}`, pageW - margin - 4, y + 9, { align: 'right' });
+        y += 20;
+
+        qByPilon[p].forEach(({ text, ans }) => {
+          checkY(16);
+          const ansLabel = ans === 'da' ? '[DA]' : ans === 'nu' ? '[NU]' : '[—]';
+          const ansColor = ans === 'da' ? ok : ans === 'nu' ? no : muted;
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(9);
+          doc.setTextColor(...ansColor);
+          doc.text(ansLabel, margin, y);
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(...navy);
+          const lines = doc.splitTextToSize(text, contentW - 18);
+          doc.text(lines, margin + 14, y);
+          y += lines.length * 6 + 4;
+        });
+        y += 8;
+      }
+
+      // docs
+      checkY(80);
+      doc.setFontSize(13);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...navy);
+      doc.text('Documente necesare', margin, y); y += 10;
+
+      const docs = ['Certificat absolvire curs antreprenoriat (ANC)', 'Plan de afaceri — model ghid', 'Certificat înregistrare ONRC', 'Declarație de minimis', 'Proiecții financiare pe 3 ani', 'Documente angajări', 'Extras de cont cofinanțare', 'Certificat fiscal fără datorii ANAF', 'Act identitate administrator', 'Oferte echipamente', 'Cazier judiciar', 'Contract sediu social'];
+      docs.forEach(d => {
+        checkY(9);
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(...muted);
+        doc.text('—', margin, y);
+        doc.setTextColor(...navy);
+        doc.text(d, margin + 6, y);
+        y += 8;
+      });
+    }
+
+    // ── FOOTER pe fiecare pagină ──
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFillColor(230, 225, 215);
+      doc.rect(0, pageH - 14, pageW, 14, 'F');
+      doc.setFontSize(8);
+      doc.setTextColor(...muted);
+      doc.text('Estimare orientativă · Verificați ghidul solicitantului în vigoare pe imm.gov.ro', margin, pageH - 6);
+      doc.text(`Pagina ${i}/${pageCount}`, pageW - margin, pageH - 6, { align: 'right' });
+    }
+
+    const filenames = { complet: 'startup-nation-calificare-complet.pdf', sumar: 'startup-nation-sumar-executiv.pdf', documente: 'startup-nation-documente-pasi.pdf' };
+    doc.save(filenames[pdfType]);
+  }
+
+  // init
+  updateScore();
+</script>
 </body>
 </html>

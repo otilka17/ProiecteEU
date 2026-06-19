@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calificare Diaspora Investește Acasă — Dakamigos Markt</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:   #14253a;
+  --cream:  #faf5ec;
+  --terra:  #c4622d;
+  --terra2: #e07940;
+  --gold:   #b8964e;
+  --ink:    #1e2d3d;
+  --muted:  #6b7a8d;
+  --border: rgba(20,37,58,0.12);
+  --ok:     #2d6a4f;
+  --ok-bg:  #d8f3dc;
+  --warn:   #7c5c1e;
+  --warn-bg:#fef3cd;
+  --no:     #9b1a1a;
+  --no-bg:  #fde8e8;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Karla', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--navy);
+  padding: 56px 40px 48px;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,98,45,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header-inner { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
+
+.header-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Karla', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--terra2);
+  margin-bottom: 16px;
+}
+.header-flag::before {
+  content: '';
+  display: inline-block;
+  width: 28px; height: 1px;
+  background: var(--terra2);
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 46px);
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+header h1 em { font-style: italic; color: var(--terra2); }
+
+.header-sub {
+  font-family: 'Source Serif 4', serif;
+  font-size: 16px;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(250,245,236,0.65);
+  max-width: 520px;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.header-stats {
+  display: flex;
+  gap: 0;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(250,245,236,0.12);
+  padding-top: 24px;
+}
+.stat {
+  padding-right: 28px;
+  margin-right: 28px;
+  border-right: 1px solid rgba(250,245,236,0.1);
+}
+.stat:last-child { border-right: none; }
+.stat-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.stat-val span { font-size: 14px; color: var(--terra2); font-weight: 400; }
+.stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(250,245,236,0.4);
+}
+
+/* ── SCORE STICKY ── */
+.score-bar {
+  background: var(--terra);
+  padding: 18px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+}
+.score-bar-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.score-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(250,245,236,0.7);
+}
+.score-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1;
+}
+.score-track {
+  flex: 1;
+  min-width: 100px;
+  height: 5px;
+  background: rgba(250,245,236,0.25);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.score-fill {
+  height: 100%;
+  background: var(--cream);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.score-verdict {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cream);
+  text-align: right;
+}
+
+/* ── MAIN ── */
+main {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 52px 40px 80px;
+}
+
+/* ── SECTION ── */
+.section {
+  margin-bottom: 48px;
+  border-top: 2px solid var(--navy);
+  padding-top: 28px;
+}
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.section-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 52px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--terra);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.section-info { flex: 1; }
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.2;
+}
+.section-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 3px;
+  font-style: italic;
+}
+.section-score {
+  text-align: right;
+  flex-shrink: 0;
+}
+.section-score-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.section-score-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── QUESTION ── */
+.question {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px 20px;
+  align-items: start;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+.question:last-child { border-bottom: none; }
+
+.q-text {
+  font-family: 'Source Serif 4', serif;
+  font-size: 15px;
+  color: var(--navy);
+  line-height: 1.5;
+  margin-bottom: 3px;
+}
+.q-hint {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.5;
+}
+.q-weight {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-top: 5px;
+}
+
+.q-toggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding-top: 3px;
+  flex-shrink: 0;
+}
+.toggle-btn {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Karla', sans-serif;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+.toggle-da { color: var(--ok); border-color: rgba(45,106,79,0.3); }
+.toggle-da:hover, .toggle-da.active { background: var(--ok); border-color: var(--ok); color: white; }
+.toggle-nu { color: var(--no); border-color: rgba(155,26,26,0.3); }
+.toggle-nu:hover, .toggle-nu.active { background: var(--no); border-color: var(--no); color: white; }
+
+/* ── SELECT FIELD ── */
+.q-select {
+  margin-top: 8px;
+  grid-column: 1 / -1;
+}
+.q-select select {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--navy);
+  font-family: 'Karla', sans-serif;
+  font-size: 14px;
+  padding: 9px 14px;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.q-select select:focus { border-color: var(--terra); }
+
+/* ── TEXT INPUT ── */
+.q-input {
+  margin-top: 8px;
+  grid-column: 1 / -1;
+}
+.q-input input {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--navy);
+  font-family: 'Karla', sans-serif;
+  font-size: 14px;
+  padding: 9px 14px;
+  border-radius: 3px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.q-input input:focus { border-color: var(--terra); }
+
+/* ── VERDICT ── */
+.verdict-section {
+  margin-top: 56px;
+  border-top: 3px solid var(--navy);
+  padding-top: 44px;
+}
+.verdict-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.verdict-sub {
+  font-size: 14px;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 28px;
+}
+
+.verdict-box {
+  padding: 24px 28px;
+  margin-bottom: 36px;
+  border-left: 5px solid var(--terra);
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.verdict-box.verde { border-left-color: var(--ok); background: var(--ok-bg); }
+.verdict-box.galben { border-left-color: var(--gold); background: var(--warn-bg); }
+.verdict-box.rosu { border-left-color: var(--no); background: var(--no-bg); }
+
+.verdict-icon { font-size: 26px; margin-bottom: 6px; }
+.verdict-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.verdict-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.3;
+}
+.verdict-detail {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── PASI URMATORI ── */
+.steps-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+@media (max-width: 560px) { .steps-grid { grid-template-columns: 1fr; } }
+
+.step-card {
+  padding: 20px 22px;
+  background: white;
+  border-top: 3px solid var(--navy);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+}
+.step-card.terra { border-top-color: var(--terra); }
+.step-card.gold  { border-top-color: var(--gold); }
+.step-card.ok    { border-top-color: var(--ok); }
+
+.step-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--terra);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.step-card.terra .step-num { color: var(--terra); }
+.step-card.gold  .step-num { color: var(--gold); }
+.step-card.ok    .step-num { color: var(--ok); }
+
+.step-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--navy);
+  margin-bottom: 5px;
+}
+.step-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.step-time { margin-top: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--terra); }
+
+/* ── ACTIUNI ── */
+.actiuni-section {
+  background: var(--navy);
+  padding: 36px 40px;
+  margin-bottom: 0;
+}
+.actiuni-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 20px;
+}
+
+.actiuni-grid {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: white;
+  font-family: 'Karla', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.1s;
+  text-decoration: none;
+  border-radius: 2px;
+}
+.btn-whatsapp:hover { background: #1da851; }
+.btn-whatsapp:active { transform: scale(0.98); }
+
+.btn-pdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--terra);
+  color: var(--cream);
+  font-family: 'Karla', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.1s;
+  border-radius: 2px;
+}
+.btn-pdf:hover { background: #a8501f; }
+.btn-pdf:active { transform: scale(0.98); }
+
+.actiuni-note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: rgba(250,245,236,0.45);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--navy);
+  color: rgba(250,245,236,0.4);
+  text-align: center;
+  padding: 24px 20px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+  border-top: 1px solid rgba(250,245,236,0.06);
+}
+
+@media (max-width: 560px) {
+  header, main { padding-left: 20px; padding-right: 20px; }
+  .score-bar { padding-left: 20px; padding-right: 20px; }
+  .actiuni-section { padding: 28px 20px; }
+  .section-letter { font-size: 38px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-flag">Diaspora Investește Acasă · Calificare gratuită</div>
+    <h1>Ești eligibil pentru<br><em>programul diasporei?</em></h1>
+    <p class="header-sub">Completează chestionarul în 3 minute. La final primești un raport de calificare și consultantul te contactează direct.</p>
+    <div class="header-stats">
+      <div class="stat">
+        <div class="stat-val">200.000 <span>EUR</span></div>
+        <div class="stat-label">Grant maxim</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">100 <span>mil. EUR</span></div>
+        <div class="stat-label">Buget program</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">2026 <span>– 2029</span></div>
+        <div class="stat-label">Perioadă</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- SCORE BAR -->
+<div class="score-bar">
+  <div class="score-bar-inner">
+    <div>
+      <div class="score-label">Scor eligibilitate</div>
+      <div class="score-num" id="scoreNum">0 / 10</div>
+    </div>
+    <div class="score-track">
+      <div class="score-fill" id="scoreFill"></div>
+    </div>
+    <div class="score-verdict" id="scoreVerdict">— completați mai jos —</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- DATE PERSONALE -->
+  <div class="section" id="s0">
+    <div class="section-header">
+      <div class="section-letter">0</div>
+      <div class="section-info">
+        <div class="section-title">Date de contact</div>
+        <div class="section-desc">Pentru trimiterea raportului personalizat</div>
+      </div>
+    </div>
+
+    <div class="question" style="grid-template-columns:1fr;">
+      <div class="q-text">Nume și prenume</div>
+      <div class="q-input"><input type="text" id="inp-nume" placeholder="ex: Ion Popescu" oninput="updateScore()"></div>
+    </div>
+    <div class="question" style="grid-template-columns:1fr;">
+      <div class="q-text">Telefon (WhatsApp)</div>
+      <div class="q-input"><input type="tel" id="inp-tel" placeholder="ex: 0040 752 123 456" oninput="updateScore()"></div>
+    </div>
+    <div class="question" style="grid-template-columns:1fr;">
+      <div class="q-text">Țara de reședință actuală</div>
+      <div class="q-input"><input type="text" id="inp-tara" placeholder="ex: Germania, Italia, Marea Britanie..." oninput="updateScore()"></div>
+    </div>
+    <div class="question" style="grid-template-columns:1fr;">
+      <div class="q-text">Județul / Localitatea unde vrei să investești în România</div>
+      <div class="q-input"><input type="text" id="inp-localitate" placeholder="ex: Sighetu Marmației, jud. Maramureș" oninput="updateScore()"></div>
+    </div>
+  </div>
+
+  <!-- A. ELIGIBILITATE PERSONALA -->
+  <div class="section" id="sA">
+    <div class="section-header">
+      <div class="section-letter">A</div>
+      <div class="section-info">
+        <div class="section-title">Eligibilitate personală</div>
+        <div class="section-desc">Condiții obligatorii legate de solicitant</div>
+      </div>
+      <div class="section-score">
+        <div class="section-score-val" id="scoreA">0 / 3</div>
+        <div class="section-score-label">Punctaj</div>
+      </div>
+    </div>
+
+    <div class="question" data-sec="A" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Ești cetățean român cu domiciliul sau reședința în străinătate de cel puțin 12 luni consecutive în ultimele 18 luni?</div>
+        <div class="q-hint">Condiție obligatorie. Verificată prin pașaport sau permis de ședere.</div>
+        <div class="q-weight">Criteriu eliminatoriu</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-sec="A" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Ai minimum 1 an de experiență profesională sau studii relevante în domeniul în care vrei să investești?</div>
+        <div class="q-hint">Experiența se dovedește cu contract de muncă, diplomă sau certificat de calificare.</div>
+        <div class="q-weight">Criteriu obligatoriu</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-sec="A" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Ai sub 35 de ani?</div>
+        <div class="q-hint">Antreprenorii sub 35 ani beneficiază de contribuție proprie redusă la 5% față de 10% pentru restul.</div>
+        <div class="q-weight">Bonus — contribuție proprie redusă</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- B. FIRMA SI PROIECT -->
+  <div class="section" id="sB">
+    <div class="section-header">
+      <div class="section-letter">B</div>
+      <div class="section-info">
+        <div class="section-title">Firmă și structură proiect</div>
+        <div class="section-desc">Condiții legate de entitatea juridică</div>
+      </div>
+      <div class="section-score">
+        <div class="section-score-val" id="scoreB">0 / 3</div>
+        <div class="section-score-label">Punctaj</div>
+      </div>
+    </div>
+
+    <div class="question" data-sec="B" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Firma este nou înființată sau urmează să fie înființată cu capital majoritar românesc din diasporă?</div>
+        <div class="q-hint">Programul e dedicat start-up-urilor. Firmele vechi cu activitate nu sunt eligibile.</div>
+        <div class="q-weight">Criteriu obligatoriu</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-sec="B" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Poți asigura contribuția proprie de minimum 5–10% din valoarea investiției?</div>
+        <div class="q-hint">Pentru un credit de 100.000 EUR → contribuție proprie 5.000–10.000 EUR din fonduri proprii sau economii.</div>
+        <div class="q-weight">Criteriu financiar</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-sec="B" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Investiția planificată este între 5.000 EUR și 500.000 EUR valoare totală?</div>
+        <div class="q-hint">Grantul acoperă 60% din creditul de investiții. Creditul poate fi între 5.000 și 500.000 EUR.</div>
+        <div class="q-weight">Plafon eligibil</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- C. DOMENIU SI PROIECT -->
+  <div class="section" id="sC">
+    <div class="section-header">
+      <div class="section-letter">C</div>
+      <div class="section-info">
+        <div class="section-title">Domeniu de activitate</div>
+        <div class="section-desc">Tipul de afacere planificată</div>
+      </div>
+      <div class="section-score">
+        <div class="section-score-val" id="scoreC">0 / 2</div>
+        <div class="section-score-label">Punctaj</div>
+      </div>
+    </div>
+
+    <div class="question" data-sec="C" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Ce tip de afacere vrei să deschizi?</div>
+        <div class="q-hint">Selectează domeniul principal al investiției planificate.</div>
+        <div class="q-weight">Eligibilitate domeniu</div>
+        <div class="q-select">
+          <select id="sel-domeniu" onchange="updateDomeniu()">
+            <option value="">— alege domeniul —</option>
+            <option value="turism">Turism / Ospitalitate / Pensiune</option>
+            <option value="productie">Producție / Manufacturare</option>
+            <option value="agro">Agro-alimentar / Procesare</option>
+            <option value="it">IT / Software / Digital</option>
+            <option value="servicii">Servicii profesionale</option>
+            <option value="comert">Comerț / Retail</option>
+            <option value="alta">Altul</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="question" data-sec="C" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Planifici să creezi cel puțin 1 loc de muncă în România prin această investiție?</div>
+        <div class="q-hint">Crearea de locuri de muncă aduce punctaj suplimentar și demonstrează impactul economic local.</div>
+        <div class="q-weight">Criteriu de impact</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- D. DISPONIBILITATE -->
+  <div class="section" id="sD">
+    <div class="section-header">
+      <div class="section-letter">D</div>
+      <div class="section-info">
+        <div class="section-title">Disponibilitate și angajament</div>
+        <div class="section-desc">Condiții de implementare și monitorizare</div>
+      </div>
+      <div class="section-score">
+        <div class="section-score-val" id="scoreD">0 / 2</div>
+        <div class="section-score-label">Punctaj</div>
+      </div>
+    </div>
+
+    <div class="question" data-sec="D" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Ești dispus să menții investiția și structura acționariatului pe durata monitorizării (minimum 3 ani)?</div>
+        <div class="q-hint">Condiție obligatorie. Vânzarea firmei sau modificarea structurii acționariatului în perioada de monitorizare poate atrage recuperarea grantului.</div>
+        <div class="q-weight">Asumare obligatorie</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+
+    <div class="question" data-sec="D" data-pts="1">
+      <div class="q-body">
+        <div class="q-text">Ești disponibil să colaborezi cu un consultant pentru pregătirea dosarului și implementarea proiectului?</div>
+        <div class="q-hint">Dosarul se depune prin Banca de Investiții și Dezvoltare (BID). Un consultant specializat crește semnificativ șansele de aprobare.</div>
+        <div class="q-weight">Angajament parteneriat</div>
+      </div>
+      <div class="q-toggle">
+        <button class="toggle-btn toggle-da" onclick="toggle(this,'da')">DA</button>
+        <button class="toggle-btn toggle-nu" onclick="toggle(this,'nu')">NU</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict-section" id="verdictSection">
+    <div class="verdict-title">Verdict & Plan de acțiune</div>
+    <div class="verdict-sub">Bazat pe răspunsurile completate</div>
+
+    <div class="verdict-box" id="verdictBox">
+      <div class="verdict-icon" id="verdictIcon">📋</div>
+      <div class="verdict-label">Concluzie eligibilitate</div>
+      <div class="verdict-text" id="verdictText">Completați chestionarul pentru a vedea verdictul.</div>
+      <div class="verdict-detail" id="verdictDetail">Răspundeți la toate criteriile de mai sus.</div>
+    </div>
+
+    <div class="steps-title">Pași următori</div>
+    <div class="steps-grid">
+      <div class="step-card terra">
+        <div class="step-num">1</div>
+        <div class="step-title">Consultație inițială</div>
+        <div class="step-text">Analiză detaliată a eligibilității, domeniului și structurii optime a proiectului cu consultantul Dakamigos Markt.</div>
+        <div class="step-time">Acum · 500 lei / 1 oră</div>
+      </div>
+      <div class="step-card gold">
+        <div class="step-num">2</div>
+        <div class="step-title">Înregistrare firmă</div>
+        <div class="step-text">SRL nou înmatriculat cu capital majoritar al cetățeanului din diasporă. Cod CAEN aferent domeniului ales.</div>
+        <div class="step-time">Săptămânile 1–3</div>
+      </div>
+      <div class="step-card ok">
+        <div class="step-num">3</div>
+        <div class="step-title">Plan de afaceri</div>
+        <div class="step-text">Elaborare plan de afaceri conform cerințelor BID, cu proiecții financiare pe 3–5 ani și justificarea investiției.</div>
+        <div class="step-time">Săptămânile 3–8</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-title">Depunere la BID</div>
+        <div class="step-text">Depunere dosar la Banca de Investiții și Dezvoltare. Evaluare 30–60 zile. Aprobare grant + credit investiții.</div>
+        <div class="step-time">Lunar · sesiune continuă</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ACTIUNI -->
+<div class="actiuni-section" id="actiuniSection">
+  <div class="actiuni-title">Trimite raportul</div>
+  <div class="actiuni-grid">
+    <button class="btn-whatsapp" onclick="sendWhatsApp()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Trimite la consultant
+    </button>
+    <button class="btn-pdf" onclick="downloadPDF()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Descarcă PDF
+    </button>
+  </div>
+  <div class="actiuni-note">Raportul tău va fi trimis automat consultantului Sălășan Otilia Ioana · 0749 229 686 · DAKAMIGOS MARKT SRL</div>
+</div>
+
+<footer>
+  Instrument orientativ · Diaspora Investește Acasă · Ministerul Finanțelor România · BID<br>
+  Consultanță: Sălășan Otilia Ioana · DAKAMIGOS MARKT SRL · 0749 229 686
+</footer>
+
+<script>
+const state = {};
+const questions = document.querySelectorAll('.question[data-sec]');
+questions.forEach((q, i) => { state[i] = null; });
+
+const secMax = { A: 3, B: 3, C: 2, D: 2 };
+let domeniuOk = false;
+
+function toggle(btn, val) {
+  const q = btn.closest('.question');
+  const idx = Array.from(questions).indexOf(q);
+  const daBtn = q.querySelector('.toggle-da');
+  const nuBtn = q.querySelector('.toggle-nu');
+  if (state[idx] === val) {
+    state[idx] = null;
+    daBtn.classList.remove('active');
+    nuBtn.classList.remove('active');
+  } else {
+    state[idx] = val;
+    daBtn.classList.toggle('active', val === 'da');
+    nuBtn.classList.toggle('active', val === 'nu');
+  }
+  updateScore();
+}
+
+function updateDomeniu() {
+  const val = document.getElementById('sel-domeniu').value;
+  domeniuOk = val !== '' && val !== 'alta';
+  updateScore();
+}
+
+function updateScore() {
+  let total = 0;
+  const secScores = { A: 0, B: 0, C: 0, D: 0 };
+
+  questions.forEach((q, i) => {
+    const sec = q.dataset.sec;
+    if (state[i] === 'da') {
+      total++;
+      secScores[sec]++;
+    }
+  });
+
+  // domeniu
+  if (domeniuOk) { total++; secScores['C']++; }
+
+  const maxTotal = 10;
+  const pct = (total / maxTotal) * 100;
+
+  document.getElementById('scoreNum').textContent = total + ' / ' + maxTotal;
+  document.getElementById('scoreFill').style.width = pct + '%';
+
+  // per-section badges
+  Object.keys(secMax).forEach(sec => {
+    const el = document.getElementById('score' + sec);
+    if (el) el.textContent = secScores[sec] + ' / ' + secMax[sec];
+  });
+
+  // verdict
+  const vBox    = document.getElementById('verdictBox');
+  const vText   = document.getElementById('verdictText');
+  const vDetail = document.getElementById('verdictDetail');
+  const vIcon   = document.getElementById('verdictIcon');
+  const vVerdict= document.getElementById('scoreVerdict');
+
+  vBox.className = 'verdict-box';
+
+  const answered = Object.values(state).filter(v => v !== null).length;
+
+  if (answered === 0 && !domeniuOk) {
+    vVerdict.textContent = '— completați mai jos —';
+    vText.textContent = 'Completați chestionarul pentru a vedea verdictul.';
+    vDetail.textContent = 'Răspundeți la toate criteriile de mai sus.';
+    vIcon.textContent = '📋';
+  } else if (total >= 8) {
+    vVerdict.textContent = '✓ Profil puternic';
+    vBox.classList.add('verde');
+    vIcon.textContent = '✅';
+    vText.textContent = 'Profil de eligibilitate excelent — ' + total + '/10 criterii îndeplinite.';
+    vDetail.textContent = 'Dosarul are șanse ridicate de aprobare prin BID. Recomandăm să programați consultația inițială cât mai curând pentru a nu pierde locurile disponibile în sesiunea 2026.';
+  } else if (total >= 5) {
+    vVerdict.textContent = '⚠ Eligibil cu rezerve';
+    vBox.classList.add('galben');
+    vIcon.textContent = '⚠️';
+    vText.textContent = 'Eligibil parțial — ' + total + '/10 criterii îndeplinite.';
+    vDetail.textContent = 'Există criterii neîndeplinite care pot afecta aprobarea. Consultantul poate analiza dacă există soluții alternative sau programe complementare.';
+  } else {
+    vVerdict.textContent = '✗ Risc de neeligibilitate';
+    vBox.classList.add('rosu');
+    vIcon.textContent = '❌';
+    vText.textContent = 'Profil cu risc ridicat — ' + total + '/10 criterii îndeplinite.';
+    vDetail.textContent = 'Câteva criterii obligatorii nu sunt îndeplinite. Consultantul poate identifica programe alternative de finanțare potrivite situației dvs.';
+  }
+}
+
+function buildReportText() {
+  const nume = document.getElementById('inp-nume').value || '(necompletat)';
+  const tel  = document.getElementById('inp-tel').value  || '(necompletat)';
+  const tara = document.getElementById('inp-tara').value || '(necompletat)';
+  const loc  = document.getElementById('inp-localitate').value || '(necompletat)';
+  const domeniu = document.getElementById('sel-domeniu').value || '(neales)';
+
+  let total = 0;
+  const lines = [];
+  const secNames = { A: 'Eligibilitate personală', B: 'Firmă și proiect', C: 'Domeniu activitate', D: 'Disponibilitate' };
+  const secScores = { A: 0, B: 0, C: 0, D: 0 };
+
+  questions.forEach((q, i) => {
+    const sec = q.dataset.sec;
+    const ans = state[i];
+    if (ans === 'da') { total++; secScores[sec]++; }
+    const text = q.querySelector('.q-text').textContent.trim();
+    lines.push({ sec, text, ans: ans || '—' });
+  });
+  if (domeniuOk) { total++; secScores['C']++; }
+
+  const verdictText = total >= 8 ? 'PROFIL PUTERNIC — Eligibil' : total >= 5 ? 'ELIGIBIL CU REZERVE' : 'RISC DE NEELIGIBILITATE';
+
+  return { nume, tel, tara, loc, domeniu, total, lines, secScores, verdictText };
+}
+
+function sendWhatsApp() {
+  const r = buildReportText();
+  const msg = `*RAPORT CALIFICARE DIASPORA*\n\n` +
+    `*Solicitant:* ${r.nume}\n` +
+    `*Telefon:* ${r.tel}\n` +
+    `*Țara:* ${r.tara}\n` +
+    `*Localitate investiție:* ${r.loc}\n` +
+    `*Domeniu:* ${r.domeniu}\n` +
+    `*Scor eligibilitate:* ${r.total}/10\n` +
+    `*Verdict:* ${r.verdictText}\n\n` +
+    `*Răspunsuri:*\n` +
+    r.lines.map(l => `• ${l.text.substring(0,60)}... → *${l.ans.toUpperCase()}*`).join('\n') +
+    `\n\n_Trimis din chestionarul Diaspora Investește Acasă · Dakamigos Markt_`;
+
+  const encoded = encodeURIComponent(msg);
+  window.open(`https://wa.me/40749229686?text=${encoded}`, '_blank');
+}
+
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const r = buildReportText();
+
+  const navy  = [20, 37, 58];
+  const terra = [196, 98, 45];
+  const cream = [250, 245, 236];
+  const muted = [107, 114, 128];
+  const ok    = [45, 106, 79];
+  const no    = [155, 26, 26];
+  const gold  = [184, 150, 78];
+
+  const pageW = 210, margin = 20, contentW = 170;
+  let y = 0;
+
+  function newPage() {
+    doc.addPage(); y = margin;
+    doc.setFillColor(...navy);
+    doc.rect(0, 0, pageW, 10, 'F');
+    doc.setFontSize(7); doc.setTextColor(180,180,180);
+    doc.text('Raport Calificare · Diaspora Investește Acasă · Dakamigos Markt', margin, 7);
+    y = 20;
+  }
+
+  function checkY(need = 20) { if (y + need > 270) newPage(); }
+
+  // COVER
+  doc.setFillColor(...navy);
+  doc.rect(0, 0, pageW, 80, 'F');
+  doc.setFillColor(...terra);
+  doc.rect(0, 80, pageW, 3, 'F');
+
+  doc.setFontSize(9); doc.setTextColor(...cream);
+  doc.text('RAPORT DE CALIFICARE · DIASPORA INVESTEȘTE ACASĂ', margin, 28);
+  doc.setFontSize(20); doc.setFont('helvetica', 'bold');
+  doc.text('Evaluare eligibilitate', margin, 44);
+  doc.setFontSize(12); doc.setFont('helvetica', 'normal');
+  doc.setTextColor(180,180,180);
+  doc.text(`Solicitant: ${r.nume}  ·  Scor: ${r.total}/10  ·  ${new Date().toLocaleDateString('ro-RO')}`, margin, 58);
+
+  // verdict banner
+  const vc = r.total >= 8 ? ok : r.total >= 5 ? gold : no;
+  doc.setFillColor(...vc);
+  doc.rect(margin, 90, contentW, 18, 'F');
+  doc.setFontSize(11); doc.setFont('helvetica', 'bold'); doc.setTextColor(255,255,255);
+  doc.text(r.verdictText + '  ·  ' + r.total + '/10', margin + 6, 102);
+
+  y = 120;
+
+  // DATE CONTACT
+  doc.setFontSize(12); doc.setFont('helvetica', 'bold'); doc.setTextColor(...navy);
+  doc.text('Date de contact', margin, y); y += 8;
+
+  const contactRows = [
+    ['Nume', r.nume], ['Telefon', r.tel],
+    ['Țara', r.tara], ['Localitate investiție', r.loc],
+    ['Domeniu ales', r.domeniu],
+  ];
+  const bord = { style: 'S', width: 0.3, color: [200,200,200] };
+  contactRows.forEach(([k, v]) => {
+    checkY(10);
+    doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...muted);
+    doc.text(k, margin, y);
+    doc.setFont('helvetica', 'normal'); doc.setTextColor(...navy);
+    doc.text(v, margin + 50, y);
+    y += 7;
+  });
+
+  y += 8;
+
+  // RASPUNSURI
+  const secs = ['A', 'B', 'C', 'D'];
+  const secNamesLocal = {
+    A: 'A — Eligibilitate personală',
+    B: 'B — Firmă și proiect',
+    C: 'C — Domeniu de activitate',
+    D: 'D — Disponibilitate',
+  };
+
+  secs.forEach(sec => {
+    checkY(24);
+    doc.setFillColor(...navy);
+    doc.rect(margin, y, contentW, 12, 'F');
+    doc.setFontSize(10); doc.setFont('helvetica', 'bold'); doc.setTextColor(255,255,255);
+    doc.text(secNamesLocal[sec], margin + 4, y + 8);
+    y += 18;
+
+    r.lines.filter(l => l.sec === sec).forEach(l => {
+      checkY(14);
+      const ansC = l.ans === 'da' ? ok : l.ans === 'nu' ? no : muted;
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...ansC);
+      doc.text('[' + l.ans.toUpperCase() + ']', margin, y);
+      doc.setFont('helvetica', 'normal'); doc.setTextColor(...navy);
+      const lns = doc.splitTextToSize(l.text, contentW - 18);
+      doc.text(lns, margin + 14, y);
+      y += lns.length * 5 + 4;
+    });
+
+    if (sec === 'C') {
+      checkY(10);
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(8);
+      doc.setTextColor(...(domeniuOk ? ok : muted));
+      doc.text('[' + (domeniuOk ? 'DA' : '—') + ']', margin, y);
+      doc.setFont('helvetica', 'normal'); doc.setTextColor(...navy);
+      doc.text('Domeniu ales: ' + r.domeniu, margin + 14, y);
+      y += 10;
+    }
+    y += 4;
+  });
+
+  // PASI
+  checkY(50);
+  doc.setFontSize(12); doc.setFont('helvetica', 'bold'); doc.setTextColor(...navy);
+  doc.text('Pași următori', margin, y); y += 10;
+
+  [
+    ['1. Consultație inițială', '500 lei / 1 oră · Dakamigos Markt · 0749 229 686'],
+    ['2. Înregistrare firmă', 'SRL nou cu capital din diasporă · 1–3 săptămâni'],
+    ['3. Plan de afaceri', 'Conform cerințelor BID · 3–8 săptămâni'],
+    ['4. Depunere la BID', 'Banca de Investiții și Dezvoltare · sesiune continuă 2026'],
+  ].forEach(([t, d]) => {
+    checkY(14);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...terra);
+    doc.text(t, margin, y);
+    doc.setFont('helvetica', 'normal'); doc.setTextColor(...muted);
+    doc.text(d, margin + 4, y + 5);
+    y += 14;
+  });
+
+  // FOOTER pe pagini
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFillColor(230,225,215);
+    doc.rect(0, 287, pageW, 10, 'F');
+    doc.setFontSize(7); doc.setTextColor(...muted);
+    doc.text('Estimare orientativă · Diaspora Investește Acasă · Ministerul Finanțelor · BID · Dakamigos Markt SRL', margin, 293);
+    doc.text('Pagina ' + i + '/' + pageCount, pageW - margin, 293, { align: 'right' });
+  }
+
+  doc.save('calificare-diaspora-' + (r.nume.replace(/\s/g,'_') || 'raport') + '.pdf');
+}
+
+updateScore();
+</script>
+</body>
+</html>

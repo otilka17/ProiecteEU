@@ -1,1 +1,319 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist PTJ · Agropensiune & Catering</title>
+<style>
+:root{
+  --navy:#14253a;
+  --terra:#c4622d;
+  --crem:#faf5ec;
+  --green:#2d5a27;
+  --gray:#7a8699;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--crem);color:var(--navy);padding:20px;}
+.container{max-width:900px;margin:0 auto;}
+header{text-align:center;padding:40px 0;border-bottom:2px solid var(--terra);margin-bottom:40px;}
+header h1{font-size:2.4rem;color:var(--navy);margin-bottom:8px;}
+header p{color:var(--gray);font-size:.95rem;letter-spacing:1px;text-transform:uppercase;}
+header .meta{font-size:.85rem;color:var(--gray);margin-top:12px;}
+
+.phase{margin-bottom:48px;background:#fff;border-left:5px solid var(--terra);padding:28px;}
+.phase-header{display:flex;align-items:baseline;gap:16px;margin-bottom:24px;}
+.phase-num{font-size:1.8rem;font-weight:900;color:var(--terra);min-width:50px;}
+.phase-title{font-size:1.4rem;color:var(--navy);font-weight:700;}
+.phase-desc{font-size:.9rem;color:var(--gray);margin-left:50px;margin-bottom:16px;line-height:1.6;}
+
+.steps{display:flex;flex-direction:column;gap:12px;}
+.step{display:flex;gap:12px;padding:12px 14px;background:#f9f7f3;border-radius:4px;align-items:flex-start;transition:all .2s;}
+.step:hover{background:#f0e8dc;border-left:2px solid var(--green);}
+.step.done{opacity:.6;background:#e8f0e5;}
+.step.done label{text-decoration:line-through;color:var(--gray);}
+
+input[type="checkbox"]{width:20px;height:20px;cursor:pointer;margin-top:2px;accent-color:var(--green);flex-shrink:0;}
+label{cursor:pointer;flex:1;font-size:.95rem;color:var(--navy);line-height:1.4;}
+.step-num{color:var(--gray);font-weight:600;font-size:.85rem;min-width:35px;}
+
+.controls{display:flex;gap:12px;justify-content:center;margin:40px 0;flex-wrap:wrap;}
+button{padding:12px 24px;border:1px solid var(--terra);background:#fff;color:var(--terra);font-weight:700;cursor:pointer;border-radius:4px;font-size:.9rem;letter-spacing:1px;transition:all .2s;text-transform:uppercase;}
+button:hover{background:var(--terra);color:#fff;}
+button.secondary{border-color:var(--gray);color:var(--gray);}
+button.secondary:hover{background:var(--gray);color:#fff;}
+
+.progress{margin:24px 0;padding:20px;background:#f0e8dc;border-radius:4px;text-align:center;}
+.progress-bar{width:100%;height:8px;background:#ddd;border-radius:4px;margin:12px 0;overflow:hidden;}
+.progress-fill{height:100%;background:var(--green);transition:width .3s;}
+.progress-text{font-size:.95rem;color:var(--navy);font-weight:700;}
+
+footer{text-align:center;margin-top:60px;padding:20px 0;border-top:1px solid #ddd;color:var(--gray);font-size:.85rem;}
+footer a{color:var(--terra);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media(max-width:600px){
+  header h1{font-size:1.8rem;}
+  .phase{padding:20px;}
+  .phase-header{flex-direction:column;gap:8px;}
+  .phase-desc{margin-left:0;}
+  .controls{flex-direction:column;}
+  button{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Checklist PTJ</h1>
+    <p>Agropensiune & Catering — Tranzitie Just</p>
+    <div class="meta">8 Faze · 50 Pași · Grant 50–300k EUR · 2026</div>
+  </header>
+
+  <div class="progress">
+    <div class="progress-text">Progres: <span id="percent">0</span>% (<span id="done">0</span>/<span id="total">50</span>)</div>
+    <div class="progress-bar"><div class="progress-fill" id="bar"></div></div>
+  </div>
+
+  <div id="checklist"></div>
+
+  <div class="controls">
+    <button onclick="checkAll()">✓ Bifează toate</button>
+    <button class="secondary" onclick="uncheckAll()">✗ Debifează toate</button>
+    <button class="secondary" onclick="exportPDF()">↓ Export PDF</button>
+    <button class="secondary" onclick="resetData()">⟲ Resetează</button>
+  </div>
+</div>
+
+<footer>
+  <p>Checklist interactiv · Salvare automată în browser · <a href="#">Cabinet Strategie · GAL din România</a></p>
+</footer>
+
+<script>
+const phases = [
+  {
+    num: 1,
+    title: "Evaluare & Eligibilitate",
+    desc: "Analiza potențialului agropensiunii, verificare criterii PTJ, pregatire documentație preliminară",
+    steps: [
+      "Analiza terenului și construcțiilor existente",
+      "Identificare zona eligibilă (territorial Just Transition)",
+      "Evaluare resurse locale (producători, furnizori)",
+      "Estimare cost total proiect",
+      "Verificare condiții de eligibilitate PTJ",
+      "Consultări preliminare cu autoritățile locale"
+    ]
+  },
+  {
+    num: 2,
+    title: "Proiectare & Inginerie",
+    desc: "Desene tehnice, planuri de construcție, specificații pentru extensie și bucătărie",
+    steps: [
+      "Elaborare concept proiect (layout agropensiune + catering)",
+      "Studiu de fezabilitate economic",
+      "Planuri arhitecturale (extensie, bucătărie, depozit)",
+      "Specificații instalații (apă, curent, gaz, canalizare)",
+      "Evaluare impact mediu (dacă necesar)",
+      "Planuri de siguranță și accesibilitate"
+    ]
+  },
+  {
+    num: 3,
+    title: "Autorizații & Acorduri",
+    desc: "Permise de construcție, acorduri comunale, avize DSVSA, mediu, incendiară",
+    steps: [
+      "Depunere cerere permis de construcție",
+      "Obținere acord comună / administrație",
+      "Pre-evaluare DSVSA pentru bucătărie comercială",
+      "Consultație mediu (dacă e cazul)",
+      "Certificat de urbanism",
+      "Acord de vecinătate (dacă necesar)"
+    ]
+  },
+  {
+    num: 4,
+    title: "Pregătire Documentație EU",
+    desc: "Dosarul complet PTJ: cerere, buget, indicatori, documente de calificare",
+    steps: [
+      "Redactare cerere de finanțare (format EU)",
+      "Elaborare buget detaliat (costuri directe și indirecte)",
+      "Plan de viabilitate economică pe 7 ani",
+      "Descriere indicator de rezultat (locuri de muncă, vizitatori)",
+      "Certificat de inregistrare în registrul cu scopul caritabil (dacă e cazul)",
+      "Dovezi de compatibilitate cu Natura 2000 (dacă aplicabil)"
+    ]
+  },
+  {
+    num: 5,
+    title: "Depunere & Evaluare",
+    desc: "Trimitere offline/online, evaluare autoritate, clarificări dacă e necesar",
+    steps: [
+      "Verificare finală a dosarului (completitudine)",
+      "Depunere cerere la structura de gestionare PTJ",
+      "Obținere dovadă depunere",
+      "Așteptare evaluare (30–60 zile)",
+      "Răspuns clarificări dacă sunt solicitate",
+      "Notificare rezultat evaluare"
+    ]
+  },
+  {
+    num: 6,
+    title: "Execuție Lucrări",
+    desc: "Licitație furnizor, execuție construcție, achiziții echipamente, monitorizare",
+    steps: [
+      "Licitație publica (daca se impune) sau selectie furnizor",
+      "Semnare contract execuție",
+      "Execuție lucrări construcție (12–18 luni)",
+      "Inspectie şantier periodic",
+      "Achiziție echipamente bucătărie (cuptor, plita, frigider, etc.)",
+      "Instalare mobilie și dotări",
+      "Control final și receție lucrări"
+    ]
+  },
+  {
+    num: 7,
+    title: "Autorizații Operare & DSVSA",
+    desc: "Certificat ocupare, avize DSVSA, igienă, incendiară; deschidere bucătărie",
+    steps: [
+      "Obținere certificat de ocupare",
+      "Inspecție DSVSA bucătărie comercială finală",
+      "Autorizație de funcționare DSVSA",
+      "Certificat de igienă și siguranță alimentară",
+      "Inspecție protecție incendiară",
+      "Inspecție de siguranță locuri de muncă (ITM)"
+    ]
+  },
+  {
+    num: 8,
+    title: "Finalizare & Raportare",
+    desc: "Deschidere oficială, rapoarte finale, indicatori, audit și certificare fonduri",
+    steps: [
+      "Finalizare lucrări și deschidere agropensiune",
+      "Formare personal (gătit, servire, mediu)",
+      "Activare sistem de evidență și raportare",
+      "Raport final de execuție (cu fotografii, dovezi)",
+      "Evidență indicatori de rezultat (vizitatori, locuri muncă, venit)",
+      "Audit final și certificare de cheltuieli"
+    ]
+  }
+];
+
+let data = {};
+
+function initChecklist(){
+  let totalSteps = 0;
+  let html = '';
+  
+  phases.forEach((phase,idx)=>{
+    const phaseId = `phase-${idx}`;
+    if(!data[phaseId]) data[phaseId] = {};
+    
+    html += `<div class="phase">
+      <div class="phase-header">
+        <div class="phase-num">${phase.num}</div>
+        <div class="phase-title">${phase.title}</div>
+      </div>
+      <div class="phase-desc">${phase.desc}</div>
+      <div class="steps">`;
+    
+    phase.steps.forEach((step,sIdx)=>{
+      const stepId = `${phaseId}-${sIdx}`;
+      totalSteps++;
+      const checked = data[phaseId][sIdx] ? 'checked' : '';
+      
+      html += `<div class="step ${checked ? 'done' : ''}">
+        <input type="checkbox" id="${stepId}" ${checked} onchange="toggleStep('${phaseId}',${sIdx})">
+        <span class="step-num">${phase.num}.${sIdx+1}</span>
+        <label for="${stepId}">${step}</label>
+      </div>`;
+    });
+    
+    html += `</div></div>`;
+  });
+  
+  document.getElementById('checklist').innerHTML = html;
+  document.getElementById('total').textContent = totalSteps;
+  updateProgress();
+}
+
+function toggleStep(phaseId, sIdx){
+  data[phaseId][sIdx] = !data[phaseId][sIdx];
+  saveData();
+  
+  const stepId = `${phaseId}-${sIdx}`;
+  const el = document.getElementById(stepId).parentElement;
+  el.classList.toggle('done');
+  updateProgress();
+}
+
+function updateProgress(){
+  let total = 0, done = 0;
+  Object.values(data).forEach(phase=>{
+    Object.values(phase).forEach(checked=>{
+      total++;
+      if(checked) done++;
+    });
+  });
+  
+  const percent = total > 0 ? Math.round((done/total)*100) : 0;
+  document.getElementById('done').textContent = done;
+  document.getElementById('percent').textContent = percent;
+  document.getElementById('bar').style.width = percent + '%';
+}
+
+function saveData(){
+  localStorage.setItem('ptj-checklist', JSON.stringify(data));
+}
+
+function loadData(){
+  const saved = localStorage.getItem('ptj-checklist');
+  if(saved) data = JSON.parse(saved);
+}
+
+function checkAll(){
+  phases.forEach((p,idx)=>{
+    const phaseId = `phase-${idx}`;
+    p.steps.forEach((s,sIdx)=>{
+      data[phaseId][sIdx] = true;
+      const el = document.getElementById(`${phaseId}-${sIdx}`);
+      el.checked = true;
+      el.parentElement.classList.add('done');
+    });
+  });
+  saveData();
+  updateProgress();
+}
+
+function uncheckAll(){
+  phases.forEach((p,idx)=>{
+    const phaseId = `phase-${idx}`;
+    p.steps.forEach((s,sIdx)=>{
+      data[phaseId][sIdx] = false;
+      const el = document.getElementById(`${phaseId}-${sIdx}`);
+      el.checked = false;
+      el.parentElement.classList.remove('done');
+    });
+  });
+  saveData();
+  updateProgress();
+}
+
+function resetData(){
+  if(confirm('Sigur vrei să resetezi checklistul?')){
+    localStorage.removeItem('ptj-checklist');
+    data = {};
+    initChecklist();
+  }
+}
+
+function exportPDF(){
+  alert('Export PDF: copiaza aceasta pagina (Ctrl+P) si salveaza ca PDF. Checkurile vor fi vizibile in PDF.');
+}
+
+loadData();
+initChecklist();
+</script>
+
+</body>
+</html>
 

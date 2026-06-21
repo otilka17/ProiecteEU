@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghid Calistenic - Program de Antrenament</title>
+    <style>
+        :root {
+            --primary-color: #0b2545; /* Albastru marin */
+            --accent-color: #8da9c4;
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #134074;
+            --cream: #eef4f8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--cream);
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem 1rem;
+        }
+
+        .section-title {
+            border-left: 5px solid var(--primary-color);
+            padding-left: 10px;
+            margin-top: 2rem;
+            color: var(--primary-color);
+        }
+
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .exercise-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .exercise-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid rgba(141, 169, 196, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Aspect Ratio 16:9 */
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .exercise-content {
+            padding: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .exercise-title {
+            font-size: 1.3rem;
+            margin: 0 0 0.5rem 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--cream);
+            color: var(--primary-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            border: 1px solid var(--accent-color);
+        }
+
+        .exercise-details {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #4a5568;
+        }
+
+        .tips {
+            background-color: var(--cream);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Exerciții Calistenic</h1>
+        <p>Ghid video pentru execuție corectă și eficientă</p>
+    </header>
+
+    <div class="container">
+
+        <h2 class="section-title">1. Piept, Umeri și Tricepși (Împins)</h2>
+        <div class="exercise-grid">
+            
+            <div class="exercise-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/IODxDxX7oi4" allowfullscreen></iframe>
+                </div>
+                <div class="exercise-content">
+                    <span class="badge">Începător / Intermediar</span>
+                    <div class="exercise-title">Flotări Clasice</div>
+                    <p class="exercise-details">Menține corpul într-o linie perfect dreaptă de la cap până la călcâie. Coboară pieptul până aproape de sol, menținând coatele la un unghi de aproximativ 45 de grade față de corp.</p>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/sposDXWEB0A" allowfullscreen></iframe>
+                </div>
+                <div class="exercise-content">
+                    <span class="badge">Intermediar / Avansat</span>
+                    <div class="exercise-title">Flotări Pike (Pentru Umeri)</div>
+                    <p class="exercise-details">Ridicp bazinul în sus formând o literă „V” inversată. Coboară capul spre sol într-o traiectorie diagonală, punând accentul pe mușchii umerilor și ai tricepșilor.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">2. Spate și Bicepși (Tras)</h2>
+        <div class="exercise-grid">
+            
+            <div class="exercise-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/rloXYB8M3vU" allowfullscreen></iframe>
+                </div>
+                <div class="exercise-content">
+                    <span class="badge">Începător</span>
+                    <div class="exercise-title">Tracțiuni Australiene (La bară joasă)</div>
+                    <p class="exercise-details">Cea mai bună variantă pentru a construi forța de spate. Menține picioarele pe sol, corpul drept și trage pieptul către bară, strângând omoplații la finalul mișcării.</p>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/eGo4IYlbE5g" allowfullscreen></iframe>
+                </div>
+                <div class="exercise-content">
+                    <span class="badge">Intermediar / Avansat</span>
+                    <div class="exercise-title">Tracțiuni la Bară (Pull-ups)</div>
+                    <p class="exercise-details">Apucă bara cu o priză puțin mai lată decât lățimea umerilor. Trage-te în sus controlat până când bărbia depășește bara, evitând să te balansezi.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">3. Picioare și Abdomen</h2>
+        <div class="exercise-grid">
+            
+            <div class="exercise-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/UXJrMDoZ9XA" allowfullscreen></iframe>
+                </div>
+                <div class="exercise-content">
+                    <span class="badge">Începător</span>
+                    <div class="exercise-title">Genuflexiuni Corecte</div>
+                    <p class="exercise-details">Coboară bazinul ca și cum te-ai așeza pe un scaun. Menține călcâiele bine lipite de sol și spatele drept, coborând până când coapsele sunt paralele cu solul.</p>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/pSHjTRCQxIw" allowfullscreen></iframe>
+                </div>
+                <div class="exercise-content">
+                    <span class="badge">Începător / Intermediar</span>
+                    <div class="exercise-title">Planșa (Plank)</div>
+                    <p class="exercise-details">Exercițiu izometric excelent pentru abdomen și stabilitate. Menține spatele drept, încordează fesierii și abdomenul, fără a lăsa bazinul să coboare spre sol.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tips">
+            <strong>Recomandare:</strong> Nu te grăbi cu execuția. În calistenic, o mișcare făcută lent și controlat îți va aduce rezultate mult mai rapide și va proteja articulațiile.
+        </div>
+
+    </div>
+
+</body>
+</html>
+

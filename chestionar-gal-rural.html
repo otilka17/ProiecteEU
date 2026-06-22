@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chestionar Eligibilitate GAL / LEADER 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Karla:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #faf5ec;
+  --navy: #14253a;
+  --terra: #c4622d;
+  --navy-light: #1e3650;
+  --navy-dim: rgba(20,37,58,0.06);
+  --terra-dim: rgba(196,98,45,0.08);
+  --border: rgba(20,37,58,0.11);
+  --muted: #7a8899;
+  --green: #2d7a4f;
+  --green-dim: rgba(45,122,79,0.09);
+  --amber: #b07d2a;
+  --amber-dim: rgba(176,125,42,0.09);
+  --red-dim: rgba(168,50,50,0.08);
+  --red: #a83232;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--cream);
+  color: var(--navy);
+  font-family: 'Karla', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(20,37,58,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20,37,58,0.018) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none; z-index: 0;
+}
+.app {
+  position: relative; z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+/* ── HEADER ── */
+header { margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+.eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--terra); margin-bottom: 10px;
+}
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px; line-height: 1.18; color: var(--navy); margin-bottom: 8px;
+}
+.page-title em { font-style: italic; color: var(--terra); }
+.page-sub { font-size: 13px; color: var(--muted); line-height: 1.65; max-width: 520px; }
+
+/* ── PROGRESS ── */
+.progress-wrap { margin-bottom: 36px; }
+.progress-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.progress-text { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+.progress-pct { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--terra); }
+.progress-track { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--terra), #e07940); border-radius: 2px; transition: width 0.4s cubic-bezier(0.4,0,0.2,1); }
+
+/* ── SECTION ── */
+.section {
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: white;
+  overflow: hidden;
+}
+.section-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 15px 20px; cursor: pointer; user-select: none;
+  transition: background 0.15s;
+}
+.section-header:hover { background: var(--navy-dim); }
+.section-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--terra); flex-shrink: 0; letter-spacing: 0.1em; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--navy); flex: 1; line-height: 1.2; }
+.section-status { font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 20px; flex-shrink: 0; }
+.status-done   { background: var(--green-dim); color: var(--green); }
+.status-active { background: var(--amber-dim); color: var(--amber); }
+.status-todo   { background: var(--navy-dim); color: var(--muted); }
+.section-chevron { font-size: 11px; color: var(--muted); flex-shrink: 0; transition: transform 0.2s; }
+.section.open .section-chevron { transform: rotate(180deg); }
+.section-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--border); }
+.section.open .section-body { display: block; }
+.section-note { font-size: 12px; color: var(--muted); padding: 12px 0 14px; line-height: 1.6; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+
+/* ── QUESTION ── */
+.question { margin-bottom: 20px; }
+.question:last-child { margin-bottom: 0; }
+.q-label { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px; line-height: 1.4; }
+.q-sub { font-size: 12px; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
+.q-impact { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+.impact-high { background: rgba(196,98,45,0.12); color: var(--terra); }
+.impact-med  { background: var(--amber-dim); color: var(--amber); }
+.impact-low  { background: var(--navy-dim); color: var(--muted); }
+
+/* ── OPTIONS ── */
+.options { display: flex; flex-direction: column; gap: 7px; }
+.opt {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 11px 14px; border: 1.5px solid var(--border);
+  border-radius: 4px; cursor: pointer; transition: all 0.18s;
+  background: white;
+}
+.opt:hover { border-color: rgba(196,98,45,0.35); background: var(--terra-dim); }
+.opt.selected { border-color: var(--terra); background: var(--terra-dim); }
+.opt-radio {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1.5px solid var(--border); flex-shrink: 0; margin-top: 1px;
+  transition: all 0.18s; background: white; display: flex; align-items: center; justify-content: center;
+}
+.opt.selected .opt-radio { border-color: var(--terra); background: var(--terra); }
+.opt.selected .opt-radio::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: white; }
+.opt-text { font-size: 13px; font-weight: 500; color: var(--navy); line-height: 1.4; flex: 1; }
+.opt-score { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); flex-shrink: 0; margin-top: 1px; }
+
+/* ── TEXT INPUT ── */
+.text-input {
+  width: 100%; padding: 10px 14px;
+  border: 1.5px solid var(--border); border-radius: 4px;
+  font-family: 'Karla', sans-serif; font-size: 14px; color: var(--navy);
+  background: white; transition: border-color 0.18s; outline: none;
+}
+.text-input:focus { border-color: var(--terra); }
+.text-input::placeholder { color: var(--muted); }
+
+/* ── RESULT ── */
+.result-panel {
+  display: none;
+  margin-top: 24px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: white;
+  overflow: hidden;
+}
+.result-panel.visible { display: block; }
+.result-header { padding: 24px 24px 20px; border-bottom: 1px solid var(--border); }
+.result-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.result-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 4px; }
+.result-verdict { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+.score-display { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+.score-big { font-family: 'Playfair Display', serif; font-size: 52px; line-height: 1; }
+.score-big.high { color: var(--green); }
+.score-big.med  { color: var(--amber); }
+.score-big.low  { color: var(--red); }
+.score-meta { flex: 1; }
+.score-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.score-bar-wrap { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+.score-bar { height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
+.score-bar.high { background: linear-gradient(90deg, var(--green), #3d9a63); }
+.score-bar.med  { background: linear-gradient(90deg, var(--amber), #d4a040); }
+.score-bar.low  { background: linear-gradient(90deg, var(--red), #c44040); }
+.score-desc { font-size: 13px; color: var(--muted); }
+
+.result-body { padding: 20px 24px; }
+.result-section { margin-bottom: 20px; }
+.result-section:last-child { margin-bottom: 0; }
+.result-section-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--terra); margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+
+.flag-item { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
+.flag-item:last-child { margin-bottom: 0; }
+.flag-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.flag-text { font-size: 13px; color: var(--navy); line-height: 1.5; }
+.flag-text strong { font-weight: 600; }
+
+.next-list { list-style: none; counter-reset: next-counter; }
+.next-list li {
+  counter-increment: next-counter;
+  display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start;
+}
+.next-list li::before {
+  content: counter(next-counter);
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: white; background: var(--terra);
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.next-list li span { font-size: 13px; color: var(--navy); line-height: 1.5; }
+.next-list li span strong { font-weight: 600; }
+
+/* ── ACTIONS ── */
+.actions { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 20px; background: var(--navy); color: var(--cream);
+  border: none; border-radius: 3px; font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer; transition: background 0.18s;
+}
+.btn-primary:hover { background: var(--navy-light); }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 20px; background: transparent; color: var(--muted);
+  border: 1px solid var(--border); border-radius: 3px; font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.18s;
+}
+.btn-secondary:hover { color: var(--navy); border-color: rgba(20,37,58,0.25); }
+
+/* ── GENERATE BTN ── */
+.generate-wrap { margin-top: 24px; }
+.generate-btn {
+  width: 100%; padding: 16px 24px;
+  background: var(--navy); color: var(--cream);
+  border: none; border-radius: 4px;
+  font-family: 'Playfair Display', serif; font-size: 17px;
+  cursor: pointer; transition: background 0.18s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.generate-btn:hover { background: var(--navy-light); }
+.generate-btn:disabled { background: var(--muted); cursor: not-allowed; }
+.generate-note { font-size: 12px; color: var(--muted); text-align: center; margin-top: 8px; }
+
+/* ── INFO BOX ── */
+.info-box {
+  margin-top: 32px; background: var(--navy);
+  border-radius: 4px; padding: 22px 22px;
+}
+.info-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,245,236,0.4); margin-bottom: 8px; }
+.info-title { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--cream); margin-bottom: 4px; }
+.info-sub { font-size: 13px; color: rgba(250,245,236,0.55); line-height: 1.6; margin-bottom: 14px; }
+.info-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: rgba(250,245,236,0.7); line-height: 1.5; margin-bottom: 8px; }
+.info-item:last-child { margin-bottom: 0; }
+.info-item strong { color: var(--cream); }
+
+@media (max-width: 480px) {
+  .app { padding: 28px 16px 60px; }
+  .page-title { font-size: 23px; }
+  .score-big { font-size: 40px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="eyebrow">GAL / LEADER · Fonduri Europene 2026</div>
+    <div class="page-title">Ești eligibil pentru <em>finanțare rurală?</em></div>
+    <div class="page-sub">Răspunde la 18 întrebări și primești un scor de eligibilitate + recomandări personalizate pentru depunerea unui dosar GAL/LEADER. Durată: ~5 minute.</div>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span class="progress-text" id="progress-text">0 din 18 întrebări completate</span>
+      <span class="progress-pct" id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div id="sections-container"></div>
+
+  <div class="generate-wrap">
+    <button class="generate-btn" id="generate-btn" onclick="generateResult()">
+      Generează raport eligibilitate →
+    </button>
+    <div class="generate-note" id="generate-note">Completează toate secțiunile pentru a genera raportul.</div>
+  </div>
+
+  <div class="result-panel" id="result-panel">
+    <div class="result-header">
+      <div class="result-eyebrow">Raport · <span id="r-date"></span></div>
+      <div class="result-title" id="r-title">Evaluare GAL / LEADER</div>
+      <div class="result-verdict" id="r-verdict"></div>
+    </div>
+    <div class="score-display">
+      <div class="score-big" id="r-score-num">—</div>
+      <div class="score-meta">
+        <div class="score-label">Scor eligibilitate estimat</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar" id="r-score-bar" style="width:0%"></div>
+        </div>
+        <div class="score-desc" id="r-score-desc"></div>
+      </div>
+    </div>
+    <div class="result-body">
+      <div class="result-section">
+        <div class="result-section-title">Puncte forte ale dosarului</div>
+        <div id="r-positives"></div>
+      </div>
+      <div class="result-section" id="r-risks-section">
+        <div class="result-section-title">Riscuri & blocaje identificate</div>
+        <div id="r-risks"></div>
+      </div>
+      <div class="result-section">
+        <div class="result-section-title">Pași următori recomandați</div>
+        <ul class="next-list" id="r-next"></ul>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn-primary" onclick="downloadReport()">↓ Descarcă raport PDF</button>
+      <button class="btn-secondary" onclick="resetForm()">↺ Chestionar nou</button>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <div class="info-eyebrow">Notă consultantă</div>
+    <div class="info-title">Acest raport este orientativ</div>
+    <div class="info-sub">Scorurile și recomandările se bazează pe criterii generale GAL/LEADER 2021–2027. Ghidul solicitantului al GAL-ului tău are prioritate.</div>
+    <div class="info-item">🌐 <strong>Lista GAL-uri:</strong> rndr.ro — identifică GAL-ul din zona ta</div>
+    <div class="info-item">📋 <strong>Apeluri active:</strong> mysmis2021.eu.ro — verifică apelurile deschise</div>
+    <div class="info-item">📞 <strong>Consultanță personalizată:</strong> contactează un consultant AFIR/GAL local</div>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    id: 'sec1', num: 'SEC 01', title: 'Date despre solicitant',
+    note: 'Informații de bază despre persoana sau firma care va depune proiectul.',
+    questions: [
+      {
+        id: 'q_name', type: 'text', label: 'Numele solicitantului (persoană sau firmă)',
+        sub: 'Folosit în raportul generat.', impact: null, scoreKey: null
+      },
+      {
+        id: 'q_judet', type: 'text', label: 'Județul și localitatea unde e amplasat proiectul',
+        sub: 'ex: Neamț, com. Bicaz-Chei. Proiectul trebuie să fie pe teritoriul GAL-ului.', impact: null, scoreKey: null
+      },
+      {
+        id: 'q_varsta', type: 'radio', label: 'Vârsta solicitantului / administratorului',
+        sub: 'Tinerii sub 40 ani primesc punctaj suplimentar la aproape toate GAL-urile.', impact: 'high',
+        options: [
+          { label: 'Sub 40 de ani', score: 15, value: 'tanar' },
+          { label: '40–55 de ani', score: 5, value: 'mediu' },
+          { label: 'Peste 55 de ani', score: 0, value: 'senior' },
+        ]
+      },
+      {
+        id: 'q_gen', type: 'radio', label: 'Genul solicitantului',
+        sub: 'Femeile antreprenor primesc punctaj bonus la multe GAL-uri.', impact: 'med',
+        options: [
+          { label: 'Femeie', score: 8, value: 'f' },
+          { label: 'Bărbat', score: 0, value: 'm' },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'sec2', num: 'SEC 02', title: 'Statutul firmei',
+    note: 'GAL-ul finanțează de obicei microîntreprinderi și IMM-uri. Forma juridică și vechimea contează.',
+    questions: [
+      {
+        id: 'q_firma', type: 'radio', label: 'Care este forma juridică actuală?',
+        sub: 'Dacă nu ai firmă, va trebui înființată înainte de depunere.', impact: 'high',
+        options: [
+          { label: 'SRL existent', score: 10, value: 'srl' },
+          { label: 'PFA / II / IF', score: 3, value: 'pfa' },
+          { label: 'Urmează să înființez SRL', score: 5, value: 'nou' },
+          { label: 'Nu am firmă', score: 0, value: 'nimic' },
+        ]
+      },
+      {
+        id: 'q_vechime', type: 'radio', label: 'De cât timp există firma?',
+        sub: 'Firmele noi sunt adesea eligibile — unele GAL-uri chiar preferă start-up-urile.', impact: 'med',
+        options: [
+          { label: 'Sub 1 an (firmă nouă)', score: 8, value: 'nou' },
+          { label: '1–3 ani', score: 10, value: 'mic' },
+          { label: 'Peste 3 ani', score: 6, value: 'mare' },
+          { label: 'Nu am firmă încă', score: 2, value: 'nimic' },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'sec3', num: 'SEC 03', title: 'Amplasament & teritoriu GAL',
+    note: 'Condiție obligatorie: proiectul trebuie să fie pe teritoriul unui GAL activ. Zona rurală = avantaj.',
+    questions: [
+      {
+        id: 'q_rural', type: 'radio', label: 'Unde este amplasat proiectul?',
+        sub: 'GAL-urile acoperă exclusiv mediul rural (comune și sate).', impact: 'high',
+        options: [
+          { label: 'Comună rurală (sub 5.000 locuitori)', score: 20, value: 'rural' },
+          { label: 'Comună rurală (5.000–20.000 locuitori)', score: 15, value: 'rural_mare' },
+          { label: 'Oraș mic (reședință de comună)', score: 5, value: 'oras_mic' },
+          { label: 'Oraș / municipiu', score: 0, value: 'oras' },
+        ]
+      },
+      {
+        id: 'q_gal_verificat', type: 'radio', label: 'Ai confirmat că localitatea ta e în teritoriul unui GAL activ?',
+        sub: 'Verifică pe rndr.ro sau sună direct la GAL-ul județean.', impact: 'high',
+        options: [
+          { label: 'Da, am confirmat și există apel activ / planificat', score: 15, value: 'da_apel' },
+          { label: 'Da, sunt în teritoriu dar nu știu de apeluri', score: 8, value: 'da_noapel' },
+          { label: 'Nu am verificat încă', score: 0, value: 'nu' },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'sec4', num: 'SEC 04', title: 'Tipul de investiție',
+    note: 'GAL-ul finanțează o gamă largă de activități neagricole în mediul rural. Descrie cât mai precis ce vrei să construiești / dezvolți.',
+    questions: [
+      {
+        id: 'q_tip_inv', type: 'radio', label: 'Ce tip de investiție planifici?',
+        sub: 'Alege categoria principală. Unele GAL-uri au sesiuni dedicate pe tipuri de activități.', impact: 'high',
+        options: [
+          { label: 'Pensiune / cazare turistică', score: 12, value: 'pensiune' },
+          { label: 'Restaurant / alimentație publică', score: 10, value: 'restaurant' },
+          { label: 'Agropensiune / fermă turistică', score: 15, value: 'agropensiune' },
+          { label: 'Atelier meșteșugăresc / producție mică', score: 12, value: 'atelier' },
+          { label: 'Comerț / magazin local', score: 6, value: 'comert' },
+          { label: 'Servicii (frizerie, curățătorie, auto etc.)', score: 6, value: 'servicii' },
+          { label: 'Altă activitate neagricolă', score: 5, value: 'alta' },
+        ]
+      },
+      {
+        id: 'q_nou_reab', type: 'radio', label: 'Construcție nouă sau reabilitare?',
+        sub: 'Ambele sunt eligibile, dar construcția nouă necesită autorizație de construire înainte de implementare.', impact: 'med',
+        options: [
+          { label: 'Construcție nouă', score: 8, value: 'nou' },
+          { label: 'Reabilitare / extindere clădire existentă', score: 10, value: 'reab' },
+          { label: 'Doar echipamente (fără construcție)', score: 12, value: 'echip' },
+          { label: 'Mixt (construcție + echipamente)', score: 9, value: 'mixt' },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'sec5', num: 'SEC 05', title: 'Activitate agricolă în familie',
+    note: 'Legătura cu agricultura aduce punctaj semnificativ la aproape toate GAL-urile. Chiar și o mică stupină sau câteva animale contează.',
+    questions: [
+      {
+        id: 'q_agri', type: 'radio', label: 'Există activitate agricolă în gospodărie / familie?',
+        sub: 'Animale cu crotalii, teren agricol la APIA, stupină, pomi fructiferi — toate contează.', impact: 'high',
+        options: [
+          { label: 'Da — animale și teren agricol înregistrate', score: 15, value: 'da_complet' },
+          { label: 'Da — doar animale sau doar teren (parțial)', score: 10, value: 'da_partial' },
+          { label: 'Da — stupină sau grădină mică', score: 5, value: 'da_mic' },
+          { label: 'Nu', score: 0, value: 'nu' },
+        ]
+      },
+      {
+        id: 'q_agri_doc', type: 'radio', label: 'Activitatea agricolă este documentată oficial?',
+        sub: 'Înregistrare ANSVSA, adeverință primărie, declarație APIA — documente verificabile.', impact: 'med',
+        options: [
+          { label: 'Da, totul e înregistrat și documentat', score: 8, value: 'da' },
+          { label: 'Parțial — unele documente lipsesc', score: 4, value: 'partial' },
+          { label: 'Nu / nu am activitate agricolă', score: 0, value: 'nu' },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'sec6', num: 'SEC 06', title: 'Locuri de muncă & impact local',
+    note: 'Crearea de locuri de muncă este unul dintre cele mai bine punctate criterii la GAL. Fiecare angajat nou contează.',
+    questions: [
+      {
+        id: 'q_jobs', type: 'radio', label: 'Câte locuri de muncă noi va crea proiectul?',
+        sub: 'Locuri de muncă cu contract — nu colaboratori sau subcontractori.', impact: 'high',
+        options: [
+          { label: '1 loc de muncă', score: 8, value: '1' },
+          { label: '2 locuri de muncă', score: 14, value: '2' },
+          { label: '3–5 locuri de muncă', score: 20, value: '3_5' },
+          { label: 'Peste 5 locuri de muncă', score: 25, value: '5plus' },
+          { label: 'Niciun loc de muncă nou', score: 0, value: '0' },
+        ]
+      },
+      {
+        id: 'q_local', type: 'radio', label: 'Vei folosi produse sau furnizori locali în activitate?',
+        sub: 'Parteneriate cu producători locali, surse locale de materii prime — punctaj suplimentar la multe GAL-uri.', impact: 'low',
+        options: [
+          { label: 'Da, majoritar produse și furnizori locali', score: 6, value: 'da' },
+          { label: 'Parțial', score: 3, value: 'partial' },
+          { label: 'Nu / nu e relevant', score: 0, value: 'nu' },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'sec7', num: 'SEC 07', title: 'Componentă verde & digitalizare',
+    note: 'Sustenabilitatea și digitalizarea aduc punctaj bonus la tot mai multe GAL-uri. Nu e obligatoriu, dar e recomandat.',
+    questions: [
+      {
+        id: 'q_verde', type: 'radio', label: 'Proiectul include o componentă de eficiență energetică / mediu?',
+        sub: 'Panouri solare, pompă de căldură, izolație performantă, colectare selectivă.', impact: 'med',
+        options: [
+          { label: 'Da — investiție semnificativă în energie verde', score: 10, value: 'da_mare' },
+          { label: 'Da — element verde minor', score: 5, value: 'da_mic' },
+          { label: 'Nu', score: 0, value: 'nu' },
+        ]
+      },
+      {
+        id: 'q_digital', type: 'radio', label: 'Proiectul include digitalizare sau rezervare online?',
+        sub: 'Platformă de rezervări, site web, sistem POS digital, promovare online structurată.', impact: 'low',
+        options: [
+          { label: 'Da — sistem de rezervări online sau platformă dedicată', score: 5, value: 'da' },
+          { label: 'Parțial — doar site web sau social media', score: 2, value: 'partial' },
+          { label: 'Nu', score: 0, value: 'nu' },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'sec8', num: 'SEC 08', title: 'Cofinanțare & capacitate financiară',
+    note: 'GAL-ul acoperă 70–90% din valoarea eligibilă. Restul trebuie demonstrat că există.',
+    questions: [
+      {
+        id: 'q_cofin', type: 'radio', label: 'Poți asigura cofinanțarea necesară (10–30%)?',
+        sub: 'Din economii proprii sau credit bancar. Se demonstrează cu extras de cont sau scrisoare bancară.', impact: 'high',
+        options: [
+          { label: 'Da — resurse proprii disponibile', score: 12, value: 'da_propriu' },
+          { label: 'Da — prin credit bancar', score: 8, value: 'da_credit' },
+          { label: 'Parțial — am o parte, restul prin credit', score: 6, value: 'partial' },
+          { label: 'Nu știu / nu am resurse clare', score: 0, value: 'nu' },
+        ]
+      },
+      {
+        id: 'q_datorii', type: 'radio', label: 'Solicitantul / firma are datorii la ANAF sau alte instituții?',
+        sub: 'Datorii restante = dosar respins automat la conformitate administrativă.', impact: 'high',
+        options: [
+          { label: 'Nu — fără datorii', score: 10, value: 'nu' },
+          { label: 'Datorii mici în curs de achitare', score: 3, value: 'mici' },
+          { label: 'Da — datorii semnificative', score: -20, value: 'da' },
+        ]
+      },
+    ]
+  },
+];
+
+let answers = {};
+let totalQ = 0;
+
+QUESTIONS.forEach(s => { totalQ += s.questions.length; });
+
+function render() {
+  const container = document.getElementById('sections-container');
+  container.innerHTML = '';
+
+  QUESTIONS.forEach((sec, si) => {
+    const answered = sec.questions.filter(q => answers[q.id] !== undefined && answers[q.id] !== '').length;
+    const total = sec.questions.length;
+    const isOpen = si === 0 || answered > 0;
+    const badgeClass = answered === total ? 'status-done' : answered > 0 ? 'status-active' : 'status-todo';
+    const badgeText = answered === total ? '✓ Complet' : answered > 0 ? `${answered}/${total}` : 'De completat';
+
+    const qHTML = sec.questions.map(q => {
+      let inputHTML = '';
+      if (q.type === 'text') {
+        inputHTML = `<input type="text" class="text-input" placeholder="Scrie aici..." value="${answers[q.id] || ''}" oninput="setAnswer('${q.id}', this.value)" />`;
+      } else if (q.type === 'radio') {
+        inputHTML = `<div class="options">${q.options.map(opt => {
+          const sel = answers[q.id] === opt.value;
+          return `<div class="opt ${sel ? 'selected' : ''}" onclick="setAnswer('${q.id}','${opt.value}')">
+            <div class="opt-radio"></div>
+            <div class="opt-text">${opt.label}</div>
+            <div class="opt-score">${opt.score > 0 ? '+'+opt.score : opt.score < 0 ? opt.score : '—'} pct</div>
+          </div>`;
+        }).join('')}</div>`;
+      }
+      const impactBadge = q.impact ? `<span class="q-impact impact-${q.impact}">${q.impact === 'high' ? 'Impact ridicat' : q.impact === 'med' ? 'Impact mediu' : 'Impact mic'}</span>` : '';
+      return `<div class="question">
+        <div class="q-label">${q.label}</div>
+        ${q.sub ? `<div class="q-sub">${q.sub}</div>` : ''}
+        ${impactBadge}
+        ${inputHTML}
+      </div>`;
+    }).join('');
+
+    const secEl = document.createElement('div');
+    secEl.className = 'section' + (isOpen ? ' open' : '');
+    secEl.innerHTML = `
+      <div class="section-header" onclick="toggleSection('${sec.id}')">
+        <span class="section-num">${sec.num}</span>
+        <span class="section-title">${sec.title}</span>
+        <span class="section-status ${badgeClass}">${badgeText}</span>
+        <span class="section-chevron">▾</span>
+      </div>
+      <div class="section-body">
+        ${sec.note ? `<div class="section-note">${sec.note}</div>` : ''}
+        ${qHTML}
+      </div>`;
+    container.appendChild(secEl);
+  });
+
+  updateProgress();
+  updateGenerateBtn();
+}
+
+function toggleSection(id) {
+  const els = document.querySelectorAll('.section');
+  QUESTIONS.forEach((sec, i) => {
+    if (sec.id === id) els[i].classList.toggle('open');
+  });
+}
+
+function setAnswer(id, val) {
+  answers[id] = val;
+  render();
+}
+
+function updateProgress() {
+  const answered = Object.keys(answers).filter(k => answers[k] !== '').length;
+  const pct = Math.round(answered / totalQ * 100);
+  document.getElementById('progress-text').textContent = `${answered} din ${totalQ} întrebări completate`;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function updateGenerateBtn() {
+  const radioQs = QUESTIONS.flatMap(s => s.questions.filter(q => q.type === 'radio'));
+  const allRadioAnswered = radioQs.every(q => answers[q.id] !== undefined);
+  const btn = document.getElementById('generate-btn');
+  const note = document.getElementById('generate-note');
+  btn.disabled = !allRadioAnswered;
+  note.textContent = allRadioAnswered
+    ? 'Toate întrebările obligatorii sunt completate.'
+    : 'Completează toate întrebările cu opțiuni pentru a genera raportul.';
+}
+
+function calcScore() {
+  let score = 0;
+  QUESTIONS.forEach(sec => {
+    sec.questions.forEach(q => {
+      if (q.type === 'radio' && answers[q.id]) {
+        const opt = q.options.find(o => o.value === answers[q.id]);
+        if (opt) score += opt.score;
+      }
+    });
+  });
+  return Math.max(0, Math.min(100, score));
+}
+
+function generateResult() {
+  const score = calcScore();
+  const name = answers['q_name'] || 'Solicitant';
+  const judet = answers['q_judet'] || '—';
+
+  // Score tier
+  let tier, tierClass, verdict, scoreDesc;
+  if (score >= 75) {
+    tier = 'Eligibilitate ridicată'; tierClass = 'high';
+    verdict = `${name} prezintă un profil solid pentru finanțare GAL/LEADER. Dosarul are șanse reale de aprobare dacă este pregătit corect și depus în perioada unui apel activ.`;
+    scoreDesc = 'Profilul se încadrează bine în criteriile tipice GAL. Continuă cu verificarea apelurilor active în zona ta.';
+  } else if (score >= 45) {
+    tier = 'Eligibilitate medie'; tierClass = 'med';
+    verdict = `${name} poate accesa finanțare GAL, dar dosarul necesită consolidare pe câteva criterii cheie înainte de depunere.`;
+    scoreDesc = 'Există puncte slabe care pot fi îmbunătățite. Vezi recomandările de mai jos.';
+  } else {
+    tier = 'Eligibilitate scăzută'; tierClass = 'low';
+    verdict = `Profilul actual prezintă blocaje semnificative pentru finanțare GAL. Este necesară restructurarea abordării înainte de orice depunere.`;
+    scoreDesc = 'Sunt necesare ajustări importante ale proiectului sau profilului solicitantului.';
+  }
+
+  // Positives
+  const positives = [];
+  if (['tanar'].includes(answers['q_varsta'])) positives.push({ icon: '✅', text: '<strong>Tânăr sub 40 ani</strong> — criteriu cu punctaj ridicat la toate GAL-urile.' });
+  if (answers['q_gen'] === 'f') positives.push({ icon: '✅', text: '<strong>Femeie antreprenor</strong> — bonus de punctaj confirmat la majoritatea GAL-urilor.' });
+  if (['da_complet','da_partial'].includes(answers['q_agri'])) positives.push({ icon: '✅', text: '<strong>Activitate agricolă în familie</strong> — legătura cu agricultura aduce punctaj semnificativ.' });
+  if (['3_5','5plus'].includes(answers['q_jobs'])) positives.push({ icon: '✅', text: '<strong>Creare de 3+ locuri de muncă</strong> — cel mai bine punctat criteriu social.' });
+  if (answers['q_rural'] === 'rural') positives.push({ icon: '✅', text: '<strong>Mediu rural mic</strong> — amplasament ideal pentru GAL/LEADER.' });
+  if (answers['q_gal_verificat'] === 'da_apel') positives.push({ icon: '✅', text: '<strong>Apel GAL activ confirmat</strong> — poți depune în perioada curentă.' });
+  if (answers['q_verde'] === 'da_mare') positives.push({ icon: '✅', text: '<strong>Componentă verde semnificativă</strong> — prioritate în apelurile 2025–2027.' });
+  if (answers['q_cofin'] === 'da_propriu') positives.push({ icon: '✅', text: '<strong>Cofinanțare din resurse proprii</strong> — cel mai sigur și rapid de demonstrat.' });
+  if (positives.length === 0) positives.push({ icon: 'ℹ️', text: 'Nu au fost identificate puncte forte semnificative pe baza răspunsurilor.' });
+
+  // Risks
+  const risks = [];
+  if (answers['q_rural'] === 'oras') risks.push({ icon: '🔴', text: '<strong>Amplasament urban</strong> — GAL-ul nu finanțează în orașe. Investiția trebuie relocată în mediu rural.' });
+  if (answers['q_datorii'] === 'da') risks.push({ icon: '🔴', text: '<strong>Datorii la ANAF</strong> — blocare automată la conformitate administrativă. Achitarea este obligatorie înainte de depunere.' });
+  if (answers['q_firma'] === 'nimic') risks.push({ icon: '🟠', text: '<strong>Fără firmă înregistrată</strong> — înființarea SRL-ului este primul pas obligatoriu.' });
+  if (answers['q_gal_verificat'] === 'nu') risks.push({ icon: '🟠', text: '<strong>Teritoriu GAL neconfirmat</strong> — risc ridicat. Verifică pe rndr.ro înainte de orice document.' });
+  if (answers['q_cofin'] === 'nu') risks.push({ icon: '🟠', text: '<strong>Cofinanțare nedemonstrabilă</strong> — fără dovada resurselor proprii, dosarul nu poate fi depus.' });
+  if (answers['q_agri'] === 'nu') risks.push({ icon: '🟡', text: '<strong>Fără activitate agricolă</strong> — pierzi 15–20 de puncte față de concurenți cu activitate agricolă.' });
+  if (answers['q_jobs'] === '0') risks.push({ icon: '🟡', text: '<strong>Niciun loc de muncă nou</strong> — criteriu penalizat sever la selecție. Reconsideră planul de personal.' });
+  if (answers['q_verde'] === 'nu') risks.push({ icon: '🟡', text: '<strong>Fără componentă verde</strong> — pierzi punctaj bonus care poate face diferența la selecție.' });
+
+  // Next steps
+  const nexts = [];
+  if (answers['q_gal_verificat'] !== 'da_apel') nexts.push('<strong>Verifică urgent</strong> dacă există un apel activ pentru GAL-ul din zona ta (rndr.ro).');
+  if (answers['q_firma'] === 'nimic' || answers['q_firma'] === 'pfa') nexts.push('<strong>Înființează un SRL</strong> cu codul CAEN potrivit activității planificate.');
+  if (answers['q_datorii'] !== 'nu') nexts.push('<strong>Achită datoriile la ANAF</strong> și obține certificat fiscal curat înainte de orice depunere.');
+  nexts.push('<strong>Descarcă ghidul solicitantului</strong> de pe site-ul GAL-ului tău și citește grila de punctaj specifică.');
+  nexts.push('<strong>Estimează bugetul proiectului</strong> și calculează cofinanțarea necesară (10–30% din total eligibil).');
+  if (answers['q_agri'] === 'nu') nexts.push('<strong>Dacă e posibil</strong>, înregistrează o activitate agricolă minimală (stupină, animale) pentru punctaj suplimentar.');
+  nexts.push('<strong>Pregătește planul de afaceri</strong> conform modelului cerut de GAL — acesta e documentul central al dosarului.');
+  if (nexts.length > 6) nexts.length = 6;
+
+  // Render
+  document.getElementById('r-date').textContent = new Date().toLocaleDateString('ro-RO');
+  document.getElementById('r-title').textContent = `${tier} · ${score}/100`;
+  document.getElementById('r-verdict').textContent = verdict;
+
+  const scoreNumEl = document.getElementById('r-score-num');
+  scoreNumEl.textContent = score + '/100';
+  scoreNumEl.className = 'score-big ' + tierClass;
+
+  const barEl = document.getElementById('r-score-bar');
+  barEl.className = 'score-bar ' + tierClass;
+  setTimeout(() => { barEl.style.width = score + '%'; }, 100);
+
+  document.getElementById('r-score-desc').textContent = scoreDesc;
+
+  document.getElementById('r-positives').innerHTML = positives.map(p =>
+    `<div class="flag-item"><span class="flag-icon">${p.icon}</span><div class="flag-text">${p.text}</div></div>`
+  ).join('');
+
+  const risksEl = document.getElementById('r-risks');
+  if (risks.length > 0) {
+    risksEl.innerHTML = risks.map(r =>
+      `<div class="flag-item"><span class="flag-icon">${r.icon}</span><div class="flag-text">${r.text}</div></div>`
+    ).join('');
+    document.getElementById('r-risks-section').style.display = '';
+  } else {
+    document.getElementById('r-risks-section').style.display = 'none';
+  }
+
+  document.getElementById('r-next').innerHTML = nexts.map(n =>
+    `<li><span>${n}</span></li>`
+  ).join('');
+
+  const panel = document.getElementById('result-panel');
+  panel.classList.add('visible');
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+function downloadReport() {
+  const score = calcScore();
+  const name = answers['q_name'] || 'Solicitant';
+  const judet = answers['q_judet'] || '—';
+  const date = new Date().toLocaleDateString('ro-RO');
+
+  let tier;
+  if (score >= 75) tier = 'Eligibilitate ridicată';
+  else if (score >= 45) tier = 'Eligibilitate medie';
+  else tier = 'Eligibilitate scăzută';
+
+  const html = `<!DOCTYPE html><html lang="ro"><head><meta charset="UTF-8">
+<title>Raport GAL — ${name}</title>
+<style>
+  body { font-family: Georgia, serif; max-width: 680px; margin: 40px auto; padding: 0 24px 60px; color: #14253a; background: #faf5ec; font-size: 14px; line-height: 1.7; }
+  h1 { font-size: 26px; margin-bottom: 4px; }
+  .meta { color: #7a8899; font-size: 12px; font-family: monospace; margin-bottom: 28px; }
+  .score-box { background: #14253a; color: #faf5ec; padding: 20px 24px; border-radius: 4px; margin-bottom: 24px; display: flex; gap: 20px; align-items: center; }
+  .score-num { font-size: 48px; font-weight: bold; color: ${score >= 75 ? '#3d9a63' : score >= 45 ? '#d4a040' : '#c44040'}; }
+  .score-info { flex: 1; }
+  .score-tier { font-size: 16px; color: #faf5ec; margin-bottom: 4px; }
+  .score-sub { font-size: 12px; color: rgba(250,245,236,0.6); }
+  h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #c4622d; border-bottom: 1px solid rgba(20,37,58,0.15); padding-bottom: 6px; margin: 20px 0 12px; font-family: monospace; }
+  .item { margin-bottom: 10px; padding-left: 24px; position: relative; }
+  .item::before { content: attr(data-icon); position: absolute; left: 0; }
+  .item strong { font-weight: 600; }
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid rgba(20,37,58,0.15); font-size: 11px; color: #7a8899; font-family: monospace; }
+  ol { padding-left: 20px; }
+  ol li { margin-bottom: 8px; }
+</style></head><body>
+<div class="meta">RAPORT GAL / LEADER · ${date} · Generat de chestionar-gal-rural.html</div>
+<h1>Evaluare eligibilitate GAL</h1>
+<div class="meta">Solicitant: <strong style="color:#14253a">${name}</strong> · Județ / localitate: ${judet}</div>
+<div class="score-box">
+  <div class="score-num">${score}</div>
+  <div class="score-info">
+    <div class="score-tier">${tier} · ${score}/100</div>
+    <div class="score-sub">Estimare orientativă bazată pe criterii generale GAL/LEADER 2021–2027</div>
+  </div>
+</div>
+<h2>Răspunsuri chestionar</h2>
+${QUESTIONS.flatMap(s => s.questions.filter(q => q.type === 'radio' && answers[q.id])).map(q => {
+  const opt = q.options.find(o => o.value === answers[q.id]);
+  return `<div class="item" data-icon="→"><strong>${q.label}</strong><br>${opt ? opt.label + ' (+' + opt.score + ' pct)' : '—'}</div>`;
+}).join('')}
+<h2>Pași următori</h2>
+<ol>
+${answers['q_gal_verificat'] !== 'da_apel' ? '<li>Verifică urgent dacă există un apel activ pentru GAL-ul din zona ta (rndr.ro).</li>' : ''}
+${answers['q_firma'] === 'nimic' || answers['q_firma'] === 'pfa' ? '<li>Înființează un SRL cu codul CAEN potrivit activității planificate.</li>' : ''}
+${answers['q_datorii'] !== 'nu' ? '<li>Achită datoriile la ANAF și obține certificat fiscal curat înainte de orice depunere.</li>' : ''}
+<li>Descarcă ghidul solicitantului de pe site-ul GAL-ului tău și citește grila de punctaj specifică.</li>
+<li>Estimează bugetul proiectului și calculează cofinanțarea necesară (10–30% din total eligibil).</li>
+<li>Pregătește planul de afaceri conform modelului cerut de GAL.</li>
+</ol>
+<div class="footer">Notă: Raport orientativ. Nu reprezintă o garanție de aprobare. Verificați ghidul solicitantului în vigoare al GAL-ului dumneavoastră.<br>Generat de Dakamigos Markt SRL · dakamigos.ro</div>
+</body></html>`;
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Raport_GAL_${name.replace(/\s+/g,'_')}_${date.replace(/\./g,'-')}.html`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function resetForm() {
+  if (!confirm('Resetezi chestionarul? Toate răspunsurile se șterg.')) return;
+  answers = {};
+  document.getElementById('result-panel').classList.remove('visible');
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+render();
+</script>
+</body>
+</html>

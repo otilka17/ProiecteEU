@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>otilka17 · Centralizator PTJ HoReCa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Karla:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #faf5ec;
+  --navy: #14253a;
+  --navy-mid: #1e3650;
+  --terra: #c4622d;
+  --terra-light: #d4784a;
+  --muted: #7a8899;
+  --border: rgba(20,37,58,0.10);
+  --success: #2e7d32;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--cream);
+  color: var(--navy);
+  font-family: 'Karla', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 40px 20px;
+}
+.container { max-width: 1000px; margin: 0 auto; background: white; padding: 40px; border-radius: 2px; box-shadow: 0 4px 24px rgba(20,37,58,0.05); }
+h1 { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 8px; color: var(--navy); }
+h1 em { font-style: italic; color: var(--terra); }
+p.subtitle { color: var(--muted); font-size: 14px; margin-bottom: 32px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+h2 { font-family: 'Playfair Display', serif; font-size: 20px; margin: 28px 0 16px; color: var(--navy-mid); display: flex; align-items: center; gap: 8px; }
+h2::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--terra); border-radius: 50%; }
+
+/* Form & Table Styles */
+table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+th { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; background: var(--navy); color: var(--cream); }
+td input { width: 100%; padding: 8px; border: 1px solid var(--border); font-family: 'Karla', sans-serif; font-size: 14px; color: var(--navy); }
+td input:focus { border-color: var(--terra); outline: none; }
+.col-pret { width: 150px; }
+.col-cod { width: 100px; font-family: 'DM Mono', monospace; font-size: 12px; }
+
+/* Summary Cards */
+.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+.card { background: var(--cream); padding: 20px; border-left: 3px solid var(--navy); border-radius: 1px; }
+.card.highlight { border-left-color: var(--terra); background: #fffcf7; }
+.card-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.card-val { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: var(--navy); }
+
+.btn-calc { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--terra); color: white; text-decoration: none; font-weight: 600; font-size: 14px; border: none; cursor: pointer; transition: background 0.18s; margin-top: 12px; }
+.btn-calc:hover { background: var(--terra-light); }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Centralizator Buget PTJ · <em>HoReCa Generic</em></h1>
+  <p class="subtitle">Instrument de calcul pentru proiecte de modernizare și tehnologizare: Alimentație Publică, Laboratoare și Servicii Culinare</p>
+
+  <form id="ptjForm" onsubmit="event.preventDefault(); calculBuget();">
+    
+    <h2>1. Echipamente Tehnologice (Flux Principal de Producție)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-cod">Cod Linia</th>
+          <th>Denumire Echipament / Dotare</th>
+          <th class="col-pret">Valoare (EUR)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-cod">EQ-01</td>
+          <td>Sisteme profesionale de gătit / coacere (cuptoare inteligente, convecție, inducție)</td>
+          <td><input type="number" id="eq1" value="25000"></td>
+        </tr>
+        <tr>
+          <td class="col-cod">EQ-02</td>
+          <td>Echipamente de conservare și lanț frigorific (celule de răcire rapidă, dulapuri refrigerare)</td>
+          <td><input type="number" id="eq2" value="15000"></td>
+        </tr>
+        <tr>
+          <td class="col-cod">EQ-03</td>
+          <td>Utilaje specializate pentru prelucrare primară (mixere, roboti procesare, dospitoare)</td>
+          <td><input type="number" id="eq3" value="10000"></td>
+        </tr>
+        <tr>
+          <td class="col-cod">EQ-04</td>
+          <td>Linii de servire, prezentare comercială și vitrine climatizate</td>
+          <td><input type="number" id="eq4" value="8000"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2. Digitalizare (Sisteme Integrate de Gestiune &amp; Comenzi)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-cod">Cod Linia</th>
+          <th>Soluție Digitală / Hardware IT</th>
+          <th class="col-pret">Valoare (EUR)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-cod">DIG-01</td>
+          <td>Hardware IT dedicat fluxului de lucru (terminale POS, tablete marcare, ecrane KDS bucătărie)</td>
+          <td><input type="number" id="dig1" value="5000"></td>
+        </tr>
+        <tr>
+          <td class="col-cod">DIG-02</td>
+          <td>Licențe software de gestiune (sistem integrat ERP/POS, rețetare automatizate, stocuri în timp real)</td>
+          <td><input type="number" id="dig2" value="3500"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3. Tranziție Verde (Eficiență Energetică &amp; Sustenabilitate)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-cod">Cod Linia</th>
+          <th>Sistem Eco / Sursă Regenerabilă</th>
+          <th class="col-pret">Valoare (EUR)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-cod">GREEN-01</td>
+          <td>Sistem de panouri fotovoltaice pentru autoconsum (kit complet, invertor hibrid, structură)</td>
+          <td><input type="number" id="green1" value="18000"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button type="button" class="btn-calc" onclick="calculBuget()">Calculează Indicatori Proiect →</button>
+  </form>
+
+  <div class="summary-grid">
+    <div class="card">
+      <div class="card-label">Valoare Totală Proiect</div>
+      <div class="card-val" id="totalProiect">0 EUR</div>
+    </div>
+    <div class="card highlight">
+      <div class="card-label">Finanțare Nerambursabilă PTJ (90%)</div>
+      <div class="card-val" id="grantPtj" style="color: var(--success);">0 EUR</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Cofinanțare Privată Asigurată (10%)</div>
+      <div class="card-val" id="cofinantare">0 EUR</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function calculBuget() {
+  const eq1 = parseFloat(document.getElementById('eq1').value) || 0;
+  const eq2 = parseFloat(document.getElementById('eq2').value) || 0;
+  const eq3 = parseFloat(document.getElementById('eq3').value) || 0;
+  const eq4 = parseFloat(document.getElementById('eq4').value) || 0;
+  
+  const dig1 = parseFloat(document.getElementById('dig1').value) || 0;
+  const dig2 = parseFloat(document.getElementById('dig2').value) || 0;
+  
+  const green1 = parseFloat(document.getElementById('green1').value) || 0;
+  
+  const total = eq1 + eq2 + eq3 + eq4 + dig1 + dig2 + green1;
+  const grant = total * 0.90;
+  const cofin = total * 0.10;
+  
+  document.getElementById('totalProiect').innerText = total.toLocaleString('ro-RO') + " EUR";
+  document.getElementById('grantPtj').innerText = grant.toLocaleString('ro-RO') + " EUR";
+  document.getElementById('cofinantare').innerText = cofin.toLocaleString('ro-RO') + " EUR";
+}
+
+// Rulare inițială la încărcare
+window.onload = calculBuget;
+</script>
+
+</body>
+</html>

@@ -33,7 +33,7 @@ h1{font-family:Georgia,serif;font-size:1.5rem;color:#faf5ec;text-align:center;ma
 .result{background:#14253a;border-radius:12px;padding:1.1rem 1.2rem;margin-top:1rem;display:none;}
 .rlabel{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#d4a843;margin-bottom:.4rem;}
 .rtext{font-size:.88rem;color:#faf5ec;line-height:1.7;white-space:pre-wrap;word-break:break-word;}
-.actbtns{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem;display:none;}
+.actbtns{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem;}
 .btn{padding:.85rem;border-radius:12px;border:none;font-size:.88rem;font-weight:600;cursor:pointer;font-family:inherit;}
 .btncopy{background:#14253a;color:#faf5ec;}
 .btnwa{background:#25d366;color:#fff;}
@@ -50,15 +50,15 @@ h1{font-family:Georgia,serif;font-size:1.5rem;color:#faf5ec;text-align:center;ma
   <div class="fields">
     <div>
       <label class="flabel">Ziua #</label>
-      <input class="finput" type="number" id="ziua" placeholder="1" min="1">
+      <input class="finput" type="number" id="ziua" placeholder="1" min="1" oninput="updatePreview()">
     </div>
     <div>
       <label class="flabel">Data</label>
-      <input class="finput" type="text" id="data" placeholder="26.06.2026">
+      <input class="finput" type="text" id="data" placeholder="26.06.2026" oninput="updatePreview()">
     </div>
     <div>
       <label class="flabel">Numele tău</label>
-      <input class="finput" type="text" id="nume" placeholder="Otilia">
+      <input class="finput" type="text" id="nume" placeholder="Otilia" oninput="updatePreview()">
     </div>
   </div>
 
@@ -67,8 +67,8 @@ h1{font-family:Georgia,serif;font-size:1.5rem;color:#faf5ec;text-align:center;ma
     <div class="shead"><div class="snum">1</div><div class="stitle">Viziunea citită</div></div>
     <div class="sdesc">Ai citit viziunea azi?</div>
     <div class="toggles">
-      <div class="tog" id="v1y" onclick="tog('v1','yes')">✅ Da</div>
-      <div class="tog" id="v1n" onclick="tog('v1','no')">❌ Nu</div>
+      <div class="tog" id="v1y" onclick="tog('v1','yes');updatePreview()">✅ Da</div>
+      <div class="tog" id="v1n" onclick="tog('v1','no');updatePreview()">❌ Nu</div>
     </div>
   </div>
 
@@ -77,8 +77,8 @@ h1{font-family:Georgia,serif;font-size:1.5rem;color:#faf5ec;text-align:center;ma
     <div class="shead"><div class="snum">2</div><div class="stitle">Top 3 obiective</div></div>
     <div class="sdesc">Ai stabilit și îndeplinit top 3 obiective?</div>
     <div class="toggles">
-      <div class="tog" id="v2y" onclick="tog('v2','yes')">✅ Da</div>
-      <div class="tog" id="v2n" onclick="tog('v2','no')">❌ Nu</div>
+      <div class="tog" id="v2y" onclick="tog('v2','yes');updatePreview()">✅ Da</div>
+      <div class="tog" id="v2n" onclick="tog('v2','no');updatePreview()">❌ Nu</div>
     </div>
   </div>
 
@@ -87,9 +87,9 @@ h1{font-family:Georgia,serif;font-size:1.5rem;color:#faf5ec;text-align:center;ma
     <div class="shead"><div class="snum">3</div><div class="stitle">Scor zilnic</div></div>
     <div class="sdesc">Câte obiective ai finalizat?</div>
     <div class="scores">
-      <div class="sc" id="s1" onclick="setScore('1/3')">1/3</div>
-      <div class="sc" id="s2" onclick="setScore('2/3')">2/3</div>
-      <div class="sc" id="s3" onclick="setScore('3/3')">3/3</div>
+      <div class="sc" id="s1" onclick="setScore('1/3');updatePreview()">1/3</div>
+      <div class="sc" id="s2" onclick="setScore('2/3');updatePreview()">2/3</div>
+      <div class="sc" id="s3" onclick="setScore('3/3');updatePreview()">3/3</div>
     </div>
   </div>
 
@@ -98,24 +98,22 @@ h1{font-family:Georgia,serif;font-size:1.5rem;color:#faf5ec;text-align:center;ma
     <div class="shead"><div class="snum">4</div><div class="stitle">Evaluarea zilei</div></div>
     <div class="sdesc">Ai făcut evaluarea zilei?</div>
     <div class="toggles">
-      <div class="tog" id="v4y" onclick="tog('v4','yes')">✅ Da</div>
-      <div class="tog" id="v4n" onclick="tog('v4','no')">❌ Nu</div>
+      <div class="tog" id="v4y" onclick="tog('v4','yes');updatePreview()">✅ Da</div>
+      <div class="tog" id="v4n" onclick="tog('v4','no');updatePreview()">❌ Nu</div>
     </div>
     <div class="mentiuni-wrap">
-      <textarea class="mentiuni" id="mentiuni" placeholder="Mențiuni, reflecții, ce a mers bine sau ce ajustezi mâine..."></textarea>
+      <textarea class="mentiuni" id="mentiuni" oninput="updatePreview()" placeholder="Mențiuni, reflecții, ce a mers bine sau ce ajustezi mâine..."></textarea>
     </div>
   </div>
 
-  <button class="btngen" onclick="generate()">⚡ Generează mesajul</button>
-
-  <div class="result" id="result">
+  <div class="result" id="result" style="display:block;">
     <div class="rlabel">Mesaj gata de trimis</div>
     <div class="rtext" id="rtext"></div>
   </div>
 
-  <div class="actbtns" id="actbtns">
-    <button class="btn btncopy" onclick="copyText()">📋 Copiază</button>
-    <button class="btn btnwa" onclick="sendWA()">💬 Trimite în Grup</button>
+  <div class="actbtns">
+    <button class="btn btncopy" onclick="copyText()">📋 Copiază mesajul</button>
+    <button class="btn btnwa" onclick="sendWA()">💬 Deschide Grupul</button>
   </div>
 
   <div class="notice" id="notice"></div>
@@ -160,11 +158,8 @@ function buildText(){
     '4️⃣ Evaluarea zilei\n'+em(state.v4)+(m?'\n📝 '+m:'');
 }
 
-function generate(){
-  var text = buildText();
-  document.getElementById('rtext').textContent = text;
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('actbtns').style.display = 'grid';
+function updatePreview(){
+  document.getElementById('rtext').textContent = buildText();
 }
 
 function copyText(){
@@ -181,7 +176,7 @@ function copyText(){
 }
 
 function sendWA(){
-  window.open('https://chat.whatsapp.com/Csmk7aumr8wF3UJ3b7w4v3?text='+encodeURIComponent(buildText()),'_blank');
+  window.open('https://chat.whatsapp.com/Csmk7aumr8wF3UJ3b7w4v3','_blank');
 }
 
 function showNotice(msg){

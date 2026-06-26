@@ -26,8 +26,6 @@ body {
   line-height: 1.6;
   min-height: 100vh;
 }
-
-/* ── NAV ── */
 nav {
   position: sticky; top: 0; z-index: 100;
   background: var(--navy);
@@ -43,8 +41,6 @@ nav {
 .nav-links { display: flex; gap: 28px; list-style: none; }
 .nav-links a { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,245,236,0.45); text-decoration: none; transition: color 0.18s; }
 .nav-links a:hover { color: var(--terra-light); }
-
-/* ── HERO ── */
 .hero {
   position: relative;
   min-height: 480px;
@@ -85,16 +81,11 @@ nav {
 .stat-n { font-family: 'Playfair Display', serif; font-size: 36px; color: var(--cream); line-height: 1; margin-bottom: 3px; }
 .stat-n em { font-style: italic; color: var(--terra-light); }
 .stat-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(250,245,236,0.4); }
-
-/* ── SECTION HEADER ── */
 .section-head { padding: 0 48px; border-bottom: 1px solid var(--border); display: flex; align-items: stretch; }
 .section-tab { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream); background: var(--navy); padding: 12px 22px; display: flex; align-items: center; flex-shrink: 0; }
 .section-meta { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); padding: 12px 20px; display: flex; align-items: center; gap: 6px; }
 .section-meta::before { content: ''; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--terra); opacity: 0.6; }
-
-/* ── TOOLS GRID ── */
 .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
-
 .tool {
   display: block; text-decoration: none; color: inherit;
   border-right: 1px solid var(--border);
@@ -105,8 +96,6 @@ nav {
 .tool:nth-child(3n) { border-right: none; }
 .tool:nth-last-child(-n+3) { border-bottom: none; }
 .tool:hover { box-shadow: 0 8px 32px rgba(20,37,58,0.10); z-index: 2; }
-
-/* card image */
 .tool-img {
   width: 100%; height: 180px;
   object-fit: cover;
@@ -115,7 +104,6 @@ nav {
   transition: filter 0.3s, transform 0.4s;
 }
 .tool:hover .tool-img { filter: saturate(0.9) brightness(1); transform: scale(1.03); }
-
 .tool-img-wrap { overflow: hidden; position: relative; height: 180px; }
 .tool-img-overlay {
   position: absolute; inset: 0;
@@ -128,7 +116,6 @@ nav {
   color: var(--cream); background: var(--terra);
   padding: 3px 9px; border-radius: 1px;
 }
-
 .tool-body { padding: 24px 26px 28px; background: white; }
 .tool-num { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(20,37,58,0.22); letter-spacing: 0.1em; margin-bottom: 10px; }
 .tool-title { font-family: 'Playfair Display', serif; font-size: 18px; line-height: 1.2; color: var(--navy); margin-bottom: 8px; }
@@ -142,15 +129,11 @@ nav {
 .tool:hover .tool-link { color: var(--terra); }
 .arr { transition: transform 0.2s; display: inline-block; }
 .tool:hover .arr { transform: translateX(5px); }
-
-/* FEATURED wide */
 .tool-wide { grid-column: span 2; border-right: 1px solid var(--border); }
 .tool-wide:nth-child(3n) { border-right: 1px solid var(--border); }
 .tool-wide .tool-img-wrap { height: 240px; }
 .tool-wide .tool-img { height: 240px; }
 .tool-wide .tool-title { font-size: 22px; }
-
-/* ── RESURSE ── */
 .resurse-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--border); }
 .resursa { display: block; text-decoration: none; color: inherit; padding: 22px 30px; border-right: 1px solid var(--border); transition: background 0.18s; }
 .resursa:last-child { border-right: none; }
@@ -158,16 +141,12 @@ nav {
 .resursa-domain { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--terra); margin-bottom: 4px; letter-spacing: 0.04em; }
 .resursa-name { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
 .resursa-desc { font-size: 12px; color: var(--muted); }
-
-/* ── FOOTER ── */
 footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
 .footer-brand { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--navy); }
 .footer-brand small { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.1em; display: block; margin-top: 3px; }
 .footer-links { display: flex; gap: 20px; }
 .footer-links a { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-decoration: none; letter-spacing: 0.06em; transition: color 0.18s; }
 .footer-links a:hover { color: var(--terra); }
-
-/* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .hero-content { grid-template-columns: 1fr; }
   .hero-stats { flex-direction: row; flex-wrap: wrap; gap: 8px; }
@@ -207,7 +186,6 @@ footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; a
   </ul>
 </nav>
 
-<!-- HERO cu poză Unsplash -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
@@ -220,7 +198,7 @@ footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; a
     </div>
     <div class="hero-stats">
       <div class="stat-item">
-        <div class="stat-n">10<em>+</em></div>
+        <div class="stat-n">11<em>+</em></div>
         <div class="stat-label">Instrumente disponibile</div>
       </div>
       <div class="stat-item">
@@ -235,7 +213,6 @@ footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; a
   </div>
 </section>
 
-<!-- INSTRUMENTE -->
 <div id="instrumente">
   <div class="section-head">
     <div class="section-tab">Instrumente disponibile</div>
@@ -252,7 +229,7 @@ footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; a
         <div class="tool-img-badge">Verificator procedural</div>
       </div>
       <div class="tool-body">
-        <div class="tool-num">01 / 07</div>
+        <div class="tool-num">01 / 08</div>
         <div class="tool-title">Checklist GAL / <em>LEADER</em></div>
         <p class="tool-desc">9 faze, 53 de pași — de la identificarea GAL-ului local până la semnarea contractului. Valabil pentru orice GAL din România. Progres salvat automat în browser.</p>
         <div class="tool-tags">
@@ -272,7 +249,7 @@ footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; a
         <div class="tool-img-badge">Planificare</div>
       </div>
       <div class="tool-body">
-        <div class="tool-num">02 / 07</div>
+        <div class="tool-num">02 / 08</div>
         <div class="tool-title">Plan de afaceri <em>&amp;</em> PTJ</div>
         <p class="tool-desc">Centralizator financiar, devize pe capitole și memorii tehnice pentru proiecte PTJ Pensiune &amp; Turism.</p>
         <div class="tool-tags">
@@ -291,7 +268,7 @@ footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; a
         <div class="tool-img-badge">Evaluare inițială</div>
       </div>
       <div class="tool-body">
-        <div class="tool-num">03 / 07</div>
+        <div class="tool-num">03 / 08</div>
         <div class="tool-title">Screening <em>&amp;</em> Calificare</div>
         <p class="tool-desc">Sistem automatizat de evaluare a eligibilității pe 10 linii de finanțare active în 2026. Scor preliminar + export PDF.</p>
         <div class="tool-tags">
@@ -310,7 +287,7 @@ footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; a
         <div class="tool-img-badge">Resurse umane</div>
       </div>
       <div class="tool-body">
-        <div class="tool-num">04 / 07</div>
+        <div class="tool-num">04 / 08</div>
         <div class="tool-title">Profil <em>Antreprenorial</em></div>
         <p class="tool-desc">Chestionar pentru identificarea abilităților de management, orientarea spre risc și profilul psihologic al liderului.</p>
         <div class="tool-tags">
@@ -329,7 +306,7 @@ footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; a
         <div class="tool-img-badge">Tranziție verde</div>
       </div>
       <div class="tool-body">
-        <div class="tool-num">05 / 07</div>
+        <div class="tool-num">05 / 08</div>
         <div class="tool-title">Soluții <em>Eco</em> &amp; Eficiență</div>
         <p class="tool-desc">Calcul și analiză pentru surse regenerabile — sisteme solare, off-grid, eficiență termică conform standardelor EU.</p>
         <div class="tool-tags">
@@ -348,7 +325,7 @@ footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; a
         <div class="tool-img-badge">Mobilitate</div>
       </div>
       <div class="tool-body">
-        <div class="tool-num">06 / 07</div>
+        <div class="tool-num">06 / 08</div>
         <div class="tool-title">Diaspora <em>Investește</em> Acasă</div>
         <p class="tool-desc">Calificare și ghid pentru românii din diaspora — granturi de până la 200.000 EUR prin BID, 2026–2029.</p>
         <div class="tool-tags">
@@ -359,7 +336,7 @@ footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; a
       </div>
     </a>
 
-    <!-- 07 HoReCa (Pus în locul cardului GitHub conform solicitării din image_2.png) -->
+    <!-- 07 HoReCa -->
     <a class="tool" href="ptjhoreca.html">
       <div class="tool-img-wrap">
         <img class="tool-img" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=75&fit=crop" alt="Centralizator Buget HoReCa" loading="lazy">
@@ -367,7 +344,7 @@ footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; a
         <div class="tool-img-badge">Planificare Financiară</div>
       </div>
       <div class="tool-body">
-        <div class="tool-num">07 / 07</div>
+        <div class="tool-num">07 / 08</div>
         <div class="tool-title">Buget <em>&amp;</em> PTJ HoReCa</div>
         <p class="tool-desc">Centralizator bugetar automatizat pentru proiecte din alimentație publică, laboratoare culinare, digitalizare și soluții verzi.</p>
         <div class="tool-tags">
@@ -378,10 +355,30 @@ footer { border-top: 2px solid var(--navy); padding: 26px 48px; display: flex; a
       </div>
     </a>
 
+    <!-- 08 Digitalizare IMM — NOU -->
+    <a class="tool tool-wide" href="checklist-digitalizare-imm.html">
+      <div class="tool-img-wrap">
+        <img class="tool-img" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=900&q=75&fit=crop" alt="Digitalizare IMM" loading="lazy">
+        <div class="tool-img-overlay"></div>
+        <div class="tool-img-badge">Nou · Iunie 2026</div>
+      </div>
+      <div class="tool-body">
+        <div class="tool-num">08 / 08</div>
+        <div class="tool-title">Checklist <em>Digitalizare IMM</em></div>
+        <p class="tool-desc">Eligibilitate, investiții eligibile, grilă de punctaj și documente necesare pentru Programul Regional Centru — Acțiunea 2.2. Grant 15.000–200.000 EUR pentru firme din Brașov, Sibiu, Alba, Mureș, Harghita, Covasna.</p>
+        <div class="tool-tags">
+          <span class="tag tag-t">PR Centru · Acț. 2.2</span>
+          <span class="tag">200.000 EUR</span>
+          <span class="tag tag-n">Digitalizare · IMM</span>
+          <span class="tag">Sesiune iun–aug 2026</span>
+        </div>
+        <div class="tool-link">Lansează checklist-ul <span class="arr">→</span></div>
+      </div>
+    </a>
+
   </div>
 </div>
 
-<!-- RESURSE -->
 <div id="resurse">
   <div class="section-head">
     <div class="section-tab">Cadru legislativ · 2026</div>

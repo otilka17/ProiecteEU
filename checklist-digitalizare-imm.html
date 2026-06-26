@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist Digitalizare IMM</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#faf5ec;min-height:100vh;padding:1.2rem;}
+h1{font-family:Georgia,serif;font-size:1.5rem;color:#14253a;text-align:center;margin-bottom:.3rem;}
+.sub{text-align:center;font-size:.75rem;color:#888;margin-bottom:1.4rem;letter-spacing:.08em;text-transform:uppercase;}
+.alert{background:#fff3cd;border-left:4px solid #d4a843;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:.85rem;color:#856404;line-height:1.6;}
+.section{background:#fff;border-radius:14px;padding:1.4rem;margin-bottom:1rem;box-shadow:0 2px 10px rgba(20,37,58,.07);}
+.section-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#c4622d;margin-bottom:1rem;}
+.item{display:flex;align-items:flex-start;gap:.9rem;padding:.7rem 0;border-bottom:1px solid #f0e8d5;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.item:last-child{border-bottom:none;}
+.chk{flex-shrink:0;width:1.2rem;height:1.2rem;border:2px solid #c5b99a;border-radius:4px;margin-top:.1rem;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .15s;}
+.item.done .chk{background:#22c55e;border-color:#22c55e;}
+.item.done .chk::after{content:'✓';color:#fff;font-size:.7rem;font-weight:700;}
+.item.done .item-text{text-decoration:line-through;opacity:.55;}
+.item-text{font-size:.9rem;line-height:1.55;color:#14253a;}
+.item-note{font-size:.78rem;color:#888;margin-top:.2rem;}
+.badge{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.65rem;font-weight:700;margin-left:.4rem;vertical-align:middle;}
+.badge-req{background:#fee2e2;color:#dc2626;}
+.badge-imp{background:#fef3c7;color:#d97706;}
+.badge-ok{background:#dcfce7;color:#16a34a;}
+.progress-wrap{background:#fff;border-radius:12px;padding:1rem 1.2rem;margin-bottom:1rem;box-shadow:0 2px 10px rgba(20,37,58,.07);}
+.progress-label{display:flex;justify-content:space-between;font-size:.8rem;color:#666;margin-bottom:.5rem;}
+.progress-bar{background:#f0e8d5;border-radius:4px;height:8px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#c4622d,#d4a843);border-radius:4px;transition:width .4s;}
+.score{font-weight:700;color:#14253a;}
+.btn-reset{display:block;margin:1rem auto 0;background:transparent;color:#14253a;border:2px solid #14253a;padding:.65rem 1.8rem;border-radius:50px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit;}
+</style>
+</head>
+<body>
+
+<h1>✅ Digitalizare IMM</h1>
+<p class="sub">Program Regional Centru · Checklist client</p>
+
+<div class="alert">
+  ⚠️ <strong>Atenție:</strong> Apelul PR Centru Acțiunea 2.2 este în consultare publică (sesiune estimată <strong>iunie–august 2026</strong>). PNRR digitalizare IMM — apeluri <strong>închise</strong> din mai 2026. Verifică ghidul oficial ADR Centru înainte de depunere.
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>Progres eligibilitate</span>
+    <span class="score" id="scoreLabel">0 / 0</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<div class="section">
+  <div class="section-title">1. Eligibilitate firmă — obligatoriu</div>
+
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Firmă înregistrată în România (SA, SRL, RA, cooperativă) <span class="badge badge-req">OBLIGATORIU</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Se încadrează ca IMM: micro (&lt;10 ang.), mică (&lt;50 ang.) sau mijlocie (&lt;250 ang.) <span class="badge badge-req">OBLIGATORIU</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Sediu social sau punct de lucru în Regiunea Centru (Brașov, Sibiu, Alba, Mureș, Harghita, Covasna) <span class="badge badge-req">OBLIGATORIU</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Minim 1 an de activitate (vechime firmă) <span class="badge badge-req">OBLIGATORIU</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Nu este în insolvență, faliment sau lichidare <span class="badge badge-req">OBLIGATORIU</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Zero datorii la stat (ANAF) și la bugetele locale <span class="badge badge-req">OBLIGATORIU</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Cod CAEN eligibil (activitate non-IT, sectoare excluse: jocuri de noroc, tutun, arme) <span class="badge badge-req">OBLIGATORIU</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Nu a beneficiat de finanțare publică pentru digitalizare în ultimii 5 ani <span class="badge badge-req">OBLIGATORIU</span></div>
+    <div class="item-note">Condiție specifică PR Centru Acțiunea 2.2</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">2. Investiții eligibile</div>
+
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Software de gestiune: ERP, CRM, PLM, sisteme analiză date <span class="badge badge-ok">ELIGIBIL</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Licențe software (inclusiv abonamente/subscripții) <span class="badge badge-ok">ELIGIBIL</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Echipamente IT: servere, laptopuri, tablete, echipamente TIC <span class="badge badge-ok">ELIGIBIL</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Soluții AI, VR/AR, IoT, automatizare procese <span class="badge badge-ok">ELIGIBIL</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Site web, platformă e-commerce, portal clienți <span class="badge badge-ok">ELIGIBIL</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Sisteme e-facturare, digitalizare comunicare furnizori/clienți <span class="badge badge-ok">ELIGIBIL</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Servicii consultanță elaborare cerere + management implementare <span class="badge badge-ok">ELIGIBIL</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Training angajați pe tool-uri digitale <span class="badge badge-ok">ELIGIBIL</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Audit financiar proiect + informare și publicitate <span class="badge badge-ok">ELIGIBIL</span></div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">3. Valoare finanțare & cofinanțare</div>
+
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Grant minim: 15.000 EUR — grant maxim: 200.000 EUR (PR Centru Apel 2) <span class="badge badge-imp">IMPORTANT</span></div>
+    <div class="item-note">Verificat cu clientul — valoare estimată proiect</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Client are cofinanțare proprie disponibilă (minim 20-25% din valoarea proiectului) <span class="badge badge-req">OBLIGATORIU</span></div>
+    <div class="item-note">Verifică extras de cont sau linie de credit</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Clientul înțelege că e rambursare — plătește el primul, recuperează după <span class="badge badge-imp">IMPORTANT</span></div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">4. Criterii de punctaj (estimativ)</div>
+
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Creșterea intensității digitale — adoptare cel puțin 7 din 12 tehnologii DESI <span class="badge badge-imp">IMPORTANT</span></div>
+    <div class="item-note">Criteriu specific PR Centru — verifică ghidul oficial</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Plan de digitalizare clar cu obiective și cifre concrete (nu vag "vrem să ne digitalizam") <span class="badge badge-imp">IMPORTANT</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Menținere / creare locuri de muncă <span class="badge badge-imp">IMPORTANT</span></div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Capacitate financiară demonstrată (cifra de afaceri, profit) <span class="badge badge-imp">IMPORTANT</span></div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">5. Documente necesare dosar</div>
+
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Certificat înregistrare firmă + acte constitutive</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Bilanțuri contabile ultimii 2 ani (2024, 2025)</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Certificat fiscal zero datorii ANAF + buget local</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Cazier judiciar administrator</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Oferte de preț echipamente/software — minim 3 oferte per categorie</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Plan de afaceri / plan de digitalizare cu obiective clare</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Extras de cont — dovadă cofinanțare proprie</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Certificat constatator ONRC (max 30 zile)</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Împuternicire notarială pentru consultant (depunere MySMIS2021)</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">6. Pași următori</div>
+
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Call cu clientul — clarificat exact ce investiție dorește</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Verificat ghidul oficial ADR Centru (helpdesk@adrcentru.ro)</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Confirmat data deschidere apel (estimat iunie–august 2026)</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Semnat contract de consultanță cu clientul</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Colectat documente firmă client</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Pregătit plan de digitalizare + buget proiect</div></div>
+  </div>
+  <div class="item" onclick="tog(this)">
+    <div class="chk"></div>
+    <div><div class="item-text">Depus proiect în MySMIS2021 la deschiderea apelului</div></div>
+  </div>
+</div>
+
+<button class="btn-reset" onclick="resetAll()">↩ Resetează tot</button>
+
+<script>
+function tog(el) {
+  el.classList.toggle('done');
+  update();
+}
+function update() {
+  var all = document.querySelectorAll('.item');
+  var done = document.querySelectorAll('.item.done');
+  var pct = all.length > 0 ? Math.round(done.length / all.length * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('scoreLabel').textContent = done.length + ' / ' + all.length;
+}
+function resetAll() {
+  document.querySelectorAll('.item.done').forEach(function(el){ el.classList.remove('done'); });
+  update();
+}
+update();
+</script>
+</body>
+</html>

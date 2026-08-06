@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Katharsis by Otilia Sălășan</title>
+<meta name="description" content="Scrie-i Otiliei Sălășan despre programul Katharsis, fonduri europene sau arhitectură de business.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="logotype">KATHARSIS<em>.</em></a>
+    <button class="nav-toggle" aria-label="Deschide meniul" aria-expanded="false">Meniu</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Acasă</a></li>
+      <li><a href="despre.html">Despre</a></li>
+      <li><a href="program.html">Program</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="section-dark" style="padding-top:clamp(3rem,7vw,5rem);">
+  <div class="container">
+    <span class="eyebrow">Hai să vorbim</span>
+    <h2 class="section-title">Spune-mi unde <em>arde</em> acum.</h2>
+    <p class="section-intro">Câteva rânduri sunt de ajuns — răspund personal la fiecare mesaj.</p>
+
+    <!--
+      NOTĂ PENTRU OTILIA:
+      Acest formular e static (front-end only) — nu trimite date nicăieri momentan.
+      Cel mai simplu mod de a-l face funcțional: înlocuiește tag-ul <form> cu embed-ul
+      tău de Jotform, sau adaugă un atribut action care trimite către un serviciu
+      de formulare (ex. Formspree, Jotform, Google Forms). Spune-mi și te ajut să-l branșez.
+    -->
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('Formular demonstrativ — se conectează la Jotform sau alt serviciu de trimitere.');">
+      <div class="field">
+        <label for="name">Nume</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="field">
+        <label for="message">Mesaj</label>
+        <textarea id="message" name="message" required placeholder="Povestește-mi puțin despre afacerea ta și unde simți că arde cel mai tare."></textarea>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-gold">Trimite mesajul</button>
+      </div>
+    </form>
+
+    <div class="contact-alt">
+      <span style="color:var(--cream-dim); font-size:0.85rem; letter-spacing:0.03em; text-transform:uppercase;">Sau găsește-mă aici</span>
+      <a href="#" target="_blank" rel="noopener">Pagina de Facebook — Katharsis</a>
+      <!-- înlocuiește # cu linkul real al paginii de Facebook -->
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-row">
+    <span class="logotype">KATHARSIS<em>.</em></span>
+    <span>by Otilia Sălășan — Țara Hațegului</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

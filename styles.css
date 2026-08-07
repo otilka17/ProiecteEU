@@ -544,6 +544,9 @@ p.section-intro {
   align-items: center;
 }
 .footer-row .logotype { font-size: 1.05rem; }
+.footer-legal { display: flex; gap: 1rem; }
+.footer-legal a { color: var(--cream-dim); text-decoration: none; }
+.footer-legal a:hover { color: var(--gold); }
 
 /* ---------- Misc ---------- */
 .stack { display: grid; gap: 0.4rem; }

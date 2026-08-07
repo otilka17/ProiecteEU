@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a1a30">
+<title>Jocul Premium — Management strategic high-ticket | Katharsis</title>
+<meta name="description" content="Jocul Premium — document operațional pentru managerii care vor să filtreze zgomotul, să aplice diagnoze clare și să închidă parteneriate bazate pe valoare reală.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ---------- Jocul Premium — tratament editorial ---------- */
+.jp-hero {
+  background:
+    radial-gradient(circle at 75% 25%, rgba(200,160,39,0.16), transparent 55%),
+    var(--navy-950);
+  padding: clamp(4rem, 10vw, 7rem) 0 clamp(3rem, 7vw, 5rem);
+  border-bottom: 1px solid rgba(200,160,39,0.25);
+}
+.jp-badge {
+  display: inline-block;
+  border: 1px solid var(--gold);
+  color: var(--gold-soft);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.5em 1.1em;
+  margin-bottom: 1.6rem;
+}
+.jp-kicker {
+  font-size: 0.78rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  margin: 0 0 1rem;
+}
+.jp-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2.4rem, 10vw, 6.5rem);
+  line-height: 0.95;
+  color: var(--gold-soft);
+  margin: 0 0 1.6rem;
+  overflow-wrap: break-word;
+}
+.jp-hero .jp-lead {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  line-height: 1.45;
+  color: var(--cream);
+  max-width: 22em;
+  margin: 0 0 1.2rem;
+}
+.jp-hero .jp-sub {
+  color: var(--cream-dim);
+  max-width: 34em;
+  margin: 0;
+}
+
+/* Secțiune editorială pe crem */
+.jp-editorial { background: var(--cream); color: var(--ink); }
+.jp-mod-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(22,34,59,0.45);
+  border-bottom: 1px solid rgba(22,34,59,0.15);
+  padding-bottom: 0.7rem;
+  margin-bottom: 2rem;
+}
+.section-dark .jp-mod-label {
+  color: var(--cream-dim);
+  border-color: rgba(246,241,231,0.18);
+}
+.jp-h {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 4.4vw, 3rem);
+  line-height: 1.1;
+  margin: 0 0 0.3em;
+  border-left: 3px solid var(--gold);
+  padding-left: 1rem;
+}
+.jp-h-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  color: var(--ember);
+  margin: 0 0 1.8rem;
+  padding-left: calc(1rem + 3px);
+}
+.section-dark .jp-h-sub { color: var(--gold-soft); }
+
+.jp-cols { columns: 2; column-gap: 3rem; }
+.jp-cols p { margin: 0 0 1.1rem; break-inside: avoid; }
+@media (max-width: 720px) { .jp-cols { columns: 1; } }
+
+.jp-drop::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-size: 3.6em;
+  line-height: 0.82;
+  padding: 0.05em 0.12em 0 0;
+  color: var(--gold);
+}
+
+/* Schema — 4 cadrane */
+.jp-schema-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(22,34,59,0.5);
+  margin: 2.5rem 0 1.2rem;
+}
+.section-dark .jp-schema-label { color: var(--cream-dim); }
+.jp-quad {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px;
+  background: rgba(200,160,39,0.35);
+  border: 1px solid rgba(200,160,39,0.35);
+}
+.jp-quad > div { background: var(--cream); padding: 1.6rem 1.5rem; }
+.section-dark .jp-quad > div { background: var(--navy-900); }
+.jp-quad h3 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 0.9rem;
+  font-weight: 600;
+}
+.jp-quad ul { margin: 0; padding-left: 1.1rem; }
+.jp-quad li { font-size: 0.92rem; margin-bottom: 0.45rem; }
+.section-dark .jp-quad li { color: var(--cream-dim); }
+
+/* Bandă neagră cu dictum */
+.jp-dictum {
+  background: var(--navy-950);
+  border: 1px solid var(--gold);
+  color: var(--cream);
+  text-align: center;
+  padding: 2rem 1.5rem;
+  margin-top: 1px;
+}
+.jp-dictum strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.6vw, 1.5rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  margin-bottom: 0.6rem;
+}
+.jp-dictum span { color: var(--cream-dim); font-size: 0.95rem; }
+
+/* Flux în pași */
+.jp-flow { display: grid; gap: 1rem; margin-top: 1.5rem; }
+.jp-flow-step {
+  display: grid;
+  grid-template-columns: 3.2rem 1fr;
+  gap: 1.2rem;
+  align-items: start;
+  background: var(--navy-900);
+  border: 1px solid rgba(200,160,39,0.22);
+  padding: 1.3rem 1.5rem;
+}
+.jp-flow-step.is-gold {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.jp-flow-step .n {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.7rem;
+  color: var(--gold-soft);
+  line-height: 1;
+}
+.jp-flow-step.is-gold .n { color: var(--navy-950); }
+.jp-flow-step h3 {
+  margin: 0 0 0.3rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+.jp-flow-step.is-gold h3 { color: var(--navy-950); }
+.jp-flow-step p { margin: 0; font-size: 0.92rem; color: var(--cream-dim); font-style: italic; }
+.jp-flow-step.is-gold p { color: rgba(10,26,48,0.8); }
+
+/* Studii de caz */
+.jp-cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+.jp-case {
+  border: 1px solid rgba(22,34,59,0.15);
+  border-top: 3px solid var(--gold);
+  padding: 1.8rem 1.6rem;
+  background: rgba(255,255,255,0.5);
+}
+.jp-case h3 {
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin: 0 0 1.2rem;
+}
+.jp-case dt {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--ink);
+  margin-top: 0.9rem;
+}
+.jp-case dd { margin: 0.2rem 0 0; font-size: 0.92rem; color: rgba(22,34,59,0.75); }
+.jp-case dd em { color: var(--ink); }
+
+/* Pachet / preț */
+.jp-offer {
+  background: var(--navy-950);
+  border: 1px solid var(--gold);
+  padding: clamp(2rem, 5vw, 3.2rem);
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  align-items: start;
+}
+@media (max-width: 800px) { .jp-offer { grid-template-columns: 1fr; } }
+.jp-offer h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+  color: var(--cream);
+  margin: 0 0 0.8rem;
+  line-height: 1.1;
+}
+.jp-offer h2 em { font-style: italic; color: var(--gold-soft); }
+.jp-price {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 7vw, 4rem);
+  color: var(--gold-soft);
+  line-height: 1;
+  margin: 1.4rem 0 0.4rem;
+}
+.jp-includes { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.85rem; }
+.jp-includes li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.8rem;
+  align-items: baseline;
+  color: var(--cream-dim);
+  font-size: 0.95rem;
+}
+.jp-includes li::before { content: '—'; color: var(--gold); }
+.jp-cta-band {
+  background: var(--gold);
+  color: var(--navy-950);
+  text-align: center;
+  padding: 1.1rem;
+  margin-top: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  text-decoration: none;
+  display: block;
+  transition: background 0.18s;
+}
+.jp-cta-band:hover { background: var(--gold-soft); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="logotype">KATHARSIS<em>.</em></a>
+    <button class="nav-toggle" aria-label="Deschide meniul" aria-expanded="false">Meniu</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Acasă</a></li>
+      <li><a href="despre.html">Despre</a></li>
+      <li><a href="program.html">Program</a></li>
+      <li><a href="jocul-premium.html" class="active">Jocul Premium</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="jp-hero">
+  <div class="container">
+    <span class="jp-badge">Document operațional</span>
+    <p class="jp-kicker">Management strategic &amp; dezvoltare · High-ticket</p>
+    <h1 class="jp-title">Jocul Premium.</h1>
+    <p class="jp-lead">Ieși din marketingul iluzoriu. Construiește sisteme. Controlează acțiunea.</p>
+    <p class="jp-sub">De la prezența digitală, la arhitectura de afaceri — cum construiești un ecosistem predictibil. Un manual operațional pentru managerii care vor să filtreze zgomotul, să aplice diagnoze clare și să închidă parteneriate bazate pe valoare reală.</p>
+  </div>
+</section>
+
+<section class="jp-editorial">
+  <div class="container">
+    <p class="jp-mod-label">Modulul 01 · Arhitectura sistemului</p>
+    <h2 class="jp-h">De la Vizibilitate la Scalare Sustenabilă</h2>
+    <p class="jp-h-sub">Nu volumul te scalează. Mecanismul o face.</p>
+
+    <div class="jp-cols">
+      <p class="jp-drop">Mediul digital a devenit extrem de aglomerat. Adevărata provocare nu mai este doar să fii văzut, ci să implementezi o promovare sistemică ce creează o conexiune reală și predictibilă cu audiența ta. Când te bazezi exclusiv pe volum și afișări, pierzi din vedere fundamentele pentru o scalare sănătoasă.</p>
+      <p><strong>Dezvoltarea inteligentă</strong> înseamnă să construiești un mecanism predictibil. Tu proiectezi o „conductă" (pipeline) prin care intră o necesitate și iese o soluție clară. Acest proces nu e despre marketing haotic, ci despre inginerie managerială și calibrarea corectă a așteptărilor.</p>
+      <p><strong>Resetarea identității: Operator vs. Arhitect.</strong> Timpul tău este cea mai valoroasă resursă. Un manager evaluează, diagnostichează și decide direcția strategică pentru scalarea operațiunilor.</p>
+      <p>În loc să creezi mesaje generale pentru mase, construiești sisteme care filtrează inteligent colaboratorii și susțin creșterea afacerii tale.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-dark">
+  <div class="container">
+    <p class="jp-mod-label">Mecanismul</p>
+    <h2 class="jp-h">Anatomia unei conducte high-ticket</h2>
+    <p class="jp-h-sub">În management, nu ne bazăm pe speranță. Ne bazăm pe proceduri clare.</p>
+    <p class="section-intro">Iată cum este structurat sistemul tău operațional, de la prima interacțiune până la contractare — patru etape, fiecare cu proceduri proprii (SOPs).</p>
+
+    <p class="jp-schema-label">Schema 0.1 — Arhitectura procedurală pentru scalare</p>
+    <div class="jp-quad">
+      <div>
+        <h3>1 · Strategie &amp; Fundație</h3>
+        <ul>
+          <li>Identificarea durerii reale (Real Life)</li>
+          <li>Proiectarea soluției corecte (Oferta)</li>
+          <li>Setarea standardelor pentru scalare</li>
+        </ul>
+      </div>
+      <div>
+        <h3>2 · Generare de date</h3>
+        <ul>
+          <li>Postări polarizante (filtre)</li>
+          <li>Îndepărtarea curioșilor</li>
+          <li>Atragerea problemelor specifice</li>
+        </ul>
+      </div>
+      <div>
+        <h3>3 · Proceduri de conversie</h3>
+        <ul>
+          <li>Pre-calificare (parole / lacăt)</li>
+          <li>Audit privat, în loc de „sales pitch"</li>
+          <li>Managementul obiecțiilor</li>
+        </ul>
+      </div>
+      <div>
+        <h3>4 · Onboarding &amp; execuție</h3>
+        <ul>
+          <li>Semnarea parteneriatului</li>
+          <li>Livrarea experienței (Metanoia)</li>
+          <li>Generarea rezultatului asumat</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="jp-dictum">
+      <strong>Management = Control total</strong>
+      <span>Sistemul face selecția. Tu gestionezi doar excepțiile și aprobi deciziile finale.</span>
+    </div>
+  </div>
+</section>
+
+<section class="section-dark" style="border-top:1px solid rgba(200,160,39,0.15);">
+  <div class="container">
+    <p class="jp-mod-label">Modulul 02</p>
+    <h2 class="jp-h">Protocolul Diagnozei</h2>
+    <p class="jp-h-sub">Cum gestionezi o conversație 1-la-1</p>
+    <p class="section-intro">Cea mai mare eroare operațională este să arunci prețul imediat ce un prospect cere informații. Când faci asta, îi cedezi controlul. Urmează această procedură strictă de audit privat.</p>
+
+    <p class="jp-schema-label">Schema 1.1 — Fluxul de audit privat</p>
+    <div class="jp-flow">
+      <div class="jp-flow-step">
+        <span class="n">01</span>
+        <div>
+          <h3>Filtrul inițial — momeala strategică</h3>
+          <p>Postezi o durere reală. Cine răspunde, intră în sistem.</p>
+        </div>
+      </div>
+      <div class="jp-flow-step">
+        <span class="n">02</span>
+        <div>
+          <h3>Diagnoza managerială</h3>
+          <p>„La ce nivel operațional te blochezi acum?"</p>
+        </div>
+      </div>
+      <div class="jp-flow-step is-gold">
+        <span class="n">03</span>
+        <div>
+          <h3>Evaluarea soluției</h3>
+          <p>„Dacă implementăm sistemul X în 30 de zile, rezolvăm?"</p>
+        </div>
+      </div>
+      <div class="jp-flow-step">
+        <span class="n">04</span>
+        <div>
+          <h3>Aprobarea — onboarding</h3>
+          <p>Semnarea acordului și intrarea în execuție.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-block mt-lg">
+      <p>„Un manager nu oferă discounturi; el clarifică valoarea. Dar ca oameni de afaceri, hai să calculăm: cât te costă operațional să rămâi cu această problemă nerezolvată încă 6 luni?"</p>
+    </div>
+  </div>
+</section>
+
+<section class="jp-editorial">
+  <div class="container">
+    <p class="jp-mod-label">Aplicabilitate</p>
+    <h2 class="jp-h">Studii de caz</h2>
+    <p class="jp-h-sub">Sistemul aplicat în piețe reale</p>
+    <p class="section-intro">Cum arată tranziția de la „prestator ieftin" la „arhitect de sistem", în industrii suprasaturate de zgomot comercial.</p>
+
+    <div class="jp-cases">
+      <div class="jp-case">
+        <h3>Cazul 1 · Industria de Beauty</h3>
+        <dl>
+          <dt>Problema veche</dt>
+          <dd>Competiție pe prețuri mici (200 lei/machiaj), cliente care negociază, epuizare fizică. Postări zilnice pe Instagram rugând lumea să se programeze.</dd>
+          <dt>Soluția Premium</dt>
+          <dd>Trecerea de la „serviciu" la „ofertă high-ticket" — <em>Pachet VIP Mireasă la 1.500 lei</em>, cu probă, deplasare și kit de retuș inclus.</dd>
+          <dt>Controlul conversației</dt>
+          <dd>Când clienta întreabă prețul, managerul răspunde cu diagnoză: <em>„Pentru a vedea dacă te pot ajuta, spune-mi: ce probleme de rezistență a tenului ai avut în trecut?"</em></dd>
+        </dl>
+      </div>
+      <div class="jp-case">
+        <h3>Cazul 2 · Turism &amp; Gastronomie</h3>
+        <dl>
+          <dt>Problema veche</dt>
+          <dd>Vânzarea de „cazare" ieftină sau „catering", gestionând turiști zgomotoși care fac stricăciuni și negociază tarifele.</dd>
+          <dt>Soluția Premium</dt>
+          <dd>Nu se mai vinde cazare, se vinde un <em>Reset Strategic</em> sau experiențe exclusiviste — ex. <em>Serată Romano-Italiană cu doar 3 locuri VIP</em>.</dd>
+          <dt>Controlul conversației</dt>
+          <dd>Nu există buton de „book now" pentru oricine. Rezervarea se face strict prin WhatsApp — se adresează corporatiștilor și managerilor aflați în burnout, care caută hrană curată și tăcere absolută.</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-dark">
+  <div class="container">
+    <p class="jp-mod-label">Pachet operațional · Infrastructură premium</p>
+
+    <div class="jp-offer">
+      <div>
+        <h2>Sistemul <em>Complet</em></h2>
+        <p class="section-intro" style="margin:0;">Pentru managerii care nu vor „sfaturi de marketing", ci un mecanism de calificare bazat pe acțiune reală.</p>
+        <p class="jp-price">499 LEI</p>
+        <p style="color:var(--cream-dim); font-size:0.9rem; margin:0;">Acest pachet instalează controlul. Transformă modul în care extragi valoare din piață, mutând focusul de la „a vinde" la „a selecta".</p>
+      </div>
+      <div>
+        <ul class="jp-includes">
+          <li><span>Manualul Operațional (SOP) pentru High-Ticket</span></li>
+          <li><span>Framework-ul exact pentru Diagnoza Privată</span></li>
+          <li><span>Studii de Caz Aplicate (Beauty, Turism, HoReCa)</span></li>
+          <li><span>Modulul de Follow-up și Control Parteneri</span></li>
+          <li><span>Harta de implementare pe 30 de zile</span></li>
+        </ul>
+        <a class="jp-cta-band" href="https://wa.me/40749229686" target="_blank" rel="noopener">Implementează sistemul acum</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-row">
+    <span class="logotype">KATHARSIS<em>.</em></span>
+    <span>by Otilia Sălășan — Țara Hațegului</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

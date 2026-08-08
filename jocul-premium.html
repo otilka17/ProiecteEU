@@ -284,6 +284,26 @@
   transition: background 0.18s;
 }
 .jp-cta-band:hover { background: var(--gold-soft); }
+
+/* Rezultate peste 30 de zile */
+.jp-outcomes { list-style: none; margin: 1.6rem 0 0; padding: 0; display: grid; gap: 0.9rem; max-width: 640px; }
+.jp-outcomes li { display: grid; grid-template-columns: auto 1fr; gap: 0.9rem; align-items: baseline; font-size: 0.98rem; color: var(--cream-dim); }
+.jp-outcomes li::before { content: '✓'; color: var(--gold); font-weight: 700; }
+
+/* Autor / credibilitate lângă ofertă */
+.jp-author { display: flex; align-items: center; gap: 1rem; margin-top: 1.8rem; padding-top: 1.6rem; border-top: 1px solid rgba(246,241,231,0.15); }
+.jp-author img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 1px solid var(--gold); }
+.jp-author strong { display: block; color: var(--cream); font-size: 0.92rem; }
+.jp-author span { color: var(--cream-dim); font-size: 0.85rem; line-height: 1.4; }
+
+/* FAQ */
+.jp-faq { display: grid; gap: 0.9rem; margin-top: 1.5rem; max-width: 760px; }
+.jp-faq details { border: 1px solid rgba(22,34,59,0.15); border-top: 3px solid var(--gold); background: rgba(255,255,255,0.5); padding: 1.1rem 1.4rem; }
+.jp-faq summary { cursor: pointer; font-weight: 600; color: var(--ink); list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.jp-faq summary::-webkit-details-marker { display: none; }
+.jp-faq summary::after { content: '+'; color: var(--ember); font-size: 1.3rem; line-height: 1; flex-shrink: 0; }
+.jp-faq details[open] summary::after { content: '–'; }
+.jp-faq p { margin: 0.8rem 0 0; color: rgba(22,34,59,0.75); font-size: 0.92rem; }
 </style>
 </head>
 <body>
@@ -456,6 +476,22 @@
   </div>
 </section>
 
+<section class="section-dark" style="border-top:1px solid rgba(200,160,39,0.15);">
+  <div class="container">
+    <p class="jp-mod-label">Peste 30 de zile</p>
+    <h2 class="jp-h">Cum arată <em>controlul</em>, concret</h2>
+    <p class="jp-h-sub">Nu o promisiune vagă — un set de schimbări pe care le poți verifica singur(ă).</p>
+
+    <ul class="jp-outcomes">
+      <li><span>Nu mai negociezi prețul la telefon — clientul vine cu problema, tu conduci diagnoza.</span></li>
+      <li><span>Ai un SOP scris pentru conversația de vânzare high-ticket, nu improvizezi de fiecare dată.</span></li>
+      <li><span>Filtrezi automat curioșii — doar prospecții calificați ajung la audit privat.</span></li>
+      <li><span>Ai cel puțin o ofertă high-ticket testată și vândută, nu doar planificată pe hârtie.</span></li>
+      <li><span>Știi exact ce pas urmează după fiecare obiecție sau refuz, fără să improvizezi pe loc.</span></li>
+    </ul>
+  </div>
+</section>
+
 <section class="section-dark">
   <div class="container">
     <p class="jp-mod-label">Pachet operațional · Infrastructură premium</p>
@@ -466,6 +502,11 @@
         <p class="section-intro" style="margin:0;">Pentru managerii care nu vor „sfaturi de marketing", ci un mecanism de calificare bazat pe acțiune reală.</p>
         <p class="jp-price">420 LEI</p>
         <p style="color:var(--cream-dim); font-size:0.9rem; margin:0;">Acest pachet instalează controlul. Transformă modul în care extragi valoare din piață, mutând focusul de la „a vinde" la „a selecta".</p>
+
+        <div class="jp-author">
+          <img src="otilia-salasan.jpg" alt="Otilia Sălășan">
+          <span><strong>Otilia Sălășan</strong>Arhitect de business — Katharsis</span>
+        </div>
       </div>
       <div>
         <ul class="jp-includes">
@@ -477,6 +518,33 @@
         </ul>
         <a class="jp-cta-band" href="https://www.paypal.com/ncp/payment/APFP4CR3E8ECL" target="_blank" rel="noopener noreferrer">Cumpără acum — 420 LEI</a>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="jp-editorial">
+  <div class="container">
+    <p class="jp-mod-label">Întrebări frecvente</p>
+    <h2 class="jp-h">Încă mai ai <em>întrebări</em>?</h2>
+    <p class="jp-h-sub">Verifică dacă ți-am răspuns mai jos.</p>
+
+    <div class="jp-faq">
+      <details>
+        <summary>Când primesc materialele după ce plătesc?</summary>
+        <p>După confirmarea plății prin PayPal, îți trimit manual materialele în maximum 24 de ore, pe adresa de email folosită la plată. Detalii pe pagina de <a href="multumim.html">confirmare</a>.</p>
+      </details>
+      <details>
+        <summary>Funcționează și pentru afacerea mea, dacă nu sunt în Beauty, Turism sau HoReCa?</summary>
+        <p>Sistemul e un mecanism de calificare și vânzare high-ticket, nu o rețetă strictă de industrie — studiile de caz arată cum se adaptează logica, nu literele exacte. Dacă nu ești sigur(ă) că se potrivește afacerii tale, scrie-mi înainte să cumperi.</p>
+      </details>
+      <details>
+        <summary>Ce se întâmplă dacă nu am timp să-l parcurg acum?</summary>
+        <p>Materialele rămân ale tale definitiv — le parcurgi în ritmul tău, nu există termen de expirare.</p>
+      </details>
+      <details>
+        <summary>Ce fac dacă mă răzgândesc după ce cumpăr?</summary>
+        <p>Ai dreptul legal la retragere în 14 zile de la achiziție. Scrie-mi pe <a href="https://wa.me/40749229686" target="_blank" rel="noopener">WhatsApp</a> sau prin pagina de <a href="contact.html">Contact</a> și rezolvăm rambursarea.</p>
+      </details>
     </div>
   </div>
 </section>

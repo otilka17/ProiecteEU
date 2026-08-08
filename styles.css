@@ -366,6 +366,67 @@ p.section-intro {
   margin: 0;
 }
 
+/* ---------- Carusel de citate ---------- */
+.quote-carousel-wrap { position: relative; margin-top: 2rem; }
+.quote-carousel {
+  display: flex;
+  gap: 1.2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--container-pad, 0px);
+  padding-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.quote-carousel::-webkit-scrollbar { display: none; }
+.quote-card {
+  flex: 0 0 min(86%, 480px);
+  scroll-snap-align: start;
+  background: var(--navy-950);
+  border: 1px solid rgba(200,160,39,0.3);
+  border-left: 3px solid var(--gold);
+  color: var(--cream);
+  padding: clamp(1.8rem, 4vw, 2.6rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+}
+.quote-card p {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  line-height: 1.4;
+  margin: 0 0 1.2rem;
+  color: var(--cream);
+}
+.quote-card span {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+.quote-carousel-nav {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+.quote-carousel-nav button {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  border: 1px solid rgba(22,34,59,0.25);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: border-color 0.18s, color 0.18s;
+}
+.quote-carousel-nav button:hover { border-color: var(--ember); color: var(--ember); }
+.section-dark .quote-carousel-nav button { border-color: rgba(246,241,231,0.3); color: var(--cream); }
+.section-dark .quote-carousel-nav button:hover { border-color: var(--gold); color: var(--gold-soft); }
+
 /* ---------- Split (haos -> sistem) ---------- */
 .transform-split {
   display: grid;

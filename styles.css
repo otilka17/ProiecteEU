@@ -440,6 +440,19 @@ p.section-intro {
   border-color: rgba(230,200,98,0.5);
 }
 .pillars .pillar:nth-child(2n) { border-top-color: var(--ember); }
+.pillar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(200,160,39,0.12);
+  border: 1px solid rgba(200,160,39,0.35);
+  color: var(--gold-soft);
+  margin-bottom: 0.9rem;
+}
+.pillar-icon svg { width: 22px; height: 22px; }
 .pillar .pillar-mark {
   font-family: var(--font-display);
   font-style: italic;

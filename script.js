@@ -25,4 +25,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if (prev) prev.addEventListener('click', () => scrollByCard(-1));
     if (next) next.addEventListener('click', () => scrollByCard(1));
   });
+
+  document.querySelectorAll('.hero-stars').forEach(container => {
+    const count = 32;
+    for (let i = 0; i < count; i++) {
+      const star = document.createElement('span');
+      star.className = 'star';
+      const size = (Math.random() * 2.5 + 1.5).toFixed(1);
+      star.style.setProperty('--x', Math.random() * 100 + '%');
+      star.style.setProperty('--size', size + 'px');
+      star.style.setProperty('--duration', (Math.random() * 6 + 7).toFixed(1) + 's');
+      star.style.setProperty('--delay', (Math.random() * -14).toFixed(1) + 's');
+      star.style.setProperty('--drift', (Math.random() * 60 - 30).toFixed(0) + 'px');
+      container.appendChild(star);
+    }
+  });
+
+  document.querySelectorAll('.sticky-cta').forEach(bar => {
+    const key = 'sticky-cta-dismissed-' + (bar.dataset.id || 'default');
+    if (sessionStorage.getItem(key)) return;
+    const anchor = document.querySelector(bar.dataset.watch || '.hero');
+    const closeBtn = bar.querySelector('.sticky-cta-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        bar.classList.remove('is-visible');
+        sessionStorage.setItem(key, '1');
+      });
+    }
+    if (!anchor) { bar.classList.add('is-visible'); return; }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        bar.classList.toggle('is-visible', !entry.isIntersecting && entry.boundingClientRect.top < 0);
+      });
+    }, { threshold: 0 });
+    observer.observe(anchor);
+  });
 });

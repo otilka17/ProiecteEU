@@ -211,10 +211,19 @@ a { color: inherit; text-decoration: none; }
 /* ---------- Hero (signature element) ---------- */
 .hero {
   position: relative;
-  background: var(--navy-950);
+  background:
+    radial-gradient(circle at 80% 10%, rgba(200,160,39,0.14), transparent 50%),
+    radial-gradient(circle at 10% 90%, rgba(184,84,44,0.16), transparent 55%),
+    linear-gradient(160deg, var(--navy-800) 0%, var(--navy-950) 55%, #060f1e 100%);
+  background-size: 100% 100%, 100% 100%, 200% 200%;
+  animation: hero-drift-bg 26s ease-in-out infinite alternate;
   color: var(--cream);
   overflow: hidden;
   padding: clamp(4rem, 10vw, 7rem) 0 clamp(3.5rem, 8vw, 6rem);
+}
+@keyframes hero-drift-bg {
+  from { background-position: 0% 0%, 0% 0%, 0% 0%; }
+  to { background-position: 0% 0%, 0% 0%, 100% 60%; }
 }
 .hero-grid {
   position: absolute;
@@ -237,6 +246,102 @@ a { color: inherit; text-decoration: none; }
 }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes fade-in { to { opacity: 0.9; } }
+
+.hero-stars {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-stars .star {
+  position: absolute;
+  top: -5%;
+  left: var(--x, 50%);
+  width: var(--size, 3px);
+  height: var(--size, 3px);
+  background: var(--gold-soft);
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow: 0 0 6px 1px rgba(230,200,98,0.8);
+  animation: star-fall var(--duration, 9s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+@keyframes star-fall {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  8% { opacity: 1; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(115vh) translateX(var(--drift, 20px)); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-stars .star, .hero { animation: none !important; }
+}
+
+/* ---------- Bară sticky de CTA ---------- */
+.sticky-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 500;
+  background: var(--navy-950);
+  border-top: 1px solid rgba(200,160,39,0.4);
+  color: var(--cream);
+  padding: 0.85rem var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.25);
+}
+.sticky-cta.is-visible { transform: translateY(0); opacity: 1; }
+.sticky-cta span { font-size: 0.9rem; color: var(--cream-dim); }
+.sticky-cta .btn { padding: 0.6em 1.3em; font-size: 0.85rem; }
+.sticky-cta-close {
+  background: transparent;
+  border: none;
+  color: var(--cream-dim);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+}
+.sticky-cta-close:hover { color: var(--gold-soft); }
+@media (max-width: 560px) {
+  .sticky-cta span { display: none; }
+}
+
+/* ---------- Badge de scaritate ---------- */
+.scarcity-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  border: 1px solid var(--gold);
+  color: var(--gold-soft);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.5em 1em;
+  border-radius: 999px;
+  margin-bottom: 1.2rem;
+}
+.scarcity-badge .dot-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 0 0 rgba(184,84,44,0.6);
+  animation: pulse-dot 1.8s ease-out infinite;
+}
+@keyframes pulse-dot {
+  0% { box-shadow: 0 0 0 0 rgba(184,84,44,0.6); }
+  70% { box-shadow: 0 0 0 8px rgba(184,84,44,0); }
+  100% { box-shadow: 0 0 0 0 rgba(184,84,44,0); }
+}
 
 .hero-ember {
   position: absolute;
@@ -287,7 +392,13 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- Sections ---------- */
 section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
-.section-dark { background: var(--navy-900); color: var(--cream); }
+.section-dark {
+  background:
+    radial-gradient(circle at 15% 0%, rgba(200,160,39,0.10), transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(33,68,122,0.55), transparent 55%),
+    linear-gradient(155deg, var(--navy-800) 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+  color: var(--cream);
+}
 .section-dark .eyebrow { color: var(--gold-soft); }
 
 h2.section-title {

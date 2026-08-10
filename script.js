@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const key = 'sticky-cta-dismissed-' + (bar.dataset.id || 'default');
     if (sessionStorage.getItem(key)) return;
     const anchor = document.querySelector(bar.dataset.watch || '.hero');
+    const footer = document.querySelector('.site-footer');
     const closeBtn = bar.querySelector('.sticky-cta-close');
     if (closeBtn) {
       closeBtn.addEventListener('click', () => {
@@ -53,11 +54,27 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
     if (!anchor) { bar.classList.add('is-visible'); return; }
-    const observer = new IntersectionObserver(entries => {
+
+    let pastAnchor = false;
+    let footerVisible = false;
+    const update = () => bar.classList.toggle('is-visible', pastAnchor && !footerVisible);
+
+    const anchorObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        bar.classList.toggle('is-visible', !entry.isIntersecting && entry.boundingClientRect.top < 0);
+        pastAnchor = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        update();
       });
     }, { threshold: 0 });
-    observer.observe(anchor);
+    anchorObserver.observe(anchor);
+
+    if (footer) {
+      const footerObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          footerVisible = entry.isIntersecting;
+          update();
+        });
+      }, { threshold: 0 });
+      footerObserver.observe(footer);
+    }
   });
 });
